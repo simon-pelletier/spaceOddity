@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Space Oddity</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta http-equiv="cleartype" content="on">
+    <meta name="format-detection" content="telephone=no">
+    <style>
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            image-rendering: optimizeSpeed;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: -o-crisp-edges;
+            image-rendering: crisp-edges;
+            -ms-interpolation-mode: nearest-neighbor;
+            image-rendering: pixelated;
+        }
+
+    </style>
+</head>
+
+<body style="background-color: black;">
+    <!-- Centre et Resize -->
+    <script type="text/javascript">
+        // Centre le canvas au chargement de la fenêtre
+        function loadResize() {
+            var canvas = document.getElementsByTagName('canvas')[0];
+            centerX = window.innerWidth / 2;
+            centerY = window.innerHeight / 2;
+            canvas.style.position = 'absolute';
+            canvas.style.left = centerX - canvas.width / 2 + 'px';
+            canvas.style.top = centerY - canvas.height / 2 + 'px';
+        }
+        window.onload = loadResize;
+
+        // Centre le canvas au redimmensionnement de la fenêtre
+        function resize() {
+            var canvas = document.getElementsByTagName('canvas')[0];
+            centerX = window.innerWidth / 2;
+            centerY = window.innerHeight / 2;
+            canvas.style.position = 'absolute';
+            canvas.style.left = centerX - canvas.width / 2 + 'px';
+            canvas.style.top = centerY - canvas.height / 2 + 'px';
+        }
+        window.onresize = resize;
+
+    </script>
+<script type="text/javascript" src="./dev/vendor.js"></script><script type="text/javascript" src="./dev/app.js"></script></body>
+</html>

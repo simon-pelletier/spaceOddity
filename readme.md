@@ -1,23 +1,24 @@
-# Space Oddity - GalaxySizer Game
+# SPACE ODDITY
+#### Phaser 3 / ES6 / Webpack Random Space Game
 
-## Description
+![Space Oddity](https://logospaceoddity.jpg)
 
-Space Oddity is a solo game build with Phaser 3.
-Inspired by TLS and few Rogue Like games.
-All games are randomly generated, a wink to the David Bowie's VerbaSizer.
-
-Screen resolution : 1200 x 600 Pixels.
-
-## How to run it
-
-Clone repository and run `index.html`
+## Install
 
 ```
-'spaceoddity/index.html'
+npm install
 ```
 
-## References and Resources
+## Run Dev
 
-* ---
-* ---
-* ---
+```
+npm run dev
+```
+
+## Build
+
+```
+npm run deploy
+```
+
+https://github.com/nkholski/phaser3-es6-webpack
