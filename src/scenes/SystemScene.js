@@ -90,6 +90,18 @@ class SystemScene extends Phaser.Scene {
             Game.univers[Game.currentSystem].name
         );
 
+        // Définit le Style du text infoPlanetTxt
+        var styleText = {
+            fontSize: '16px',
+            fontFamily: Setup.TYPO,
+            color: '#ffffff',
+            backgroundColor: 'rgba(255, 255, 255, 0.1)'
+        };
+
+        // Ajoute le texte infoPlanetTxt
+        this.infoPlanetTxt = this.add.text(100, 50, '', styleText).setPadding(10, 10);
+        this.infoPlanetTxt.setDepth(30);
+
         /* ------------------------------ GAME OBJECTS ------------------------------ */
 
         // Object Star
@@ -217,6 +229,19 @@ class SystemScene extends Phaser.Scene {
 
         Game.player.controls(this);
 
+        this.input.on('gameobjectover', function (pointer, gameObject, event) {
+            // Calcul de la distance Ship - Planet
+            //var distanceX = Math.abs(currentShip.x - gameObject.x);
+            //var distanceY = Math.abs(currentShip.y - gameObject.y);
+            //var distance = distanceX + distanceY;
+            // GameObject Planet sélectionné
+            Game.selectedPlanetOnOver = gameObject;
+            // Définit le contenu de la zone de texte
+            self.infoPlanetTxt.setText();
+            // Positionne la zone de texte sur la Planet
+            self.infoPlanetTxt.setPosition(gameObject.x + 20, gameObject.y - 20);
+        });
+
     }
 
     /* ========================================================================== */
@@ -278,6 +303,47 @@ class SystemScene extends Phaser.Scene {
             }
         }
 
+        //}
+
+        /* ----------------------- Animation Text Info Planet ----------------------- */
+
+        if (this.systemSceneIsLoaded) {
+            if (Game.selectedPlanetOnOver) {
+                // Calcule la distance Ship - Planet
+                //var distanceX = Math.abs(currentShip.x - selectedPlanetOnOver.x);
+                //var distanceY = Math.abs(currentShip.y - selectedPlanetOnOver.y);
+                //var distance = distanceX + distanceY;
+                var distance = Helpers.getDistanceBetween(this.ship.body, Game.selectedPlanetOnOver)
+                // Récupère le nom du Satellite
+                /*var sat = world[currentSystem].systemSeed[selectedPlanetOnOver.data.list.id].satellites[0].name;
+                if (sat === undefined) {
+                  sat = 'Aucun';
+                }*/
+                // Positionne le texte en suivant la Planet selectionnée
+                this.infoPlanetTxt.setPosition(Game.selectedPlanetOnOver.x + 20, Game.selectedPlanetOnOver.y + 10);
+                // Définit le texte à afficher dans infoPlanet
+                //if (sat !== 'Aucun') {
+                    //console.log(Game.selectedPlanetOnOver);
+                this.infoPlanetTxt.setText(
+                    'Planet: ' + Game.selectedPlanetOnOver.data.list.name +
+                    '\nDistance: ' + distance.toFixed(0) +
+                    '\nMass: ' + Game.selectedPlanetOnOver.data.list.mass +
+                    '\nSpeed: ' + Game.selectedPlanetOnOver.data.list.speed +
+                    //'\nSatellite: ' + sat +
+                    '\nVisited: ' + Game.selectedPlanetOnOver.data.list.visited
+                );
+                //} else {
+                //infoPlanetTxt.setText(
+                //'Planet: ' + selectedPlanetOnOver.data.list.name +
+                //'\nDistance: ' + distance.toFixed(2) +
+                //'\nMass: ' + world[currentSystem].systemSeed[selectedPlanetOnOver.data.list.id].mass +
+                //'\nSpeed: ' + world[currentSystem].systemSeed[selectedPlanetOnOver.data.list.id].speed +
+                //'\nVisited: ' + world[currentSystem].systemSeed[selectedPlanetOnOver.data.list.id].visited
+                //);
+                //}
+
+            }
+        }
     }
 
 }

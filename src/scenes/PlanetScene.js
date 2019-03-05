@@ -100,8 +100,6 @@ class PlanetScene extends Phaser.Scene {
 
         // Input Keys
         /*this.keyExtract = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);*/
-        /*this.keyCraftHsc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
-        this.keyCraftFuel = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);*/
 
         /* ------------------------------ GAME OBJECTS ------------------------------ */
 
