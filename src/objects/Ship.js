@@ -488,9 +488,9 @@ export default class Ship extends Phaser.GameObjects.GameObject {
                     if (bodyA.label === 'planetBody' || bodyB.label === 'planetBody') {
                         // Si le Ship arrive trop vite (speed > 1)
                         if (bodyB.label === 'speedSensor'){
-                            console.log(bodyB.parent.gameObject.body.speed);
                             if (bodyB.parent.gameObject.body.speed > 2){
                                 Game.player.takeDamages(bodyB.parent.gameObject.body.speed * 5);
+                                scene.cameras.main.shake(200, 0.005);
                             }
                         }
                         // Si la collision concerne le ship de coté
