@@ -3,6 +3,10 @@
 
 ![Space Oddity](http://spaceoddity.simonpelletier.net/assets/img/logo.jpg)
 
+## Play
+
+http://spaceoddity.simonpelletier.net
+
 ## Install
 
 ```
@@ -20,6 +24,7 @@ npm run dev
 ```
 npm run deploy
 ```
+
 
 Thanks to nkholski (boilerplate)
 https://github.com/nkholski/phaser3-es6-webpack
