@@ -53,6 +53,7 @@ class SystemScene extends Phaser.Scene {
 
         // Configure la scene par défaut
         defaultSceneConfig(this);
+        Game.selectedPlanetOnOver = null;
 
         var seedSystem = Game.univers[Game.currentSystem];
         var seedPlanet = Game.univers[Game.currentSystem].system[Game.currentPlanet];
