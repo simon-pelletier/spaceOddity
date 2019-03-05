@@ -4,7 +4,7 @@
 /*                                                                            */
 /* ========================================================================== */
 
-import Game from '../game'
+import Game from '../game';
 
 import * as Setup from '../setup';
 import * as Helpers from '../helpers/helpers';
@@ -48,6 +48,8 @@ class SystemScene extends Phaser.Scene {
         // Variables Globales
         var self = this;
         this.systemSceneIsLoaded = false;
+
+        this.scene.wake('UiScene');
 
         // Configure la scene par défaut
         defaultSceneConfig(this);
@@ -241,7 +243,34 @@ class SystemScene extends Phaser.Scene {
             self.infoPlanetTxt.setPosition(gameObject.x + 20, gameObject.y - 20);
         });
 
+        // On KeyDown Global
+        this.input.keyboard.on('keydown', function (event) {
+
+            // "M" a été pressé
+            if (event.key == 'm') {
+                //selectedPlanetOnOver = null;
+
+                // Désactive de témoin du loader de systemScene
+                //systemSceneIsLoaded = false;
+
+                // Enregistre la position du Ship avant le changement de scene
+                /*shipSystemPosition = {
+                    x: currentShip.x,
+                    y: currentShip.y
+                };*/
+
+                // Lance la scene Map
+                self.scene.pause();
+                self.scene.visible = false;
+                self.scene.launch('MapScene');
+
+            }
+
+        });
+
     }
+
+
 
     /* ========================================================================== */
     /*                                   UPDATE                                   */
@@ -322,7 +351,7 @@ class SystemScene extends Phaser.Scene {
                 this.infoPlanetTxt.setPosition(Game.selectedPlanetOnOver.x + 20, Game.selectedPlanetOnOver.y + 10);
                 // Définit le texte à afficher dans infoPlanet
                 //if (sat !== 'Aucun') {
-                    //console.log(Game.selectedPlanetOnOver);
+                //console.log(Game.selectedPlanetOnOver);
                 this.infoPlanetTxt.setText(
                     'Planet: ' + Game.selectedPlanetOnOver.data.list.name +
                     '\nDistance: ' + distance.toFixed(0) +

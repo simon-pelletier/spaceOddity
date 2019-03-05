@@ -63,6 +63,12 @@ export default class Player extends Phaser.GameObjects.GameObject {
     /*                                  SPECIALS                                  */
     /* ========================================================================== */
 
+    /* ----------------------------------- HSC ---------------------------------- */
+
+    useHsc(number) {
+        this.hsc -= Number(number);
+    }
+
     /* --------------------------------- HEALTH --------------------------------- */
 
     repairShip(repairAmount) {
