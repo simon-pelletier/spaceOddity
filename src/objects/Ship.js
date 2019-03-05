@@ -330,7 +330,7 @@ export default class Ship extends Phaser.GameObjects.GameObject {
 
         /* ----------------------------- Infinite Scene ----------------------------- */
 
-        var zoneLimit = 300;
+        var zoneLimit = 500;
         if (this.body.x < -zoneLimit) {
             this.body.x = Setup.WIDTH + zoneLimit;
         }
@@ -344,7 +344,7 @@ export default class Ship extends Phaser.GameObjects.GameObject {
             this.body.y = -zoneLimit;
         }
 
-        /* -------------------------------- PATICLES -------------------------------- */
+        /* -------------------------------- PARTICLES ------------------------------- */
 
         if (this.keyUp.isDown) {
             this.fireEmitter.lifespan.propertyValue = 400;
@@ -487,8 +487,8 @@ export default class Ship extends Phaser.GameObjects.GameObject {
                     // SHIP - PLANET
                     if (bodyA.label === 'planetBody' || bodyB.label === 'planetBody') {
                         // Si le Ship arrive trop vite (speed > 1)
-                        if (bodyB.label === 'speedSensor'){
-                            if (bodyB.parent.gameObject.body.speed > 2){
+                        if (bodyB.label === 'speedSensor') {
+                            if (bodyB.parent.gameObject.body.speed > 2) {
                                 Game.player.takeDamages(bodyB.parent.gameObject.body.speed * 5);
                                 scene.cameras.main.shake(200, 0.005);
                             }
