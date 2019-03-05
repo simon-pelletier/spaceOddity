@@ -1,7 +1,7 @@
 # SPACE ODDITY
 #### Phaser 3 / ES6 / Webpack Random Space Game
 
-![Space Oddity](https://logospaceoddity.jpg)
+![Space Oddity](http://spaceoddity.simonpelletier.net/assets/img/logo.jpg)
 
 ## Install
 
@@ -21,4 +21,5 @@ npm run dev
 npm run deploy
 ```
 
+Thanks to nkholski (boilerplate)
 https://github.com/nkholski/phaser3-es6-webpack
