@@ -84,4 +84,43 @@ export default class Player extends Phaser.GameObjects.GameObject {
         this.fuel += factor;
     }
 
+    /* ------------------------------- CONVERTERS ------------------------------- */
+
+    craftHscToFuel() {
+        this.fuel += 1000;
+        this.hsc -= 1;
+    }
+
+    craftFuelToHsc() {
+        this.fuel -= 1000;
+        this.hsc += 1;
+    }
+
+    /* ========================================================================== */
+    /*                                  CONTROLS                                  */
+    /* ========================================================================== */
+
+    controls(scene) {
+        scene.keyCraftHsc = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
+        scene.keyCraftFuel = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+    }
+
+    updateControls(scene) {
+        /* -------------------------------- CONTROLS -------------------------------- */
+
+        // Ecoute la touche H
+        if (Phaser.Input.Keyboard.JustDown(scene.keyCraftHsc)) {
+            if (this.fuel >= 1000) {
+                this.craftFuelToHsc();
+            }
+        }
+        // Ecoute la touche F
+        if (Phaser.Input.Keyboard.JustDown(scene.keyCraftFuel)) {
+            if (this.hsc > 0) {
+                this.craftHscToFuel();
+            }
+        }
+
+    }
+
 }

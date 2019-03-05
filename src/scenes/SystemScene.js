@@ -118,7 +118,7 @@ class SystemScene extends Phaser.Scene {
                 scene: this,
                 key: 'asteroid'
             });
-            
+
         }
 
         // Objects PLANETS
@@ -145,7 +145,7 @@ class SystemScene extends Phaser.Scene {
 
             // Créé un Chemin pour la Planet
             this.path = new Phaser.Curves.Ellipse(Setup.ORIGIN_X, Setup.ORIGIN_Y, this.planet.distance * 2);
-            
+
             // Effectue une rotation sur le Chemin pour décaller les Planets
             this.path.setRotation(this.planet.distance);
 
@@ -200,18 +200,20 @@ class SystemScene extends Phaser.Scene {
 
         /* ------------------------------- COLLISIONS ------------------------------- */
 
-        if (this.asteroid){
+        if (this.asteroid) {
             this.asteroid.collisions(self, this.asteroid);
         }
 
         this.ship.collisionsSystem(this, this.ship);
-        
+
         // Confirme le chargement de la scene (évite les erreurs d'update sur les gameObjects)
         this.systemSceneIsLoaded = true;
 
         Game.currentScene = 'System';
 
         Game.ship = this.ship;
+
+        Game.player.controls(this);
 
     }
 
@@ -237,6 +239,9 @@ class SystemScene extends Phaser.Scene {
         /* ------------------------- Update GameObject Ship ------------------------- */
 
         this.planet.update();
+
+        /* ------------------------- Update Player Controls ------------------------- */
+        Game.player.updateControls(this);
 
         /* ------------------------- Animations Path Planet ------------------------- */
 

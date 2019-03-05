@@ -90,6 +90,7 @@ class UiScene extends Phaser.Scene {
                 'HEALTH: ' + Game.player.getHealth().toFixed(0) +
                 '\n\nSPEED: ' + Game.ship.body.body.speed.toFixed(0) +
                 '\n\nALT: ' + Game.ship.getAltitude().toFixed(0) +
+                '\n\nGRAVITY: ???' +
                 '\n\nFUEL: ' + Game.player.getFuel().toFixed(0) +
                 '\n\nHSC: ' + Game.player.getHsc()
             );
