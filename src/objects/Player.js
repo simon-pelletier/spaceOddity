@@ -70,7 +70,6 @@ export default class Player extends Phaser.GameObjects.GameObject {
     }
 
     takeDamages(dmg) {
-        console.log(dmg);
         this.health -= dmg;
     }
 

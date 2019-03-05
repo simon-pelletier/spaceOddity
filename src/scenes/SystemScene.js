@@ -43,8 +43,6 @@ class SystemScene extends Phaser.Scene {
 
     create() {
 
-        console.log(Game);
-
         /* ------------------------------ SCENE CONFIG ------------------------------ */
 
         // Variables Globales

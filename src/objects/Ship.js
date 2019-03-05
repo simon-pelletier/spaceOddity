@@ -83,8 +83,12 @@ export default class Ship extends Phaser.GameObjects.GameObject {
             isSensor: true,
             label: 'thruster'
         });
+        var circleI = Bodies.circle(0, 250, 20, {
+            isSensor: true,
+            label: 'speedSensor'
+        });
         var compoundBodyShip = Phaser.Physics.Matter.Matter.Body.create({
-            parts: [shipBody, circleA, circleB, circleC, circleD, circleE, circleF, circleG, circleH],
+            parts: [shipBody, circleA, circleB, circleC, circleD, circleE, circleF, circleG, circleH, circleI],
             label: 'shipBodyCompound',
             ignoreGravity: true
         });
@@ -482,6 +486,13 @@ export default class Ship extends Phaser.GameObjects.GameObject {
 
                     // SHIP - PLANET
                     if (bodyA.label === 'planetBody' || bodyB.label === 'planetBody') {
+                        // Si le Ship arrive trop vite (speed > 1)
+                        if (bodyB.label === 'speedSensor'){
+                            console.log(bodyB.parent.gameObject.body.speed);
+                            if (bodyB.parent.gameObject.body.speed > 2){
+                                Game.player.takeDamages(bodyB.parent.gameObject.body.speed * 5);
+                            }
+                        }
                         // Si la collision concerne le ship de coté
                         if (bodyA.label === 'left' || bodyA.label === 'right' || bodyB.label === 'left' || bodyB.label === 'right') {
                             scene.cameras.main.shake(200, 0.002);
@@ -594,62 +605,62 @@ export default class Ship extends Phaser.GameObjects.GameObject {
         scene.matter.world.on('collisionstart', function (event) {
             var pairs = event.pairs;
             for (var i = 0; i < pairs.length; i++) {
-      
-              var bodyA = pairs[i].bodyA;
-              var bodyB = pairs[i].bodyB;
-      
-              // Ship - Planet
-              if (bodyA.label === 'shipBody' && bodyB.label === 'planetBody') {
-                self.soundThrusterTop.stop();
-                self.soundThrusterBottom.stop();
-                self.soundThrusterLeft.stop();
-                self.soundThrusterRight.stop();
 
-                Game.currentPlanet = bodyB.parent.gameObject.data.list.id;
-                /*currentPlanet = bodyB.parent.gameObject.data.list.id;
-                shipSystemPosition = {
-                  x: bodyB.parent.gameObject.x,
-                  y: bodyB.parent.gameObject.y
-                };*/
-      
-                // Désactive de témoin du loader de systemScene
-                //systemSceneIsLoaded = false;
-                scene.scene.start('PlanetScene');
-      
-              }
-              if (bodyB.label === 'shipBody' && bodyA.label === 'planetBody') {
-                self.soundThrusterTop.stop();
-                self.soundThrusterBottom.stop();
-                self.soundThrusterLeft.stop();
-                self.soundThrusterRight.stop();
+                var bodyA = pairs[i].bodyA;
+                var bodyB = pairs[i].bodyB;
 
-                Game.currentPlanet = bodyA.parent.gameObject.data.list.id;
-                /*currentPlanet = bodyA.parent.gameObject.data.list.id;
-                shipSystemPosition = {
-                  x: bodyA.parent.gameObject.x,
-                  y: bodyA.parent.gameObject.y
-                };*/
-      
-                // Désactive de témoin du loader de systemScene
-                //systemSceneIsLoaded = false;
-                scene.scene.start('PlanetScene');
-      
-              }
-      
-              // Ship - Star
-              if (bodyA.label === 'shipBody' && bodyB.label === 'starBody') {
-                console.log('PERDU : Ton vaisseau a cramé sur une étoile...');
-                scene.scene.stop('UiScene');
-                scene.scene.start('EndGameScene');
-              }
-              if (bodyB.label === 'shipBody' && bodyA.label === 'starBody') {
-                console.log('PERDU : Ton vaisseau a cramé sur une étoile...');
-                scene.scene.stop('UiScene');
-                scene.scene.start('EndGameScene');
-              }
-      
+                // Ship - Planet
+                if (bodyA.label === 'shipBody' && bodyB.label === 'planetBody') {
+                    self.soundThrusterTop.stop();
+                    self.soundThrusterBottom.stop();
+                    self.soundThrusterLeft.stop();
+                    self.soundThrusterRight.stop();
+
+                    Game.currentPlanet = bodyB.parent.gameObject.data.list.id;
+                    /*currentPlanet = bodyB.parent.gameObject.data.list.id;
+                    shipSystemPosition = {
+                      x: bodyB.parent.gameObject.x,
+                      y: bodyB.parent.gameObject.y
+                    };*/
+
+                    // Désactive de témoin du loader de systemScene
+                    //systemSceneIsLoaded = false;
+                    scene.scene.start('PlanetScene');
+
+                }
+                if (bodyB.label === 'shipBody' && bodyA.label === 'planetBody') {
+                    self.soundThrusterTop.stop();
+                    self.soundThrusterBottom.stop();
+                    self.soundThrusterLeft.stop();
+                    self.soundThrusterRight.stop();
+
+                    Game.currentPlanet = bodyA.parent.gameObject.data.list.id;
+                    /*currentPlanet = bodyA.parent.gameObject.data.list.id;
+                    shipSystemPosition = {
+                      x: bodyA.parent.gameObject.x,
+                      y: bodyA.parent.gameObject.y
+                    };*/
+
+                    // Désactive de témoin du loader de systemScene
+                    //systemSceneIsLoaded = false;
+                    scene.scene.start('PlanetScene');
+
+                }
+
+                // Ship - Star
+                if (bodyA.label === 'shipBody' && bodyB.label === 'starBody') {
+                    console.log('PERDU : Ton vaisseau a cramé sur une étoile...');
+                    scene.scene.stop('UiScene');
+                    scene.scene.start('EndGameScene');
+                }
+                if (bodyB.label === 'shipBody' && bodyA.label === 'starBody') {
+                    console.log('PERDU : Ton vaisseau a cramé sur une étoile...');
+                    scene.scene.stop('UiScene');
+                    scene.scene.start('EndGameScene');
+                }
+
             }
-          });
+        });
     }
 
     /* ========================================================================== */
