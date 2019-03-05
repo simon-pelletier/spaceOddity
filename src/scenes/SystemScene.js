@@ -213,6 +213,8 @@ class SystemScene extends Phaser.Scene {
 
         Game.ship = this.ship;
 
+        /* ----------------------------- Player Controls ---------------------------- */
+
         Game.player.controls(this);
 
     }
@@ -241,6 +243,7 @@ class SystemScene extends Phaser.Scene {
         this.planet.update();
 
         /* ------------------------- Update Player Controls ------------------------- */
+
         Game.player.updateControls(this);
 
         /* ------------------------- Animations Path Planet ------------------------- */

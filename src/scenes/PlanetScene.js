@@ -152,6 +152,10 @@ class PlanetScene extends Phaser.Scene {
 
         Game.currentScene = 'Planet';
 
+        /* ----------------------------- Player Controls ---------------------------- */
+
+        Game.player.controls(this);
+
     }
 
     /* ========================================================================== */
@@ -175,6 +179,10 @@ class PlanetScene extends Phaser.Scene {
         /* ------------------------- Update GameObject Ship ------------------------- */
 
         this.ship.updatePlanet();
+
+        /* ------------------------- Update Player Controls ------------------------- */
+
+        Game.player.updateControls(this);
 
         /* ---------------- Update de la couleur du background camera --------------- */
 
