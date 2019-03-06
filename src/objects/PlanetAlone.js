@@ -30,6 +30,7 @@ export default class PlanetAlone extends Phaser.GameObjects.GameObject {
         this.materials = this.seed.materials;
         this.visited = this.seed.visited;
         this.gravity = this.seed.gravity;
+        this.bgColor = this.seed.bgColor;
 
         var self = this;
 

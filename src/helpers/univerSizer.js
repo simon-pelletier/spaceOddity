@@ -111,6 +111,7 @@ function planetGenerator(i) {
         speed: Helpers.getRandomNumber(10000, 30000),
         offset: Helpers.getRandomNumberFloat(0, 360),
         color: '0x' + Helpers.getRandomColor(),
+        bgColor: '0x' + Helpers.getRandomColor(),
         satellites: satellites,
         materials: materialsGenerator(),
         visited: false,

@@ -69,10 +69,11 @@ class PlanetScene extends Phaser.Scene {
         /* ------------------------------- BACKGROUND ------------------------------- */
 
         // Converti la couleur de planet en RGB
-        var colorRgb = seedPlanet.color.substring(2, seedPlanet.length);
+        //var colorRgb = seedPlanet.color.substring(2, seedPlanet.length);
+        var colorRgb = seedPlanet.bgColor.substring(2, seedPlanet.length);
         var colorTab = Helpers.convertHexToRgbArray(colorRgb);
         // Couleur du ciel - #bleu
-        this.skyColor = new Phaser.Display.Color((colorTab[0] / 2.5).toFixed(0), (colorTab[1] / 0.4).toFixed(0), 160);
+        this.skyColor = new Phaser.Display.Color(colorTab[0], colorTab[1], colorTab[2]);
         // Couleur de l'espace - #noir
         this.spaceColor = new Phaser.Display.Color(0, 0, 0);
         // Création des étoiles_mini
