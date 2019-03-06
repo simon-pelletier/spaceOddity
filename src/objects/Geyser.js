@@ -19,23 +19,25 @@ export default class Geyser extends Phaser.GameObjects.GameObject {
 
     constructor(config) {
 
-        super(config.scene, config.key, config.e, config.g, config.point, config.margin);
+        super(config.scene, config.id, config.sort, config.points, config.pointsInfo, config.margin, config.quantity);
 
         // Variables globales
         var scene = config.scene;
         var self = this;
         var seedPlanet = Game.univers[Game.currentSystem].system[Game.currentPlanet];
 
-        // Variables de position et d'angle
-        var g = config.g;
-        var e = config.e;
-        var pointsGeyser = config.point;
-        var marginGeyser = config.margin;
-
         // Attributs
-        this.id = Helpers.getRandomNumberFloat(0.005, 0.02);
-        this.point = Helpers.getRandomNumberFloat(0.5, 3);
-        this.quantity = Helpers.getRandomNumber(1, 6);
+        this.id = config.id;
+        this.sort = config.sort;
+        this.points = config.points;
+        this.pointsInfo = config.pointsInfo;
+        this.margin = config.margin
+        this.quantity = config.quantity;
+
+        this.indice = Number(this.id);
+
+        /* -------------------------------- Controls -------------------------------- */
+        this.keyPumpFuel = config.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
 
         // Bodies Matter Déclaration
         var Bodies = Phaser.Physics.Matter.Matter.Bodies;
@@ -48,7 +50,7 @@ export default class Geyser extends Phaser.GameObjects.GameObject {
             label: "geyserBody",
             isSensor: true,
             data: {
-                id: seedPlanet.materials[e].id
+                id: this.id
             }
         });
         var geyserBody = Phaser.Physics.Matter.Matter.Body.create({
@@ -59,11 +61,8 @@ export default class Geyser extends Phaser.GameObjects.GameObject {
             isStatic: true
         });
 
-        // Ajoute et configure un nouvel élément de bors de scene
-        this.geyser = scene.matter.add.sprite(pointsGeyser[g].x, pointsGeyser[g].y, 'geyser', null, {
-            data: {
-                id: seedPlanet.materials[e].id
-            },
+        // Ajoute et configure un nouvel élément Geyser
+        this.geyser = scene.matter.add.sprite(this.points[this.indice].x, this.points[this.indice].y, 'geyser', null, {
             ignoreGravity: true
         });
         this.geyser.setExistingBody(geyserBody);
@@ -71,27 +70,56 @@ export default class Geyser extends Phaser.GameObjects.GameObject {
         this.geyser.setDepth(50);
         this.geyser.isSensor(true);
         this.geyser.setData({
-            id: seedPlanet.materials[e].id
+            id: this.id
         });
-        this.geyser.setPosition(pointsGeyser[g].x, pointsGeyser[g].y);
-        this.geyser.rotation = 1.56 + ((g + marginGeyser) / pointsGeyser.length);
+        this.geyser.setPosition(this.points[this.indice].x, this.points[this.indice].y);
+        this.geyser.rotation = 1.56 + ((this.indice + this.margin) / this.points.length);
         this.geyser.setIgnoreGravity(true);
         this.body = geyserBody.body;
 
         /* ------------------------------- ANIMATIONS ------------------------------- */
         this.geyser.anims.play('flow');
 
-        /* --------------------------------- SOUNDS --------------------------------- */
-        // Ajout du son de Pompe
-        this.soundPump = scene.sound.add('pump');
-        this.soundPump.volume = 0.5;
-        this.soundPump.loop = true;
+        /* ---------------------------------- TEXTS --------------------------------- */
+        // Définit le Style du text infoPlanetTxt
+        var styleText = {
+            fontSize: '15px',
+            fontFamily: Setup.TYPO,
+            color: '#141414',
+            backgroundColor: 'rgba(255, 255, 255, 0.5)'
+        };
+
+        // Ajoute le texte uiText
+        this.geyserText = config.scene.add.text(0, 0, '', styleText).setPadding(10, 10);
+        this.geyserText.setDepth(0);
+        this.geyserText.setPosition(this.pointsInfo[this.indice].x, this.pointsInfo[this.indice].y);
+        this.geyserText.rotation = 1.56 + ((this.indice + this.margin) / this.points.length);
+        this.geyserText.setText(
+            this.quantity
+        );
+        
 
         return this;
     }
 
-    update(){
-        
+    update(i) {
+        if (this.keyPumpFuel.isDown) {
+            Game.player.pumpFuel(5);
+            //this.quantity -= 5;
+            Game.univers[Game.currentSystem].system[Game.currentPlanet].materials[i].quantity -= 5;
+            this.quantity = Game.univers[Game.currentSystem].system[Game.currentPlanet].materials[i].quantity
+
+            if (this.quantity > 0){
+                this.geyserText.setText(
+                    this.quantity
+                );
+            }else {
+                this.geyserText.setText(
+
+                );
+            }
+            
+        }
     }
 
 }

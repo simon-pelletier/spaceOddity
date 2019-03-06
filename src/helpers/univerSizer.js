@@ -123,14 +123,26 @@ function planetGenerator(i) {
 
 function materialsGenerator() {
     var materials = [];
-    var chanceToHaveMaterials = Helpers.getRandomNumber(12, Setup.NUMBER_MAX_OF_MATERIALS); // DEBUG à régler sur (0,3) - MAX 12
+    //var chanceToHaveMaterials = Helpers.getRandomNumber(12, Setup.NUMBER_MAX_OF_MATERIALS); // DEBUG à régler sur (0,3) - MAX 12
 
-    for (var i = 0; i < chanceToHaveMaterials; i++) {
-        var material = {
-            id: i,
-            point: Helpers.getRandomNumber(1, (i + Helpers.getRandomNumber(0, 3)) * 3),
-            quantity: Helpers.getRandomNumber(500, 5000)
-        };
+    for (var i = 0; i < 12; i++) {
+        var sortOfMaterial = Helpers.getRandomNumber(0, 1);
+        if (sortOfMaterial == 0) {
+            var material = {
+                id: i,
+                sort: 'geyser',
+                point: i,
+                quantity: Helpers.getRandomNumber(500, 2000)
+            };
+        } else {
+            var material = {
+                id: i,
+                sort: 'empty',
+                point: i,
+                quantity: 0
+            };
+        }
+
         materials.push(material);
     }
 

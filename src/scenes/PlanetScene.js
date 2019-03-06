@@ -47,6 +47,9 @@ class PlanetScene extends Phaser.Scene {
         // Variables Globales
         var self = this;
 
+        this.currentMaterial = null;
+        this.currentMaterialObj = null;
+
         var seedSystem = Game.univers[Game.currentSystem];
         var seedPlanet = Game.univers[Game.currentSystem].system[Game.currentPlanet];
 
@@ -99,9 +102,6 @@ class PlanetScene extends Phaser.Scene {
         // Désactive le menu contextuel
         this.input.mouse.disableContextMenu();
 
-        // Input Keys
-        /*this.keyExtract = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);*/
-
         /* ------------------------------ GAME OBJECTS ------------------------------ */
 
         // Object Planet
@@ -144,42 +144,139 @@ class PlanetScene extends Phaser.Scene {
             this.ship.body.setAngle(Helpers.getRandomNumber(140, 220));
         }
 
-        // Geysers
+        /* -------------------------------- MATERIALS ------------------------------- */
+
+        // Contient tout les Materiaux (array)
+        this.materials = [];
+
         // Dessine un cercle
-        this.circleGeyser = new Phaser.Geom.Circle(0, 0, (this.planet.size * 375) + 20);
+        this.circleMaterial = new Phaser.Geom.Circle(0, 0, (this.planet.size * 375) + 20);
         // Récupère 12 points le long du cercle
-        this.pointsGeyser = this.circleGeyser.getPoints(12);
+        this.pointsMaterial = this.circleMaterial.getPoints(12);
+
+        // Dessine un cercle
+        this.circleMaterialInfo = new Phaser.Geom.Circle(0, 0, (this.planet.size * 375) + 150);
+        // Récupère 12 points le long du cercle
+        this.pointsMaterialInfo = this.circleMaterialInfo.getPoints(12);
+
         // Marges pour les orientations de geysers
-        var marginAngleGeyser = 5.3;
-        var marginGeyser = 0;
-        // Création et configuration de chaque Geyser
-        for (var g = 0; g < this.pointsGeyser.length; g++) {
-            for (var e = 0; e < seedPlanet.materials.length; e++) {
-                if (seedPlanet.materials[e].point === g && seedPlanet.materials[e].quantity > 100) {
-                    this.Geyser = new Geyser({
-                        scene: this,
-                        key: 'ship',
-                        e: e,
-                        g: g,
-                        point: this.pointsGeyser,
-                        margin: marginGeyser
-                    });
-                }
+        var marginAngleMaterial = 5.3;
+        var marginMaterial = 0;
+
+        // Création et configuration de chaque Material
+        for (var e = 0; e < seedPlanet.materials.length; e++) {
+            // Si c'est un Geyser
+            if (seedPlanet.materials[e].sort == 'geyser') {
+                this.Geyser = new Geyser({
+                    scene: this,
+                    id: seedPlanet.materials[e].id,
+                    sort: seedPlanet.materials[e].sort,
+                    points: this.pointsMaterial,
+                    pointsInfo: this.pointsMaterialInfo,
+                    margin: marginMaterial,
+                    quantity: seedPlanet.materials[e].quantity
+                });
+                this.materials.push(this.Geyser);
+                // Si c'est VIDE
+            } else {
+                this.materials.push('empty');
             }
             // Ajout de l'angle pour le point suivant
-            marginGeyser += marginAngleGeyser;
+            marginMaterial += marginAngleMaterial;
         }
 
         /* ------------------------------- COLLSISIONS ------------------------------ */
+
         this.ship.collisionsPlanet(this, this.ship);
 
         Game.ship = this.ship;
 
         Game.currentScene = 'Planet';
 
+        this.matter.world.on('collisionstart', function (event) {
+            var pairs = event.pairs;
+            for (var i = 0; i < pairs.length; i++) {
+
+                var bodyA = pairs[i].bodyA;
+                var bodyB = pairs[i].bodyB;
+
+                // SENSORS (SHIP)
+                if (bodyA.isSensor || bodyB.isSensor) {
+
+                    // SHIP - GEYSER
+                    if (bodyA.label === 'bottomM' || bodyB.label === 'bottomM') {
+                        if (bodyA.label === 'geyserBody' || bodyB.label === 'geyserBody') {
+                            
+                            if (bodyB.label === 'geyserBody') {
+                                self.currentMaterial = bodyB.data.id;
+                                self.currentMaterialObj = bodyB.parent.gameObject;
+                            } else {
+                                self.currentMaterial = bodyA.data.id;
+                                self.currentMaterialObj = bodyA.parent.gameObject;
+                            }
+                            console.log('DIG IT !');
+                        }
+                    }
+                }
+            }
+        });
+
+        this.matter.world.on('collisionend', function (event) {
+            var pairs = event.pairs;
+
+            for (var i = 0; i < pairs.length; i++) {
+
+                var bodyA = pairs[i].bodyA;
+                var bodyB = pairs[i].bodyB;
+
+                // SENSORS (SHIP)
+                if (bodyA.isSensor || bodyB.isSensor) {
+
+                    // SHIP - GEYSER
+                    if (bodyA.label === 'bottomM' || bodyB.label === 'bottomM') {
+                        if (bodyA.label === 'geyserBody' || bodyB.label === 'geyserBody') {
+                            self.currentMaterial = null;
+                            self.currentMaterialObj = null;
+                            console.log('NO MORE ON GEYSER !');
+                        }
+                    }
+
+                }
+
+            }
+        });
+
         /* ----------------------------- Player Controls ---------------------------- */
 
         Game.player.controls(this);
+
+        /* --------------------------------- SOUNDS --------------------------------- */
+
+        // Ajout du son de Pompe
+        this.soundPump = this.sound.add('pump');
+        this.soundPump.volume = 0.5;
+        this.soundPump.loop = true;
+
+        /* -------------------------------- LISTENERS ------------------------------- */
+
+        this.input.keyboard.on('keydown', function (event) {
+
+            if (self.currentMaterial) {
+                if (event.key == 'e' && self.materials[self.currentMaterial].sort == 'geyser') {
+                    //soundPump.loop = true;
+                    self.soundPump.play();
+                }
+            }
+            
+        });
+
+        this.input.keyboard.on('keyup', function (event) {
+
+            if (event.key == 'e') {
+                self.soundPump.stop();
+            }
+
+        });
 
     }
 
@@ -204,6 +301,17 @@ class PlanetScene extends Phaser.Scene {
         /* ------------------------- Update GameObject Ship ------------------------- */
 
         this.ship.updatePlanet();
+
+        /* ------------------------ Update GameObject Geyser ------------------------ */
+
+        if (this.currentMaterial !== null) {
+            this.materials[this.currentMaterial].update(this.currentMaterial);
+
+            if (this.materials[this.currentMaterial].quantity < 0) {
+                this.currentMaterialObj.destroy();
+                Game.univers[Game.currentSystem].system[Game.currentPlanet].materials[this.currentMaterial].sort = 'empty';
+            }
+        }
 
         /* ------------------------- Update Player Controls ------------------------- */
 
