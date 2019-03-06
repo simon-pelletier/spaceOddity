@@ -98,7 +98,11 @@ class MenuScene extends Phaser.Scene {
         this.musicIntro = this.sound.add('intro');
         this.musicIntro.volume = 0.5;
         this.musicIntro.loop = true;
-        //this.musicIntro.play();
+        this.musicIntro.play();
+        // Ajout du son de Thrusters
+        this.soundThrusterTop = this.sound.add('soundThruster');
+        this.soundThrusterTop.volume = 0.2;
+        this.soundThrusterTop.loop = true;
 
         /* -------------------------------- LISTENERS ------------------------------- */
 
@@ -106,12 +110,19 @@ class MenuScene extends Phaser.Scene {
         this.playBtn.on('pointerover', function () {
             this.setScale(1.1, 1.1);
             this.setTint(0xdc324a);
-            self.shipMenu.setVelocityX(Helpers.getRandomNumber(-5, -10));
-            self.shipMenu.setAngularVelocity(Helpers.getRandomNumberFloat(0.03, 0.1));
+
+            self.shipMenu.anims.play('upAnimShip');
+            self.soundThrusterTop.play();
+            self.shipMenu.thrustLeft(0.1);
+            //self.shipMenu.setVelocityX(Helpers.getRandomNumber(-5, -10));
+            //self.shipMenu.setAngularVelocity(Helpers.getRandomNumberFloat(0.03, 0.1));
         });
         this.playBtn.on('pointerout', function () {
             this.setScale(1, 1);
             this.setTint(0xcccccc);
+
+            self.shipMenu.anims.play('idleShip');
+            self.soundThrusterTop.stop();
         });
         this.playBtn.on('pointerdown', function () {
             this.setTint(0xcccccc);
