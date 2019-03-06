@@ -52,6 +52,7 @@ class UiScene extends Phaser.Scene {
         this.helpText.setText(
             '[M]ap' +
             '\n[E]xtract resources' +
+            '\n[R]epair Ship' +
             '\nCraft 1 [H]SC for 1K Fuel' +
             '\nCraft 1K [F]uel for 1 HSC'
         );
@@ -84,7 +85,8 @@ class UiScene extends Phaser.Scene {
                 '\n\nALT: ' + Game.ship.getAltitude().toFixed(0) +
                 '\n\nGRAVITY: ???' +
                 '\n\nFUEL: ' + Game.player.getFuel().toFixed(0) +
-                '\n\nHSC: ' + Game.player.getHsc()
+                '\n\nHSC: ' + Game.player.getHsc() +
+                '\n\nRAW-MAT: ' + Game.player.getRawMat()
             );
         } else {
             // Mise à jour du contenu du Text uiText
@@ -93,7 +95,8 @@ class UiScene extends Phaser.Scene {
                 '\n\nSPEED: ' + Game.ship.body.body.speed.toFixed(0) +
                 '\n\nGRAVITY: 0' +
                 '\n\nFUEL: ' + Game.player.getFuel().toFixed(0) +
-                '\n\nHSC: ' + Game.player.getHsc()
+                '\n\nHSC: ' + Game.player.getHsc() +
+                '\n\nRAW-MAT: ' + Game.player.getRawMat()
             );
         }
 

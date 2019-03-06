@@ -8,6 +8,7 @@ import * as Setup from '../setup';
 
 import shipAnimations from '../animations/shipAnimations';
 import geyserAnimations from '../animations/geyserAnimations';
+import rawMatAnimations from '../animations/rawMatAnimations';
 
 class PreloaderScene extends Phaser.Scene {
     constructor(test) {
@@ -94,6 +95,10 @@ class PreloaderScene extends Phaser.Scene {
             frameWidth: 150,
             frameHeight: 200
         });
+        this.load.spritesheet('rawMat', './assets/img/sprites/rawMat.png', {
+            frameWidth: 200,
+            frameHeight: 100
+        });
 
         /* --------------------------------- SOUNDS --------------------------------- */
 
@@ -133,6 +138,8 @@ class PreloaderScene extends Phaser.Scene {
         shipAnimations(this);
         // Charge les animations de Geyser
         geyserAnimations(this);
+        // Charge les animations de RawMat
+        rawMatAnimations(this);
         // Vide le preload
         this.preloadSprite = null;
         // Démarre la scene de départ

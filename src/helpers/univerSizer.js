@@ -126,11 +126,18 @@ function materialsGenerator() {
     //var chanceToHaveMaterials = Helpers.getRandomNumber(12, Setup.NUMBER_MAX_OF_MATERIALS); // DEBUG à régler sur (0,3) - MAX 12
 
     for (var i = 0; i < 12; i++) {
-        var sortOfMaterial = Helpers.getRandomNumber(0, 1);
+        var sortOfMaterial = Helpers.getRandomNumber(0, 10);
         if (sortOfMaterial == 0) {
             var material = {
                 id: i,
                 sort: 'geyser',
+                point: i,
+                quantity: Helpers.getRandomNumber(500, 2000)
+            };
+        } else if (sortOfMaterial == 1){
+            var material = {
+                id: i,
+                sort: 'rawMat',
                 point: i,
                 quantity: Helpers.getRandomNumber(500, 2000)
             };

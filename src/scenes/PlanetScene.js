@@ -14,6 +14,7 @@ import defaultSceneConfig from '../helpers/sceneConfig';
 import Ship from '../objects/Ship';
 import PlanetAlone from '../objects/PlanetAlone';
 import Geyser from '../objects/Geyser';
+import RawMat from '../objects/RawMat';
 
 class PlanetScene extends Phaser.Scene {
     constructor(test) {
@@ -178,6 +179,17 @@ class PlanetScene extends Phaser.Scene {
                 });
                 this.materials.push(this.Geyser);
                 // Si c'est VIDE
+            } else if (seedPlanet.materials[e].sort == 'rawMat') {
+                this.RawMat = new RawMat({
+                    scene: this,
+                    id: seedPlanet.materials[e].id,
+                    sort: seedPlanet.materials[e].sort,
+                    points: this.pointsMaterial,
+                    pointsInfo: this.pointsMaterialInfo,
+                    margin: marginMaterial,
+                    quantity: seedPlanet.materials[e].quantity
+                });
+                this.materials.push(this.RawMat);
             } else {
                 this.materials.push('empty');
             }
@@ -205,9 +217,12 @@ class PlanetScene extends Phaser.Scene {
 
                     // SHIP - GEYSER
                     if (bodyA.label === 'bottomM' || bodyB.label === 'bottomM') {
-                        if (bodyA.label === 'geyserBody' || bodyB.label === 'geyserBody') {
+                        if (bodyA.label === 'geyserBody' || bodyB.label === 'geyserBody' || bodyA.label === 'rawMatBody' || bodyB.label === 'rawMatBody') {
 
                             if (bodyB.label === 'geyserBody') {
+                                self.currentMaterial = bodyB.data.id;
+                                self.currentMaterialObj = bodyB.parent.gameObject;
+                            } else if (bodyB.label === 'rawMatBody') {
                                 self.currentMaterial = bodyB.data.id;
                                 self.currentMaterialObj = bodyB.parent.gameObject;
                             } else {
@@ -238,6 +253,10 @@ class PlanetScene extends Phaser.Scene {
                             self.currentMaterial = null;
                             self.currentMaterialObj = null;
                             console.log('NO MORE ON GEYSER !');
+                        } else if (bodyA.label === 'rawMatBody' || bodyB.label === 'rawMatBody') {
+                            self.currentMaterial = null;
+                            self.currentMaterialObj = null;
+                            console.log('NO MORE ON RAW MATS !');
                         }
                     }
 
@@ -352,7 +371,7 @@ class PlanetScene extends Phaser.Scene {
                     self.scene.start('EndGameScene');
                 }, 2000);
             } else {
-                
+
             }
 
         }
