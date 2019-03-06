@@ -6,6 +6,9 @@
 
 import * as Setup from '../setup';
 
+import shipAnimations from '../animations/shipAnimations';
+import geyserAnimations from '../animations/geyserAnimations';
+
 class PreloaderScene extends Phaser.Scene {
     constructor(test) {
         super({
@@ -126,6 +129,10 @@ class PreloaderScene extends Phaser.Scene {
     /* ========================================================================== */
 
     create() {
+        // Charge les animations du Ship
+        shipAnimations(this);
+        // Charge les animations de Geyser
+        geyserAnimations(this);
         // Vide le preload
         this.preloadSprite = null;
         // Démarre la scene de départ

@@ -11,9 +11,6 @@ import defaultSceneConfig from '../helpers/sceneConfig';
 
 import generateUnivers from '../helpers/univerSizer';
 
-import shipAnimations from '../animations/shipAnimations';
-import geyserAnimations from '../animations/geyserAnimations';
-
 import Player from '../objects/Player';
 
 import Game from '../game';
@@ -112,10 +109,7 @@ class MenuScene extends Phaser.Scene {
         });
         this.playBtn.on('pointerup', this.doStart.bind(this));
 
-        // Charge les animations du Ship
-        shipAnimations(this);
-        // Charge les animations de Geyser
-        geyserAnimations(this);
+        
 
     }
 
