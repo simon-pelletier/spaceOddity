@@ -29,6 +29,17 @@ export default class Player extends Phaser.GameObjects.GameObject {
         this.maxHsc = 8;
         this.maxRawMat = 2000;
 
+        this.GO_Time = 0;
+        this.GO_Distance = 0;
+        this.GO_HSCJumps = 0;
+        this.GO_visitedSystems = 0;
+        this.GO_visitedPlanets = 0;
+        this.GO_pumpedFuel = 0;
+        this.GO_consumedFuel = 0;
+        this.GO_consumedHSC = 0;
+        this.GO_totalCollisions = 0;
+        this.GO_totalDamages = 0;
+
         return this;
     }
 
@@ -80,6 +91,7 @@ export default class Player extends Phaser.GameObjects.GameObject {
 
     useHsc(number) {
         this.hsc -= Number(number);
+        this.GO_consumedHSC += Number(number);
     }
 
     /* --------------------------------- HEALTH --------------------------------- */
@@ -91,16 +103,19 @@ export default class Player extends Phaser.GameObjects.GameObject {
 
     takeDamages(dmg) {
         this.health -= dmg;
+        this.GO_totalDamages += dmg;
     }
 
     /* ---------------------------------- FUEL ---------------------------------- */
 
     consumeFuel(factor) {
         this.fuel -= factor;
+        this.GO_consumedFuel += factor;
     }
 
     pumpFuel(factor) {
         this.fuel += factor;
+        this.GO_pumpedFuel += factor;
     }
 
     /* --------------------------------- RAW MAT -------------------------------- */
@@ -172,13 +187,13 @@ export default class Player extends Phaser.GameObjects.GameObject {
 
         // Ecoute la touche H
         if (Phaser.Input.Keyboard.JustDown(scene.keyCraftHsc)) {
-            if (this.fuel > 1000 && this.hsc < (Number(this.maxHsc)-1)) {
+            if (this.fuel > 1000 && this.hsc < (Number(this.maxHsc) - 1)) {
                 this.craftFuelToHsc();
             }
         }
         // Ecoute la touche F
         if (Phaser.Input.Keyboard.JustDown(scene.keyCraftFuel)) {
-            if (this.hsc > 0 && this.fuel < (Number(this.maxFuel)-1000)) {
+            if (this.hsc > 0 && this.fuel < (Number(this.maxFuel) - 1000)) {
                 this.craftHscToFuel();
             }
         }

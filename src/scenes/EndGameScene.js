@@ -4,6 +4,7 @@
 /*                                                                            */
 /* ========================================================================== */
 
+import Game from '../game';
 import * as Setup from '../setup';
 
 class EndGameScene extends Phaser.Scene {
@@ -47,34 +48,33 @@ class EndGameScene extends Phaser.Scene {
             fontSize: '20px',
             fontFamily: Setup.TYPO,
             color: '#ffffff',
-            //backgroundColor: 'rgba(0, 0, 0, 0.8)'
+            backgroundColor: 'rgba(0, 0, 0, 0.9)'
         };
 
         // Ajoute le texte endGameTxt
-        this.endGameTxt = this.add.text(Setup.ORIGIN_X, Setup.ORIGIN_Y, '', styleText).setPadding(100, 100);
+        this.endGameTxt = this.add.text(Setup.ORIGIN_X, Setup.ORIGIN_Y, '', styleText).setPadding(20, 20);
         this.endGameTxt.setDepth(20);
 
 
         // Temps de jeu en minutes (depuis la création de l'ui)
-        //var time = eGtotalTime / 60000;
+        var time = Game.player.GO_Time / 60000;
 
         // Calcule le score
-        //var score = ((time / 10) + 1) * ((eGtotalDistance * (eGtotalHSCJumps + 1)) + eGvisitedSystems + eGvisitedPlanets + eGpumpedFuel + eGconsumedFuel + eGconsumedHSC + (eGtotalCollisions * (eGtotalDamages + 1)));
+        var score = ((time / 10) + 1) * ((Game.player.GO_Distance * (Game.player.GO_HSCJumps + 1)) + Game.player.GO_visitedSystems + Game.player.GO_visitedPlanets + Game.player.GO_pumpedFuel + Game.player.GO_consumedFuel + Game.player.GO_consumedHSC + (Game.player.GO_totalCollisions * (Game.player.GO_totalDamages + 1)));
 
         // Définit le contenu de endGameTxt
         this.endGameTxt.setText(
-            'fin de jeu'
-            /*'Total time: ' + time.toFixed(2) + ' min' +
-            '\nTotal distance: ' + eGtotalDistance +
-            '\nHigh-Speed Jumps: ' + eGtotalHSCJumps.toFixed(0) +
-            '\nVisited Systems: ' + eGvisitedSystems +
-            '\nVisited Planets: ' + eGvisitedPlanets +
-            '\n\nPumped fuel: ' + eGpumpedFuel.toFixed(0) +
-            '\nConsumed fuel: ' + eGconsumedFuel.toFixed(0) +
-            '\nConsumed HSC: ' + eGconsumedHSC.toFixed(0) +
-            '\nTotal collisions: ' + eGtotalCollisions.toFixed(0) +
-            '\nTotal damages: ' + eGtotalDamages.toFixed(0) +
-            '\n\nSCORE: ' + score.toFixed(0)*/
+            'Total time: ' + time.toFixed(2) + ' min' +
+            '\nTotal distance: ' + Game.player.GO_Distance +
+            '\nHigh-Speed Jumps: ' + Game.player.GO_HSCJumps.toFixed(0) +
+            '\nVisited Systems: ' +Game.player.GO_visitedSystems +
+            '\nVisited Planets: ' + Game.player.GO_visitedPlanets +
+            '\n\nPumped fuel: ' + Game.player.GO_pumpedFuel.toFixed(0) +
+            '\nConsumed fuel: ' + Game.player.GO_consumedFuel.toFixed(0) +
+            '\nConsumed HSC: ' + Game.player.GO_consumedHSC.toFixed(0) +
+            '\nTotal collisions: ' + Game.player.GO_totalCollisions.toFixed(0) +
+            '\nTotal damages: ' + Game.player.GO_totalDamages.toFixed(0) +
+            '\n\nSCORE: ' + score.toFixed(0)
         );
 
         this.endGameTxt.setPosition(Setup.ORIGIN_X - this.endGameTxt.width / 2, Setup.ORIGIN_Y - this.endGameTxt.height / 2);
@@ -82,9 +82,7 @@ class EndGameScene extends Phaser.Scene {
             cursor: 'url(./assets/cursor/select.cur), pointer'
         });
 
-        /*endGameTxt.on('pointerdown',
-            this.doStart.bind(this)
-        );*/
+        // Au clic - le jeu restart
         this.endGameTxt.on('pointerdown', this.doReStart.bind(this));
 
         /* ------------------------------- BACKGROUND ------------------------------- */
