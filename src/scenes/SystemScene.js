@@ -372,6 +372,23 @@ class SystemScene extends Phaser.Scene {
 
             }
         }
+
+        if (Game.player.isOver()) {
+            if (Game.player.isDead == false) {
+                Game.player.isDead = true;
+                setTimeout(function () {
+                    // Lance la scene End Game
+                    self.scene.stop('UiScene');
+                    self.scene.stop('PlanetScene');
+                    self.scene.stop('SystemScene');
+                    self.scene.stop('MapScene');
+                    self.scene.start('EndGameScene');
+                }, 2000);
+            } else {
+                
+            }
+
+        }
     }
 
 }

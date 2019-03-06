@@ -21,6 +21,7 @@ export default class Player extends Phaser.GameObjects.GameObject {
         this.fuel = 1000;
         this.health = 100;
         this.hsc = 5;
+        this.isDead = false;
 
         return this;
     }
@@ -99,6 +100,42 @@ export default class Player extends Phaser.GameObjects.GameObject {
     craftFuelToHsc() {
         this.fuel -= 1000;
         this.hsc += 1;
+    }
+
+    /* ========================================================================== */
+    /*                                  END GAME                                  */
+    /* ========================================================================== */
+
+    getIsDead(){
+        return this.isDead;
+    }
+
+    setIsDead(boolean){
+        this.isDead = boolean;
+    }
+
+    isFuel(){
+        if(this.fuel > 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    isHealth(){
+        if(this.health > 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    isOver(){
+        if(this.isFuel() == false || this.isHealth() == false){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /* ========================================================================== */

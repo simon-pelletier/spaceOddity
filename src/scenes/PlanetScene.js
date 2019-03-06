@@ -206,7 +206,7 @@ class PlanetScene extends Phaser.Scene {
                     // SHIP - GEYSER
                     if (bodyA.label === 'bottomM' || bodyB.label === 'bottomM') {
                         if (bodyA.label === 'geyserBody' || bodyB.label === 'geyserBody') {
-                            
+
                             if (bodyB.label === 'geyserBody') {
                                 self.currentMaterial = bodyB.data.id;
                                 self.currentMaterialObj = bodyB.parent.gameObject;
@@ -267,7 +267,7 @@ class PlanetScene extends Phaser.Scene {
                     self.soundPump.play();
                 }
             }
-            
+
         });
 
         this.input.keyboard.on('keyup', function (event) {
@@ -285,6 +285,8 @@ class PlanetScene extends Phaser.Scene {
     /* ========================================================================== */
 
     update() {
+
+        var self = this;
 
         /* -------------------------------- Variables ------------------------------- */
 
@@ -337,6 +339,23 @@ class PlanetScene extends Phaser.Scene {
         /* ---------------------------- Calcul d'altitude --------------------------- */
 
         this.ship.setAltitude(Helpers.getDistanceBetween(this.planet.body.position, shipPosition));
+
+        if (Game.player.isOver()) {
+            if (Game.player.isDead == false) {
+                Game.player.isDead = true;
+                setTimeout(function () {
+                    // Lance la scene End Game
+                    self.scene.stop('UiScene');
+                    self.scene.stop('PlanetScene');
+                    self.scene.stop('SystemScene');
+                    self.scene.stop('MapScene');
+                    self.scene.start('EndGameScene');
+                }, 2000);
+            } else {
+                
+            }
+
+        }
 
     }
 
