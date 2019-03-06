@@ -55,6 +55,8 @@ class MenuScene extends Phaser.Scene {
 
         // Ajoute le bouton 'Play'
         this.playBtn = this.matter.add.sprite(Setup.ORIGIN_X, Setup.ORIGIN_Y + 130, 'play', null, {
+            
+                
             ignoreGravity: true
         }).setInteractive({
             cursor: 'url(./assets/cursor/select.cur), pointer'
@@ -62,7 +64,11 @@ class MenuScene extends Phaser.Scene {
 
         // Ajoute le this.shipMenu
         this.shipMenu = this.matter.add.sprite(Setup.WIDTH - 100, Setup.ORIGIN_Y + 150, 'ship', null, {
-            isStatic: false
+            isStatic: false,
+            shape: {
+                type: 'circle',
+                radius: 120
+              }
         });
         this.shipMenu.setScale(0.2);
         this.shipMenu.setFrictionAir(0.01);
@@ -70,6 +76,9 @@ class MenuScene extends Phaser.Scene {
         this.shipMenu.setIgnoreGravity(true);
         this.shipMenu.setDepth(10);
         this.shipMenu.setAngle(-90);
+   
+        /* ------------------------------- ANIMATIONS ------------------------------- */
+        this.shipMenu.anims.play('idleShip');
 
         /* --------------------------------- GROUPS --------------------------------- */
 

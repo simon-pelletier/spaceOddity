@@ -103,7 +103,7 @@ export default class Geyser extends Phaser.GameObjects.GameObject {
     }
 
     update(i) {
-        if (this.keyPumpFuel.isDown) {
+        if (this.keyPumpFuel.isDown && Game.player.fuel < Game.player.maxFuel ) {
             Game.player.pumpFuel(5);
             //this.quantity -= 5;
             Game.univers[Game.currentSystem].system[Game.currentPlanet].materials[i].quantity -= 5;

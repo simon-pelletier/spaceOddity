@@ -25,6 +25,9 @@ export default class Player extends Phaser.GameObjects.GameObject {
         this.rawMat = 1000;
 
         this.maxHealth = 100;
+        this.maxFuel = 2000;
+        this.maxHsc = 8;
+        this.maxRawMat = 2000;
 
         return this;
     }
@@ -45,7 +48,7 @@ export default class Player extends Phaser.GameObjects.GameObject {
     getHsc() {
         return this.hsc;
     }
-    getRawMat(){
+    getRawMat() {
         return this.rawMat;
     }
 
@@ -65,7 +68,7 @@ export default class Player extends Phaser.GameObjects.GameObject {
     setHsc(hsc) {
         this.hsc = hsc;
     }
-    setRawMat(rawMat){
+    setRawMat(rawMat) {
         this.rawMat = rawMat;
     }
 
@@ -169,13 +172,13 @@ export default class Player extends Phaser.GameObjects.GameObject {
 
         // Ecoute la touche H
         if (Phaser.Input.Keyboard.JustDown(scene.keyCraftHsc)) {
-            if (this.fuel >= 1000) {
+            if (this.fuel > 1000 && this.hsc < (Number(this.maxHsc)-1)) {
                 this.craftFuelToHsc();
             }
         }
         // Ecoute la touche F
         if (Phaser.Input.Keyboard.JustDown(scene.keyCraftFuel)) {
-            if (this.hsc > 0) {
+            if (this.hsc > 0 && this.fuel < (Number(this.maxFuel)-1000)) {
                 this.craftHscToFuel();
             }
         }

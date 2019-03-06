@@ -102,7 +102,7 @@ export default class RawMat extends Phaser.GameObjects.GameObject {
     }
 
     update(i) {
-        if (this.keyDigRawMat.isDown) {
+        if (this.keyDigRawMat.isDown && Game.player.rawMat < Game.player.maxRawMat ) {
             Game.player.digRawMat(5);
             //this.quantity -= 5;
             Game.univers[Game.currentSystem].system[Game.currentPlanet].materials[i].quantity -= 5;

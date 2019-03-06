@@ -282,7 +282,6 @@ class PlanetScene extends Phaser.Scene {
 
             if (self.currentMaterial) {
                 if (event.key == 'e' && self.materials[self.currentMaterial].sort == 'geyser') {
-                    //soundPump.loop = true;
                     self.soundPump.play();
                 }
             }
@@ -323,7 +322,7 @@ class PlanetScene extends Phaser.Scene {
 
         this.ship.updatePlanet();
 
-        /* ------------------------ Update GameObject Geyser ------------------------ */
+        /* ----------------------- Update GameObject Material ----------------------- */
 
         if (this.currentMaterial !== null) {
             this.materials[this.currentMaterial].update(this.currentMaterial);
