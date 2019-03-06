@@ -29,6 +29,9 @@ export default class PlanetAlone extends Phaser.GameObjects.GameObject {
         this.satellites = this.seed.satellites;
         this.materials = this.seed.materials;
         this.visited = this.seed.visited;
+        this.gravity = this.seed.gravity;
+
+        var self = this;
 
         // Construit le body de Planet
         var bodyPlanet = config.scene.matter.add.image(config.x, config.y, config.key)
@@ -43,10 +46,10 @@ export default class PlanetAlone extends Phaser.GameObjects.GameObject {
                 attractors: [
                     function (bodyA, bodyB) {
                         return {
-                            //x: (bodyA.position.x - bodyB.position.x) * 0.0000002,
-                            //y: (bodyA.position.y - bodyB.position.y) * 0.0000002
-                            x: (bodyA.position.x - bodyB.position.x) * 1e-6,
-                            y: (bodyA.position.y - bodyB.position.y) * 1e-6
+                            x: (bodyA.position.x - bodyB.position.x) * (0.000001 * self.gravity),
+                            y: (bodyA.position.y - bodyB.position.y) * (0.000001 * self.gravity)
+                            //x: (bodyA.position.x - bodyB.position.x) * 1e-6,
+                            //y: (bodyA.position.y - bodyB.position.y) * 1e-6
                         };
                     }
                 ]

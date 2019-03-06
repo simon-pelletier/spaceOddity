@@ -113,7 +113,8 @@ function planetGenerator(i) {
         color: '0x' + Helpers.getRandomColor(),
         satellites: satellites,
         materials: materialsGenerator(),
-        visited: false
+        visited: false,
+        gravity: Helpers.getRandomNumberFloat(0, 1)
     }
 
     return planet;

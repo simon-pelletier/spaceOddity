@@ -83,7 +83,7 @@ class UiScene extends Phaser.Scene {
                 'HEALTH: ' + Game.player.getHealth().toFixed(0) +
                 '\n\nSPEED: ' + Game.ship.body.body.speed.toFixed(0) +
                 '\n\nALT: ' + Game.ship.getAltitude().toFixed(0) +
-                '\n\nGRAVITY: ???' +
+                '\n\nGRAVITY: ' + (Game.univers[Game.currentSystem].system[Game.currentPlanet].gravity * 10).toFixed(1) +
                 '\n\nFUEL: ' + Game.player.getFuel().toFixed(0) +
                 '\n\nHSC: ' + Game.player.getHsc() +
                 '\n\nRAW-MAT: ' + Game.player.getRawMat()
