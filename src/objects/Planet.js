@@ -34,26 +34,7 @@ export default class Planet extends Phaser.GameObjects.GameObject {
         this.visited = this.seed.visited;
 
         // Construit le body de Planet
-        this.bodyPlanet = config.scene.matter.add.image(config.x, config.y, config.key)
-        this.bodyPlanet.setBody({
-            type: 'polygon',
-            radius: 375,
-            sides: 64
-        }, {
-            label: 'planetBody'
-        });
-
-        // Configure le body de planet
-        this.bodyPlanet.setTint(this.color);
-        this.bodyPlanet.setScale(this.size);
-        this.bodyPlanet.setStatic(true);
-
-        this.bodyPlanet.setTintFill(this.color);
-        this.bodyPlanet.setScale(this.size / 20);
-        this.bodyPlanet.setMass(this.mass * 1);
-        this.bodyPlanet.setStatic(true);
-        this.bodyPlanet.setIgnoreGravity(true);
-        this.bodyPlanet.setPosition(Setup.ORIGIN_X + this.distance, Setup.ORIGIN_Y);
+        this.bodyPlanet = config.scene.matter.add.image(config.x, config.y, config.key);
         this.bodyPlanet.setData({
             id: config.id,
             name: this.name,
@@ -66,7 +47,22 @@ export default class Planet extends Phaser.GameObjects.GameObject {
         this.bodyPlanet.setInteractive({
             cursor: 'url(./assets/cursor/select.cur), pointer'
         });
-
+        
+        this.bodyPlanet.setBody({
+            type: 'polygon',
+            radius: 375,
+            sides: 64
+        }, {
+            label: 'planetBody'
+        });
+        // Configure le body de planet
+        this.bodyPlanet.setTint(this.color);
+        this.bodyPlanet.setScale(this.size);
+        this.bodyPlanet.setStatic(true);
+        this.bodyPlanet.setTintFill(this.color);
+        this.bodyPlanet.setScale(this.size / 20);
+        this.bodyPlanet.setPosition(Setup.ORIGIN_X + this.distance, Setup.ORIGIN_Y);
+        
         /* --------------------------------- TEXTES --------------------------------- */
 
         // Définit le Style du text infoPlanetTxt

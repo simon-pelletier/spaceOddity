@@ -13,6 +13,7 @@ import defaultSceneConfig from '../helpers/sceneConfig';
 
 import Ship from '../objects/Ship';
 import PlanetAlone from '../objects/PlanetAlone';
+import Geyser from '../objects/Geyser';
 
 class PlanetScene extends Phaser.Scene {
     constructor(test) {
@@ -141,6 +142,32 @@ class PlanetScene extends Phaser.Scene {
             });
             // Orientation du Ship vers le sol
             this.ship.body.setAngle(Helpers.getRandomNumber(140, 220));
+        }
+
+        // Geysers
+        // Dessine un cercle
+        this.circleGeyser = new Phaser.Geom.Circle(0, 0, (this.planet.size * 375) + 20);
+        // Récupère 12 points le long du cercle
+        this.pointsGeyser = this.circleGeyser.getPoints(12);
+        // Marges pour les orientations de geysers
+        var marginAngleGeyser = 5.3;
+        var marginGeyser = 0;
+        // Création et configuration de chaque Geyser
+        for (var g = 0; g < this.pointsGeyser.length; g++) {
+            for (var e = 0; e < seedPlanet.materials.length; e++) {
+                if (seedPlanet.materials[e].point === g && seedPlanet.materials[e].quantity > 100) {
+                    this.Geyser = new Geyser({
+                        scene: this,
+                        key: 'ship',
+                        e: e,
+                        g: g,
+                        point: this.pointsGeyser,
+                        margin: marginGeyser
+                    });
+                }
+            }
+            // Ajout de l'angle pour le point suivant
+            marginGeyser += marginAngleGeyser;
         }
 
         /* ------------------------------- COLLSISIONS ------------------------------ */

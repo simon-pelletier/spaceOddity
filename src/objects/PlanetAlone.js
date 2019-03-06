@@ -20,7 +20,7 @@ export default class PlanetAlone extends Phaser.GameObjects.GameObject {
         this.seed = config.seed;
 
         this.name = this.seed.name;
-        this.size = this.seed.size / 20;
+        this.size = this.seed.size / Setup.PLANET_SIZE_FACTOR;
         this.distance = this.seed.distanceToStar;
         this.mass = this.seed.mass;
         this.speed = this.seed.speed;
@@ -86,7 +86,7 @@ export default class PlanetAlone extends Phaser.GameObjects.GameObject {
     /* ========================================================================== */
 
     update() {
-
+        
     }
 
     /* ========================================================================== */

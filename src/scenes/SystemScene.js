@@ -117,7 +117,7 @@ class SystemScene extends Phaser.Scene {
         // Object Ship
         this.ship = new Ship({
             scene: this,
-            x: Setup.ORIGIN_X - 400,
+            x: Setup.ORIGIN_X - 1000,
             y: Setup.ORIGIN_Y,
             key: 'ship',
             size: 0.1,
