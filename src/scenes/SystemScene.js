@@ -385,7 +385,7 @@ class SystemScene extends Phaser.Scene {
                     self.scene.start('EndGameScene');
                 }, 2000);
             } else {
-                
+
             }
 
         }

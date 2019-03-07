@@ -124,7 +124,7 @@ class PlanetScene extends Phaser.Scene {
             this.ship = new Ship({
                 scene: this,
                 x: 0,
-                y: -400,
+                y: -375 * this.planet.size,
                 key: 'ship',
                 size: 0.2,
                 env: 'planet'
