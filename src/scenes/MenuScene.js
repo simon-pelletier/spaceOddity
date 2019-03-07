@@ -55,8 +55,8 @@ class MenuScene extends Phaser.Scene {
 
         // Ajoute le bouton 'Play'
         this.playBtn = this.matter.add.sprite(Setup.ORIGIN_X, Setup.ORIGIN_Y + 130, 'play', null, {
-            
-                
+
+
             ignoreGravity: true
         }).setInteractive({
             cursor: 'url(./assets/cursor/select.cur), pointer'
@@ -68,7 +68,7 @@ class MenuScene extends Phaser.Scene {
             shape: {
                 type: 'circle',
                 radius: 120
-              }
+            }
         });
         this.shipMenu.setScale(0.2);
         this.shipMenu.setFrictionAir(0.01);
@@ -76,7 +76,7 @@ class MenuScene extends Phaser.Scene {
         this.shipMenu.setIgnoreGravity(true);
         this.shipMenu.setDepth(10);
         this.shipMenu.setAngle(-90);
-   
+
         /* ------------------------------- ANIMATIONS ------------------------------- */
         this.shipMenu.anims.play('idleShip');
 
@@ -129,8 +129,6 @@ class MenuScene extends Phaser.Scene {
         });
         this.playBtn.on('pointerup', this.doStart.bind(this));
 
-        
-
     }
 
     /* ========================================================================== */
@@ -138,6 +136,9 @@ class MenuScene extends Phaser.Scene {
     /* ========================================================================== */
 
     doStart() {
+
+        // Arrete le son de thruster
+        this.soundThrusterTop.stop();
 
         // Génère un nouvel Univers
         this.game.univers = generateUnivers();
