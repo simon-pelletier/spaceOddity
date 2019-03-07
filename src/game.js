@@ -17,6 +17,7 @@ import MapScene from './scenes/MapScene';
 import UiScene from './scenes/UiScene';
 import HighSpeedScene from './scenes/HighSpeedScene';
 import EndGameScene from './scenes/EndGameScene';
+import FightScene from './scenes/FightScene';
 
 /* ------------------------------ Configuration ----------------------------- */
 
@@ -51,7 +52,8 @@ const config = {
         MapScene,
         UiScene,
         EndGameScene,
-        HighSpeedScene
+        HighSpeedScene,
+        FightScene
     ],
     title: 'Space Oddity',
     version: '0.1.0'

@@ -98,7 +98,7 @@ export default class Player extends Phaser.GameObjects.GameObject {
 
     repairShip(repairAmount) {
         this.health += repairAmount;
-        this.rawMat -= repairAmount;
+        this.rawMat -= repairAmount * 10;
     }
 
     takeDamages(dmg) {
