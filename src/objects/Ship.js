@@ -595,6 +595,7 @@ export default class Ship extends Phaser.GameObjects.GameObject {
     /* ========================================================================== */
 
     collisionsSystem(scene, self) {
+        
         scene.matter.world.on('collisionstart', function (event) {
             var pairs = event.pairs;
             for (var i = 0; i < pairs.length; i++) {
@@ -603,39 +604,35 @@ export default class Ship extends Phaser.GameObjects.GameObject {
                 var bodyB = pairs[i].bodyB;
 
                 // Ship - Planet
-                if (bodyA.label === 'shipBody' && bodyB.label === 'planetBody') {
+                if (bodyA.label === 'shipBody' && bodyB.label === 'planetBody' && Game.systemStartTime > 500) {
                     self.soundThrusterTop.stop();
                     self.soundThrusterBottom.stop();
                     self.soundThrusterLeft.stop();
                     self.soundThrusterRight.stop();
 
                     Game.currentPlanet = bodyB.parent.gameObject.data.list.id;
-                    /*currentPlanet = bodyB.parent.gameObject.data.list.id;
-                    shipSystemPosition = {
+                    Game.lastSystemPosition = {
                       x: bodyB.parent.gameObject.x,
                       y: bodyB.parent.gameObject.y
-                    };*/
+                    };
 
                     // Désactive de témoin du loader de systemScene
-                    //systemSceneIsLoaded = false;
                     scene.scene.start('PlanetScene');
 
                 }
-                if (bodyB.label === 'shipBody' && bodyA.label === 'planetBody') {
+                if (bodyB.label === 'shipBody' && bodyA.label === 'planetBody' && Game.systemStartTime > 500) {
                     self.soundThrusterTop.stop();
                     self.soundThrusterBottom.stop();
                     self.soundThrusterLeft.stop();
                     self.soundThrusterRight.stop();
 
                     Game.currentPlanet = bodyA.parent.gameObject.data.list.id;
-                    /*currentPlanet = bodyA.parent.gameObject.data.list.id;
-                    shipSystemPosition = {
+                    Game.lastSystemPosition = {
                       x: bodyA.parent.gameObject.x,
                       y: bodyA.parent.gameObject.y
-                    };*/
+                    };
 
                     // Désactive de témoin du loader de systemScene
-                    //systemSceneIsLoaded = false;
                     scene.scene.start('PlanetScene');
 
                 }

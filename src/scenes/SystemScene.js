@@ -55,6 +55,8 @@ class SystemScene extends Phaser.Scene {
         defaultSceneConfig(this);
         Game.selectedPlanetOnOver = null;
 
+        Game.systemStartTime = 0;
+
         var seedSystem = Game.univers[Game.currentSystem];
         var seedPlanet = Game.univers[Game.currentSystem].system[Game.currentPlanet];
 
@@ -114,15 +116,27 @@ class SystemScene extends Phaser.Scene {
             seed: seedSystem.system[0]
         });
 
-        // Object Ship
-        this.ship = new Ship({
-            scene: this,
-            x: Setup.ORIGIN_X - 1000,
-            y: Setup.ORIGIN_Y,
-            key: 'ship',
-            size: 0.1,
-            env: 'system'
-        });
+        if (Game.lastSystemPosition == undefined || Game.lastSystemPosition == null) {
+            // Object Ship
+            this.ship = new Ship({
+                scene: this,
+                x: Setup.ORIGIN_X - 1000,
+                y: Setup.ORIGIN_Y,
+                key: 'ship',
+                size: 0.1,
+                env: 'system'
+            });
+        } else {
+            // Object Ship
+            this.ship = new Ship({
+                scene: this,
+                x: Game.lastSystemPosition.x,
+                y: Game.lastSystemPosition.y + 20,
+                key: 'ship',
+                size: 0.1,
+                env: 'system'
+            });
+        }
 
         // Pour chaque Asteroide
         for (var a = 0; a < seedSystem.asteroidsFactor; a++) {
@@ -248,16 +262,7 @@ class SystemScene extends Phaser.Scene {
 
             // "M" a été pressé
             if (event.key == 'm') {
-                //selectedPlanetOnOver = null;
-
-                // Désactive de témoin du loader de systemScene
-                //systemSceneIsLoaded = false;
-
-                // Enregistre la position du Ship avant le changement de scene
-                /*shipSystemPosition = {
-                    x: currentShip.x,
-                    y: currentShip.y
-                };*/
+                Game.selectedPlanetOnOver = null;
 
                 // Lance la scene Map
                 self.scene.pause();
@@ -282,6 +287,8 @@ class SystemScene extends Phaser.Scene {
 
         var shipPosition = this.ship.body.body.position;
         var seedSystem = Game.univers[Game.currentSystem];
+
+        Game.systemStartTime++;
 
         /* ------------------------------ Update Camera ----------------------------- */
 

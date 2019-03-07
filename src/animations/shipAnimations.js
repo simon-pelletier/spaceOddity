@@ -157,4 +157,13 @@ export default function shipAnimations(scene) {
         frameRate: 12,
         repeat: 0
     });
+
+    scene.anims.create({
+        key: 'disableShip',
+        frames: scene.anims.generateFrameNumbers('ship', {
+            start: 38,
+            end: 39
+        }),
+        frameRate: 12
+    });
 }

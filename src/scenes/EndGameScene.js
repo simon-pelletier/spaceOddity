@@ -32,6 +32,9 @@ class EndGameScene extends Phaser.Scene {
         // Variables Globales
         var self = this;
 
+        // Reset system position
+        Game.lastSystemPosition = null;
+
         /* --------------------------------- SOUNDS --------------------------------- */
 
         // Lance la musique de fin

@@ -62,6 +62,7 @@ export default class Planet extends Phaser.GameObjects.GameObject {
         this.bodyPlanet.setTintFill(this.color);
         this.bodyPlanet.setScale(this.size / 20);
         this.bodyPlanet.setPosition(Setup.ORIGIN_X + this.distance, Setup.ORIGIN_Y);
+
         
         /* --------------------------------- TEXTES --------------------------------- */
 
