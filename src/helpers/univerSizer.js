@@ -115,7 +115,8 @@ function planetGenerator(i) {
         satellites: satellites,
         materials: materialsGenerator(),
         visited: false,
-        gravity: Helpers.getRandomNumberFloat(0, 1)
+        gravity: Helpers.getRandomNumberFloat(0, 1),
+        hostility: Helpers.getRandomNumber(0, 100)
     }
 
     return planet;

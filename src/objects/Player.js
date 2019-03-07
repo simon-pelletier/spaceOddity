@@ -20,13 +20,13 @@ export default class Player extends Phaser.GameObjects.GameObject {
         this.name = config.name;
         this.fuel = 1000;
         this.health = 100;
-        this.hsc = 5;
+        this.hsc = 3;
         this.isDead = false;
         this.rawMat = 1000;
 
         this.maxHealth = 100;
         this.maxFuel = 2000;
-        this.maxHsc = 8;
+        this.maxHsc = 6;
         this.maxRawMat = 2000;
 
         this.GO_Time = 0;

@@ -85,6 +85,12 @@ class PreloaderScene extends Phaser.Scene {
         this.load.image('smokeWhite', './assets/img/smokeWhite.png');
         this.load.image('fire', './assets/img/fire.png');
 
+        // Ui
+        this.load.image('needle', './assets/img/ui/needle.png');
+        this.load.image('needleH', './assets/img/ui/needleH.png');
+        this.load.image('ui_base', './assets/img/ui/ui_base.png');
+        this.load.image('hscBulb', './assets/img/ui/hscBulb.png');
+
         /* ------------------------------- SRITESHEETS ------------------------------ */
 
         this.load.spritesheet('ship', './assets/img/sprites/shipAnim.png', {
