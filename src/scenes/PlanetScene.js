@@ -316,6 +316,8 @@ class PlanetScene extends Phaser.Scene {
 
         });
 
+        //this.cameras.main.zoom = 0.5;
+
     }
 
     /* ========================================================================== */
@@ -375,8 +377,8 @@ class PlanetScene extends Phaser.Scene {
         this.cameras.main.setBackgroundColor(hexColor);
 
         /* ---------------------------- Calcul d'altitude --------------------------- */
-
-        this.ship.setAltitude(Helpers.getDistanceBetween(this.planet.body.position, shipPosition));
+//console.log(this.ship.body.body.parts[10].position);
+        this.ship.setAltitude(Helpers.getDistanceBetween({x:0,y:0}, this.ship.body.body.parts[10].position)-(this.planet.size * 375));
 
         if (Game.player.isOver()) {
             if (Game.player.isDead == false) {

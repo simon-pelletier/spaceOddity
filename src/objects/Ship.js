@@ -138,6 +138,11 @@ export default class Ship extends Phaser.GameObjects.GameObject {
         this.soundRobotMove.volume = 0.5;
         this.soundRobotMove.loop = false;
 
+        // Ajout du son de Pompe
+        this.soundDamages = scene.sound.add('impactShipNormal');
+        this.soundDamages.volume = 0.5;
+        this.soundDamages.loop = false;
+
         /* -------------------------------- CONTROLS -------------------------------- */
 
         // Appel la fonction controls
@@ -490,6 +495,7 @@ export default class Ship extends Phaser.GameObjects.GameObject {
                         if (bodyB.label === 'speedSensor') {
                             if (bodyB.parent.gameObject.body.speed > 2) {
                                 Game.player.takeDamages(bodyB.parent.gameObject.body.speed * 5);
+                                self.soundDamages.play();
                                 scene.cameras.main.shake(200, 0.005);
                             }
                         }
@@ -497,6 +503,7 @@ export default class Ship extends Phaser.GameObjects.GameObject {
                         if (bodyA.label === 'left' || bodyA.label === 'right' || bodyB.label === 'left' || bodyB.label === 'right') {
                             scene.cameras.main.shake(200, 0.002);
                             //eGtotalDamages += 30;
+                            self.soundDamages.play();
                             Game.player.takeDamages(20);
                             //shipHealth = shipHealth - 30;
                         }
@@ -504,6 +511,7 @@ export default class Ship extends Phaser.GameObjects.GameObject {
                         if (bodyA.label === 'top' || bodyB.label === 'top') {
                             scene.cameras.main.shake(200, 0.005);
                             //eGtotalDamages += 50;
+                            self.soundDamages.play();
                             Game.player.takeDamages(50);
                             //shipHealth = shipHealth - 50;
                         }
@@ -518,21 +526,6 @@ export default class Ship extends Phaser.GameObjects.GameObject {
                         }
 
                     }
-
-                    // SHIP - GEYSER
-                    /*if (bodyA.label === 'bottomM' || bodyB.label === 'bottomM') {
-                        if (bodyA.label === 'geyserBody' || bodyB.label === 'geyserBody') {
-                            if (bodyB.label === 'geyserBody') {
-                                currentMaterial = bodyB.data.id;
-                                currentMaterialObj = bodyB.gameObject;
-                            } else {
-                                currentMaterial = bodyA.data.id;
-                                currentMaterialObj = bodyA.gameObject;
-                            }
-                            isOnMaterial = true;
-                            console.log('DIG IT !');
-                        }
-                    }*/
 
                     // SHIP - BOUNDS
                     if (bodyA.label === 'bounds' || bodyB.label === 'bounds') {
