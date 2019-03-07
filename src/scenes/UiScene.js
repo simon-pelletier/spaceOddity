@@ -86,7 +86,7 @@ class UiScene extends Phaser.Scene {
                 '\n\nGRAVITY: ' + (Game.univers[Game.currentSystem].system[Game.currentPlanet].gravity * 10).toFixed(1) +
                 '\n\nFUEL: ' + Game.player.getFuel().toFixed(0) +
                 '\n\nHSC: ' + Game.player.getHsc() +
-                '\n\nRAW-MAT: ' + Game.player.getRawMat()
+                '\n\nRAW-MAT: ' + Game.player.getRawMat().toFixed(0)
             );
         } else {
             // Mise à jour du contenu du Text uiText
@@ -96,7 +96,7 @@ class UiScene extends Phaser.Scene {
                 '\n\nGRAVITY: 0' +
                 '\n\nFUEL: ' + Game.player.getFuel().toFixed(0) +
                 '\n\nHSC: ' + Game.player.getHsc() +
-                '\n\nRAW-MAT: ' + Game.player.getRawMat()
+                '\n\nRAW-MAT: ' + Game.player.getRawMat().toFixed(0)
             );
         }
 

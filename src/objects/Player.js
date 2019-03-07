@@ -200,7 +200,7 @@ export default class Player extends Phaser.GameObjects.GameObject {
         // Ecoute la touche R
         if (scene.keyRepairShip.isDown && this.health < this.maxHealth) {
             if (this.rawMat > 0) {
-                this.repairShip(1);
+                this.repairShip(0.1);
             }
         }
 

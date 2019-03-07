@@ -277,6 +277,16 @@ class PlanetScene extends Phaser.Scene {
         this.soundPump.volume = 0.5;
         this.soundPump.loop = true;
 
+        // Ajout du son de drill
+        this.soundDrill = this.sound.add('drill');
+        this.soundDrill.volume = 0.5;
+        this.soundDrill.loop = true;
+
+        // Ajout du son de Welding
+        this.soundWelding = this.sound.add('welding');
+        this.soundWelding.volume = 0.5;
+        this.soundWelding.loop = true;
+
         /* -------------------------------- LISTENERS ------------------------------- */
 
         this.input.keyboard.on('keydown', function (event) {
@@ -284,7 +294,12 @@ class PlanetScene extends Phaser.Scene {
             if (self.currentMaterial) {
                 if (event.key == 'e' && self.materials[self.currentMaterial].sort == 'geyser') {
                     self.soundPump.play();
+                } else if (event.key == 'e' && self.materials[self.currentMaterial].sort == 'rawMat') {
+                    self.soundDrill.play();
                 }
+            }
+            if (event.key == 'r' && Game.player.rawMat > 0 && Game.player.health < Game.player.maxHealth) {
+                self.soundWelding.play();
             }
 
         });
@@ -293,6 +308,10 @@ class PlanetScene extends Phaser.Scene {
 
             if (event.key == 'e') {
                 self.soundPump.stop();
+                self.soundDrill.stop();
+            }
+            if (event.key == 'r') {
+                self.soundWelding.stop();
             }
 
         });

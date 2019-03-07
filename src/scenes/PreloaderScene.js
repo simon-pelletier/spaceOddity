@@ -108,6 +108,8 @@ class PreloaderScene extends Phaser.Scene {
         this.load.audio('pump', ['./assets/snd/pump.mp3', './assets/snd/pump.vaw']);
         this.load.audio('airSteam', ['./assets/snd/airSteam.mp3', './assets/snd/airSteam.vaw']);
         this.load.audio('robotMove', ['./assets/snd/robotMove.mp3', './assets/snd/robotMove.vaw']);
+        this.load.audio('welding', ['./assets/snd/welding.mp3', './assets/snd/welding.vaw']);
+        this.load.audio('drill', ['./assets/snd/drill.mp3', './assets/snd/drill.vaw']);
         
         // Fonts
         this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
