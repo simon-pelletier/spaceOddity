@@ -1,17 +1,17 @@
-var path = require('path')
-var webpack = require('webpack')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var BrowserSyncPlugin = require('browser-sync-webpack-plugin')
+var path = require('path');
+var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
-var phaserModule = path.join(__dirname, '/node_modules/phaser/')
-var phaser = path.join(phaserModule, 'src/phaser.js')
+var phaserModule = path.join(__dirname, '/node_modules/phaser/');
+var phaser = path.join(phaserModule, 'src/phaser.js');
 
 var definePlugin = new webpack.DefinePlugin({
     __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
     WEBGL_RENDERER: true,
     CANVAS_RENDERER: true
-})
+});
 
 module.exports = {
     entry: {
@@ -59,10 +59,10 @@ module.exports = {
     ],
     module: {
         rules: [{
-                test: /\.js$/,
-                use: ['babel-loader'],
-                include: path.join(__dirname, 'src')
-            },
+            test: /\.js$/,
+            use: ['babel-loader'],
+            include: path.join(__dirname, 'src')
+        },
             {
                 test: /phaser-split\.js$/,
                 use: ['expose-loader?Phaser']
@@ -73,4 +73,4 @@ module.exports = {
             }
         ]
     }
-}
+};
