@@ -32,10 +32,10 @@ class UiScene extends Phaser.Scene {
         };
 
         // Ajoute le texte uiText
-        this.uiText = this.add.text(0, 0, '', styleText).setPadding(20, 20);
+        /*this.uiText = this.add.text(0, 0, '', styleText).setPadding(20, 20);
 
         this.uiText.setDepth(30);
-        this.uiText.setPosition(0, 0);
+        this.uiText.setPosition(0, 0);*/
 
         // Définit le Style du text infoPlanetTxt
         var helpStyleText = {
@@ -46,7 +46,7 @@ class UiScene extends Phaser.Scene {
         };
 
         // Ajoute le texte helpText
-        /*this.helpText = this.add.text(100, 200, '', helpStyleText).setPadding(10, 10);
+        this.helpText = this.add.text(40, 450, '', helpStyleText).setPadding(10, 10);
         this.helpText.setDepth(30);
 
         this.helpText.setText(
@@ -55,12 +55,9 @@ class UiScene extends Phaser.Scene {
             '\n[R]epair Ship' +
             '\nCraft 1 [H]SC for 1K Fuel' +
             '\nCraft 1K [F]uel for 1 HSC'
-        );*/
+        );
 
         /* -------------------------------- GRAPHISME ------------------------------- */
-        
-        // altitude
-        //this.altElt = this.add.container();
         
         this.ui_base = this.add.image(Setup.ORIGIN_X + 5, 109, 'ui_base');
 
@@ -75,7 +72,6 @@ class UiScene extends Phaser.Scene {
         this.mats_needle = this.add.image(265, 105, 'needleH');
         this.health_needle = this.add.image(370, 105, 'needleH');
 
-        //this.hscBulb = this.add.image(317, 182, 'hscBulb');
         this.hscBulbs = [];
         var marginHscBulb = 0;
         for (var i = 0; i < Game.player.maxHsc; i++){
@@ -83,8 +79,6 @@ class UiScene extends Phaser.Scene {
             this.hscBulbs.push(this.hscBulb);
             marginHscBulb += 19.8;
         }
-
-        console.log(this.hscBulbs);
 
         /* ----------------------------- Ajoute un TImer ---------------------------- */
 
@@ -103,6 +97,7 @@ class UiScene extends Phaser.Scene {
     /* ========================================================================== */
 
     update() {
+        //this.helpText.setPosition({x:400,y:200});
 
         for (var i = 0; i < this.hscBulbs.length; i++){
             if (i < Number(Game.player.hsc)){
@@ -111,8 +106,6 @@ class UiScene extends Phaser.Scene {
                 this.hscBulbs[i].y = -100;
             }
         }
-
-        //this.helpText.setPosition(1200 - this.helpText.displayWidth, 0);
         
         this.speed_needle.angle = (Game.ship.body.body.speed * 10).toFixed(0);
         this.alt_needle.angle = Game.ship.getAltitude().toFixed(0);
@@ -131,7 +124,7 @@ class UiScene extends Phaser.Scene {
             this.gravity_needle.angle = 0;
         }
 
-        if (Game.currentScene == 'Planet') {
+        /*if (Game.currentScene == 'Planet') {
             // Mise à jour du contenu du Text uiText
             this.uiText.setText(
                 //'HEALTH: ' + Game.player.getHealth().toFixed(0) +
@@ -152,7 +145,7 @@ class UiScene extends Phaser.Scene {
                 //'\n\nHSC: ' + Game.player.getHsc() +
                 //'\n\nRAW-MAT: ' + Game.player.getRawMat().toFixed(0)
             );
-        }
+        }*/
 
     }
 

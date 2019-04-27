@@ -98,7 +98,8 @@ class MenuScene extends Phaser.Scene {
         this.musicIntro = this.sound.add('intro');
         this.musicIntro.volume = 0.5;
         this.musicIntro.loop = true;
-        this.musicIntro.play();
+        //this.musicIntro.play();
+
         // Ajout du son de Thrusters
         this.soundThrusterTop = this.sound.add('soundThruster');
         this.soundThrusterTop.volume = 0.2;

@@ -6,7 +6,7 @@
 
 /* ----------------------------- Dev Mod Switch ----------------------------- */
 
-export const DEVMOD = true;
+export const DEVMOD = false;
 export const STARTSCENE = 'Planet'; // Default : Planet
 
 /* --------------------------------- Gravité -------------------------------- */
