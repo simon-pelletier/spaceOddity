@@ -2,6 +2,7 @@ node_modules/
 dist/
 build/
 dev/
+.history/
 .vscode/
 .idea
 *.log
