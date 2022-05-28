@@ -1,24 +1,36 @@
-/* ========================================================================== */
-/*                                                                            */
-/*                                   HELPERS                                  */
-/*                                                                            */
-/* ========================================================================== */
+/**
+ *
+ * @namespace Randomizers
+ */
 
-/* ========================================================================== */
-/*                                 RANDOMIZERS                                */
-/* ========================================================================== */
-
-/* ---------------------- Retourne un entier aléatoire ---------------------- */
+/**
+ * Retourne un entier aléatoire
+ * @memberof Randomizers
+ * @param {number} min
+ * @param {number} max
+ */
 export function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-/* ---------------------- Retourne un nombre aléatoire ---------------------- */
+/**
+ * Retourne un nombre aléatoire
+ * @memberof Randomizers
+ * @param {number} min
+ * @param {number} max
+ * @returns {number}
+ */
 export function getRandomNumberFloat(min, max) {
     return Math.random() * (max - min) + min;
 }
 
-/* ------ Retourne une direction aléatoire (float - positif et négatif) ----- */
+/**
+ * Retourne une direction aléatoire (float - positif et négatif)
+ * @memberof Randomizers
+ * @param {number} min
+ * @param {number} max
+ * @returns {number}
+ */
 export function getRandomVector2(min, max) {
     var randomBooleanX = Math.random() >= 0.5;
     var randomBooleanY = Math.random() >= 0.5;
@@ -37,7 +49,11 @@ export function getRandomVector2(min, max) {
     return vector;
 }
 
-/* --------------------- Retourne une couleur aléatoire --------------------- */
+/**
+ * Retourne une couleur aléatoire
+ * @memberof Randomizers
+ * @returns {number}
+ */
 export function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '';
@@ -47,24 +63,39 @@ export function getRandomColor() {
     return color;
 }
 
-/* ---------------------- Retourne une lettre aléatoire --------------------- */
+/**
+ * Retourne une lettre aléatoire
+ * @memberof Randomizers
+ * @returns {number}
+ */
 export function getRandomLetter() {
     var alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
-    var randomPosition = randomNumber(0, alphabet.length - 1);
+    var randomPosition = getRandomNumber(0, alphabet.length - 1);
     var randomLetter = alphabet[randomPosition];
     return randomLetter;
 }
 
-/* ========================================================================== */
-/*                                 CONVERTERS                                 */
-/* ========================================================================== */
+/**
+ *
+ * @namespace Converters
+ */
 
-/* ----------- Retourne une String avec le premier char en capital ---------- */
+/**
+ * Retourne une String avec le premier char en capital
+ * @memberof Converters
+ * @param {string} string
+ * @returns {number}
+ */
 export function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-/* ------------ Retourne une couleur Hexa (000000) en tableau RGB ----------- */
+/**
+ * Retourne une couleur Hexa (000000) en tableau RGB
+ * @memberof Converters
+ * @param {hex} hex
+ * @returns {hex}
+ */
 export function convertHexToRgbArray(hex) {
     var r = parseInt(hex.substring(0, 2), 16);
     var g = parseInt(hex.substring(2, 4), 16);
@@ -73,11 +104,18 @@ export function convertHexToRgbArray(hex) {
     return result;
 }
 
-/* ========================================================================== */
-/*                                   PHYSICS                                  */
-/* ========================================================================== */
+/**
+ *
+ * @namespace Physics
+ */
 
-/* ----------------- Retourne la distance entre deux points ----------------- */
+/**
+ * Retourne la distance entre deux points
+ * @memberof Physics
+ * @param {number} a
+ * @param {number} b
+ * @returns {number}
+ */
 export function getDistanceBetween(a, b) {
     var distanceX = Math.abs(a.x - b.x);
     var distanceY = Math.abs(a.y - b.y);
@@ -85,7 +123,15 @@ export function getDistanceBetween(a, b) {
     return distance;
 }
 
-/* ---------------- Retourne un angle à partir de deux points --------------- */
+/**
+ * Retourne un angle à partir de deux points
+ * @memberof Physics
+ * @param {number} cx
+ * @param {number} cy
+ * @param {number} ex
+ * @param {number} ey
+ * @returns {number}
+ */
 export function getAngle(cx, cy, ex, ey) {
     var dy = ey - cy;
     var dx = ex - cx;
@@ -94,29 +140,41 @@ export function getAngle(cx, cy, ex, ey) {
     return theta;
 }
 
-/* ========================================================================== */
-/*                                 NAVIGATION                                 */
-/* ========================================================================== */
+/**
+ *
+ * @namespace Navigation
+ */
 
-/* ----------------------------- Ouverture d'url ---------------------------- */
+/**
+ * Ouverture d'url
+ * @memberof Navigation
+ * @param {string} url
+ */
 export function openInNewTab(url) {
     var win = window.open(url, '_blank');
     win.focus();
 }
 
-/* ----------- Retourne le nom de la planète visitée actuellement ----------- */
-/*
-export function getCurrentPlanetName(system, planet) {
-  if (planet < 0) {
-    return 'none';
-  } else {
-    return world[system].system[planet].name;
-  }
-}*/
+// /**
+//  * Retourne le nom de la planète visitée actuellement
+//  * @param {string} system
+//  * @param {string} planet
+//  * @returns {string}
+//  */
+// export function getCurrentPlanetName(system, planet) {
+//     if (planet < 0) {
+//         return 'none';
+//     } else {
+//         return world[system].system[planet].name;
+//     }
+// }
 
-/* ------ Retourne le nombre de charges qu'il faut pour une distance HS ----- */
-
-/*export function chargesToGo(distance) {
-  var charges = (distance / 100).toFixed(0);
-  return charges;
-}*/
+// /**
+//  * Retourne le nombre de charges qu'il faut pour une distance HS
+//  * @param {number} distance
+//  * @returns {number}
+//  */
+// export function chargesToGo(distance) {
+//     var charges = (distance / 100).toFixed(0);
+//     return charges;
+// }

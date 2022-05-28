@@ -1,15 +1,5 @@
-/* ========================================================================== */
-/*                                                                            */
-/*                                 UNIVERSIZER                                */
-/*                                                                            */
-/* ========================================================================== */
-
 import * as Setup from '../setup';
 import * as Helpers from '../helpers/helpers';
-
-/* ========================================================================== */
-/*                              UNIVERS GENERATOR                             */
-/* ========================================================================== */
 
 export default function generateUnivers(scene) {
     var univers = [];
@@ -19,26 +9,39 @@ export default function generateUnivers(scene) {
     for (var i = 0; i < Setup.NUMBER_MAX_OF_SYSTEMS; i++) {
         var systemColor = '0x' + Helpers.getRandomColor();
         var systemName = nameGenerator(1) + nameNumberGenerator();
+        var system = {};
         if (i === 0) {
-            var system = {
+            system = {
                 name: systemName,
-                systemX: (Setup.WIDTH / 2),
-                systemY: (Setup.HEIGHT / 2),
+                systemX: Setup.WIDTH / 2,
+                systemY: Setup.HEIGHT / 2,
                 system: systemGenerator(systemName, '0xffffff'),
                 color: '0xffffff',
-                asteroidsFactor: Helpers.getRandomNumber(0, Setup.NUMBER_MAX_OF_ASTEROIDS),
+                asteroidsFactor: Helpers.getRandomNumber(
+                    0,
+                    Setup.NUMBER_MAX_OF_ASTEROIDS
+                ),
                 visited: true
-            }
+            };
         } else {
-            var system = {
+            system = {
                 name: systemName,
-                systemX: Helpers.getRandomNumber(marginWorld, Setup.WIDTH - marginWorld),
-                systemY: Helpers.getRandomNumber(marginWorld, Setup.HEIGHT - marginWorld),
+                systemX: Helpers.getRandomNumber(
+                    marginWorld,
+                    Setup.WIDTH - marginWorld
+                ),
+                systemY: Helpers.getRandomNumber(
+                    marginWorld,
+                    Setup.HEIGHT - marginWorld
+                ),
                 system: systemGenerator(systemName, systemColor),
                 color: systemColor,
-                asteroidsFactor: Helpers.getRandomNumber(0, Setup.NUMBER_MAX_OF_ASTEROIDS),
+                asteroidsFactor: Helpers.getRandomNumber(
+                    0,
+                    Setup.NUMBER_MAX_OF_ASTEROIDS
+                ),
                 visited: false
-            }
+            };
         }
 
         univers.push(system);
@@ -68,7 +71,7 @@ function systemGenerator(systemName, systemColor) {
         offset: null,
         color: systemColor,
         satellites: satellites
-    }
+    };
 
     // Ajoute le soleil au tableau du systeme
     systemGenerated.push(star);
@@ -100,9 +103,11 @@ function nameNumberGenerator() {
 /* ========================================================================== */
 
 function planetGenerator(i) {
-
     // Chance d'avoir un satellite
-    var satelliteChances = Helpers.getRandomNumber(1, Setup.ONE_PER_THIS_CHANCE_TO_HAVE_A_SAT);
+    var satelliteChances = Helpers.getRandomNumber(
+        1,
+        Setup.ONE_PER_THIS_CHANCE_TO_HAVE_A_SAT
+    );
 
     // Tableau temporaire de satellites à envoyer sur la planète
     var satellites = [];
@@ -116,7 +121,7 @@ function planetGenerator(i) {
     var planet = {
         name: nameGenerator(1),
         size: Helpers.getRandomNumber(10, 20),
-        distance: Helpers.getRandomNumber(50, (Setup.HEIGHT / 2)),
+        distance: Helpers.getRandomNumber(50, Setup.HEIGHT / 2),
         mass: Helpers.getRandomNumber(200, 2000),
         speed: Helpers.getRandomNumber(10000, 30000),
         offset: Helpers.getRandomNumberFloat(0, 360),
@@ -127,7 +132,7 @@ function planetGenerator(i) {
         visited: false,
         gravity: Helpers.getRandomNumberFloat(0, 1),
         hostility: Helpers.getRandomNumber(0, 100)
-    }
+    };
 
     return planet;
 }
@@ -136,7 +141,7 @@ function planetGenerator(i) {
 
 function materialsGenerator() {
     var materials = [];
-    //var chanceToHaveMaterials = Helpers.getRandomNumber(12, Setup.NUMBER_MAX_OF_MATERIALS); // DEBUG à régler sur (0,3) - MAX 12
+    // var chanceToHaveMaterials = Helpers.getRandomNumber(12, Setup.NUMBER_MAX_OF_MATERIALS); // DEBUG à régler sur (0,3) - MAX 12
 
     for (var i = 0; i < 12; i++) {
         var sortOfMaterial = Helpers.getRandomNumber(0, 10);
@@ -147,7 +152,7 @@ function materialsGenerator() {
                 point: i,
                 quantity: Helpers.getRandomNumber(500, 2000)
             };
-        } else if (sortOfMaterial == 1){
+        } else if (sortOfMaterial == 1) {
             var material = {
                 id: i,
                 sort: 'rawMat',
@@ -174,7 +179,6 @@ function materialsGenerator() {
 /* ========================================================================== */
 
 function satelliteGenerator() {
-
     // Création d'un satellite
     var satellite = {
         name: nameGenerator(1),
@@ -184,7 +188,7 @@ function satelliteGenerator() {
         speed: Helpers.getRandomNumber(1000, 10000),
         offset: Helpers.getRandomNumberFloat(0, 360),
         color: '0x' + Helpers.getRandomColor()
-    }
+    };
 
     return satellite;
 }
@@ -212,11 +216,17 @@ function randomAsteroidSpawn() {
         asteroidX = Helpers.getRandomNumber(-lowZone, Setup.WIDTH + lowZone);
         asteroidY = Helpers.getRandomNumber(-lowZone, -highZone);
     } else if (side === 2) {
-        asteroidX = Helpers.getRandomNumber(Setup.WIDTH + highZone, Setup.WIDTH + lowZone);
+        asteroidX = Helpers.getRandomNumber(
+            Setup.WIDTH + highZone,
+            Setup.WIDTH + lowZone
+        );
         asteroidY = Helpers.getRandomNumber(-lowZone, Setup.HEIGHT + lowZone);
     } else if (side === 3) {
         asteroidX = Helpers.getRandomNumber(-lowZone, Setup.WIDTH + lowZone);
-        asteroidY = Helpers.getRandomNumber(Setup.HEIGHT + highZone, Setup.HEIGHT + lowZone);
+        asteroidY = Helpers.getRandomNumber(
+            Setup.HEIGHT + highZone,
+            Setup.HEIGHT + lowZone
+        );
     }
 
     // Position de départ de l'astéroide
@@ -234,33 +244,197 @@ function randomAsteroidSpawn() {
 
 function nameGenerator(count) {
     var vowels = {
-            '1': ["b", "c", "d", "f", "g", "h", "i", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"],
-            '2': ["a", "e", "o", "u"],
-            '3': ["br", "cr", "dr", "fr", "gr", "pr", "str", "tr", "bl", "cl", "fl", "gl", "pl", "sl", "sc", "sk", "sm", "sn", "sp", "st", "sw", "ch", "sh", "th", "wh"],
-            '4': ["ae", "ai", "ao", "au", "a", "ay", "ea", "ei", "eo", "eu", "e", "ey", "ua", "ue", "ui", "uo", "u", "uy", "ia", "ie", "iu", "io", "iy", "oa", "oe", "ou", "oi", "o", "oy"],
-            '5': ["turn", "ter", "nus", "rus", "tania", "hiri", "hines", "gawa", "nides", "carro", "rilia", "stea", "lia", "lea", "ria", "nov", "phus", "mia", "nerth", "wei", "ruta", "tov", "zuno", "vis", "lara", "nia", "liv", "tera", "gantu", "yama", "tune", "ter", "nus", "cury", "bos", "pra", "thea", "nope", "tis", "clite"],
-            '6': ["una", "ion", "iea", "iri", "illes", "ides", "agua", "olla", "inda", "eshan", "oria", "ilia", "erth", "arth", "orth", "oth", "illon", "ichi", "ov", "arvis", "ara", "ars", "yke", "yria", "onoe", "ippe", "osie", "one", "ore", "ade", "adus", "urn", "ypso", "ora", "iuq", "orix", "apus", "ion", "eon", "eron", "ao", "omia"]
-        },
-        mtx = [
-            [1, 1, 2, 2, 5, 5],
-            [2, 2, 3, 3, 6, 6],
-            [3, 3, 4, 4, 5, 5],
-            [4, 4, 3, 3, 6, 6],
-            [3, 3, 4, 4, 2, 2, 5, 5],
-            [2, 2, 1, 1, 3, 3, 6, 6],
-            [3, 3, 4, 4, 2, 2, 5, 5],
-            [4, 4, 3, 3, 1, 1, 6, 6],
-            [3, 3, 4, 4, 1, 1, 4, 4, 5, 5],
-            [4, 4, 1, 1, 4, 4, 3, 3, 6, 6]
+        1: [
+            'b',
+            'c',
+            'd',
+            'f',
+            'g',
+            'h',
+            'i',
+            'j',
+            'k',
+            'l',
+            'm',
+            'n',
+            'p',
+            'q',
+            'r',
+            's',
+            't',
+            'v',
+            'w',
+            'x',
+            'y',
+            'z'
         ],
-        fn = function (i) {
-            return Math.floor(Math.random() * vowels[i].length);
-        },
-        ret = [],
-        name,
-        comp,
-        i, il,
-        c = 0;
+        2: ['a', 'e', 'o', 'u'],
+        3: [
+            'br',
+            'cr',
+            'dr',
+            'fr',
+            'gr',
+            'pr',
+            'str',
+            'tr',
+            'bl',
+            'cl',
+            'fl',
+            'gl',
+            'pl',
+            'sl',
+            'sc',
+            'sk',
+            'sm',
+            'sn',
+            'sp',
+            'st',
+            'sw',
+            'ch',
+            'sh',
+            'th',
+            'wh'
+        ],
+        4: [
+            'ae',
+            'ai',
+            'ao',
+            'au',
+            'a',
+            'ay',
+            'ea',
+            'ei',
+            'eo',
+            'eu',
+            'e',
+            'ey',
+            'ua',
+            'ue',
+            'ui',
+            'uo',
+            'u',
+            'uy',
+            'ia',
+            'ie',
+            'iu',
+            'io',
+            'iy',
+            'oa',
+            'oe',
+            'ou',
+            'oi',
+            'o',
+            'oy'
+        ],
+        5: [
+            'turn',
+            'ter',
+            'nus',
+            'rus',
+            'tania',
+            'hiri',
+            'hines',
+            'gawa',
+            'nides',
+            'carro',
+            'rilia',
+            'stea',
+            'lia',
+            'lea',
+            'ria',
+            'nov',
+            'phus',
+            'mia',
+            'nerth',
+            'wei',
+            'ruta',
+            'tov',
+            'zuno',
+            'vis',
+            'lara',
+            'nia',
+            'liv',
+            'tera',
+            'gantu',
+            'yama',
+            'tune',
+            'ter',
+            'nus',
+            'cury',
+            'bos',
+            'pra',
+            'thea',
+            'nope',
+            'tis',
+            'clite'
+        ],
+        6: [
+            'una',
+            'ion',
+            'iea',
+            'iri',
+            'illes',
+            'ides',
+            'agua',
+            'olla',
+            'inda',
+            'eshan',
+            'oria',
+            'ilia',
+            'erth',
+            'arth',
+            'orth',
+            'oth',
+            'illon',
+            'ichi',
+            'ov',
+            'arvis',
+            'ara',
+            'ars',
+            'yke',
+            'yria',
+            'onoe',
+            'ippe',
+            'osie',
+            'one',
+            'ore',
+            'ade',
+            'adus',
+            'urn',
+            'ypso',
+            'ora',
+            'iuq',
+            'orix',
+            'apus',
+            'ion',
+            'eon',
+            'eron',
+            'ao',
+            'omia'
+        ]
+    };
+    var mtx = [
+        [1, 1, 2, 2, 5, 5],
+        [2, 2, 3, 3, 6, 6],
+        [3, 3, 4, 4, 5, 5],
+        [4, 4, 3, 3, 6, 6],
+        [3, 3, 4, 4, 2, 2, 5, 5],
+        [2, 2, 1, 1, 3, 3, 6, 6],
+        [3, 3, 4, 4, 2, 2, 5, 5],
+        [4, 4, 3, 3, 1, 1, 6, 6],
+        [3, 3, 4, 4, 1, 1, 4, 4, 5, 5],
+        [4, 4, 1, 1, 4, 4, 3, 3, 6, 6]
+    ];
+    var fn = function (i) {
+        return Math.floor(Math.random() * vowels[i].length);
+    };
+    var ret = [];
+    var name;
+    var comp;
+    var i;
+    var il;
+    var c = 0;
 
     for (; c < count; c++) {
         name = '';
@@ -274,4 +448,4 @@ function nameGenerator(count) {
     var generatedName = Helpers.capitalizeFirstLetter(ret[0]);
 
     return generatedName;
-};
+}

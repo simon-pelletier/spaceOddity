@@ -1,9 +1,3 @@
-/* ========================================================================== */
-/*                                                                            */
-/*                                MENU - SCENE                                */
-/*                                                                            */
-/* ========================================================================== */
-
 import * as Helpers from '../helpers/helpers';
 import * as Setup from '../setup';
 
@@ -129,7 +123,7 @@ class MenuScene extends Phaser.Scene {
         this.musicIntro = this.sound.add('intro');
         this.musicIntro.volume = 0.5;
         this.musicIntro.loop = true;
-        //this.musicIntro.play();
+        // this.musicIntro.play();
 
         // Ajout du son de Thrusters
         this.soundThrusterTop = this.sound.add('soundThruster');
@@ -146,8 +140,8 @@ class MenuScene extends Phaser.Scene {
             self.shipMenu.anims.play('upAnimShip');
             self.soundThrusterTop.play();
             self.shipMenu.thrustLeft(0.1);
-            //self.shipMenu.setVelocityX(Helpers.getRandomNumber(-5, -10));
-            //self.shipMenu.setAngularVelocity(Helpers.getRandomNumberFloat(0.03, 0.1));
+            // self.shipMenu.setVelocityX(Helpers.getRandomNumber(-5, -10));
+            // self.shipMenu.setAngularVelocity(Helpers.getRandomNumberFloat(0.03, 0.1));
         });
         this.playBtn.on('pointerout', function () {
             this.setScale(1, 1);
