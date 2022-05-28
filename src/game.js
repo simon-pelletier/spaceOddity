@@ -24,9 +24,11 @@ import FightScene from './scenes/FightScene';
 const config = {
     type: Phaser.AUTO,
     scale: {
-        width: Setup.WIDTH,
-        height: Setup.HEIGHT,
-        scale: 'SHOW_ALL',
+        mode: Phaser.Scale.RESIZE,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        // width: Setup.WIDTH,
+        // height: Setup.HEIGHT,
+        // scale: 'SHOW_ALL',
         orientation: 'LANDSCAPE'
     },
     physics: {
@@ -56,7 +58,7 @@ const config = {
         FightScene
     ],
     title: 'Space Oddity',
-    version: '0.1.0'
+    version: '0.1.1'
 };
 
 const game = new Phaser.Game(config);
