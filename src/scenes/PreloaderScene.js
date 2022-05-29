@@ -77,7 +77,8 @@ class PreloaderScene extends Phaser.Scene {
         // Ui parts
         this.load.image('needle', './assets/img/ui/needle.png');
         this.load.image('needleH', './assets/img/ui/needleH.png');
-        this.load.image('ui_base', './assets/img/ui/ui_base.png');
+        this.load.image('cargo', './assets/img/ui/cargo.png');
+        this.load.image('monitor', './assets/img/ui/monitor.png');
         this.load.image('hscBulb', './assets/img/ui/hscBulb.png');
 
         //* SRITESHEETS

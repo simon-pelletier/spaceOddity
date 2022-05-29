@@ -5,7 +5,6 @@ import * as Helpers from '../helpers/helpers';
 //* UNIVERS GENERATOR
 
 export default function generateUnivers(scene) {
-    console.log('Game', Game)
     var univers = [];
 
     var marginWorld = 50; // Position Margin of Systems on the Map

@@ -2,7 +2,6 @@
 
 export const DEVMOD = true;
 export const STARTSCENE = 'Planet'; // Default : Planet
-// export const DEVSCENE = 'Planet'; // Scene to dev after preload (skip menu)
 
 //* GRAVITY
 

@@ -16,12 +16,6 @@ class MenuScene extends Phaser.Scene {
     }
 
     create() {
-        //! REMOVE ?
-        // function resize() {
-        //     // Game.canvas.clientWidth
-        // }
-        // window.onresize = resize;
-
         // Variables Globales
         var self = this;
 
@@ -107,18 +101,6 @@ class MenuScene extends Phaser.Scene {
             self.starBackground
         );
 
-        //! TO ADAPT
-        // function resize() {
-        //     console.log('RESIZE')
-        //     self.starBackground.width = window.innerWidth;
-        //     self.starBackground.height = window.innerHeight;
-        //     Phaser.Actions.RandomRectangle(
-        //         self.backGround.getChildren(),
-        //         self.starBackground
-        //     );
-        // }
-        // window.onresize = resize;
-
         //* SOUNDS
 
         // Ajoute le son de musique d'intro et le joue en boucle
@@ -157,11 +139,12 @@ class MenuScene extends Phaser.Scene {
         });
 
         // Autostart dev scene on devMod
-        if (Setup.DEVMOD) {
+        if (Setup.DEVMOD && Setup.STARTSCENE !== 'Menu') {
             this.doStart();
         } else {
             this.playBtn.on('pointerup', this.doStart.bind(this));
         }
+        this.playBtn.on('pointerup', this.doStart.bind(this));
     }
 
     doStart() {
