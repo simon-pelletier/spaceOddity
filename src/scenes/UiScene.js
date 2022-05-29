@@ -1,7 +1,6 @@
 import Game from '../game';
 
 import * as Setup from '../setup';
-import * as Helpers from '../helpers/helpers';
 
 class UiScene extends Phaser.Scene {
     constructor() {
@@ -11,22 +10,6 @@ class UiScene extends Phaser.Scene {
     }
 
     create() {
-        // Définit le Style du text infoPlanetTxt
-        var styleText = {
-            fontSize: '18px',
-            align: 'center',
-            fontFamily: Setup.TYPO,
-            color: '#000000',
-            backgroundColor: 'rgba(255, 255, 255, 0.6)'
-        };
-
-        // Ajoute le texte uiText
-        // this.uiText = this.add.text(0, 0, '', styleText).setPadding(20, 20);
-
-        // this.uiText.setDepth(30);
-        // this.uiText.setPosition(0, 0);
-
-        // Définit le Style du text infoPlanetTxt
         var helpStyleText = {
             fontSize: '17px',
             fontFamily: Setup.TYPO,
@@ -34,9 +17,8 @@ class UiScene extends Phaser.Scene {
             backgroundColor: 'rgba(255, 255, 255, 0.6)'
         };
 
-        // Ajoute le texte helpText
         this.helpText = this.add
-            .text(40, 450, '', helpStyleText)
+            .text(40, this.scale.gameSize.height - 150, '', helpStyleText)
             .setPadding(10, 10);
         this.helpText.setDepth(30);
 
@@ -50,12 +32,29 @@ class UiScene extends Phaser.Scene {
 
         //* GRAPHISME
 
-        this.ui_base = this.add.image(Game.canvas.clientWidth / 2 + 5, 109, 'ui_base');
+        this.cargo = this.add.image(240, 109, 'cargo');
+        this.monitor = this.add.image(
+            this.scale.gameSize.width - 138,
+            109,
+            'monitor'
+        );
 
-        this.gravity_needle = this.add.image(Game.canvas.clientWidth - 125, 90, 'needle');
-        this.speed_needle = this.add.image(Game.canvas.clientWidth - 240, 60, 'needle');
+        this.gravity_needle = this.add.image(
+            this.scale.gameSize.width - 125,
+            90,
+            'needle'
+        );
+        this.speed_needle = this.add.image(
+            this.scale.gameSize.width - 240,
+            60,
+            'needle'
+        );
         this.speed_needle.setScale(0.6);
-        this.alt_needle = this.add.image(Game.canvas.clientWidth - 61, 165, 'needle');
+        this.alt_needle = this.add.image(
+            this.scale.gameSize.width - 61,
+            165,
+            'needle'
+        );
         this.alt_needle.setScale(0.6);
         this.alt_needle.rotation = 0.3;
 
@@ -66,25 +65,24 @@ class UiScene extends Phaser.Scene {
         this.hscBulbs = [];
         var marginHscBulb = 0;
         for (var i = 0; i < Game.player.maxHsc; i++) {
-            this.hscBulb = this.add.image(317 + marginHscBulb, 182, 'hscBulb');
+            this.hscBulb = this.add.image(314 + marginHscBulb, 182, 'hscBulb');
             this.hscBulbs.push(this.hscBulb);
             marginHscBulb += 19.8;
         }
 
-        //* TIMER
+        this.scale.on('resize', this.resize, this);
+    }
 
-        // this.globalTimer = this.time.addEvent({
-        //     //delay: 500, // ms
-        //     //callback: callback,
-        //     //args: [],
-        //     //callbackScope: thisArg,
-        //     loop: true
-        // });
+    resize(gameSize, baseSize, displaySize, resolution) {
+        this.helpText.setPosition(40, gameSize.height - 150);
+        this.monitor.setPosition(gameSize.width - 138, 109);
+
+        this.gravity_needle.setPosition(gameSize.width - 125, 90);
+        this.speed_needle.setPosition(gameSize.width - 240, 60);
+        this.alt_needle.setPosition(gameSize.width - 61, 165);
     }
 
     update() {
-        // this.helpText.setPosition({x:400,y:200});
-
         for (var i = 0; i < this.hscBulbs.length; i++) {
             if (i < Number(Game.player.hsc)) {
                 this.hscBulbs[i].y = 182;
@@ -110,7 +108,7 @@ class UiScene extends Phaser.Scene {
             100
         ).toFixed(0);
 
-        if (Game.currentScene == 'Planet') {
+        if (Game.currentScene === 'Planet') {
             this.gravity_needle.angle = (
                 Game.univers[Game.currentSystem].system[Game.currentPlanet]
                     .gravity * 100
@@ -118,29 +116,6 @@ class UiScene extends Phaser.Scene {
         } else {
             this.gravity_needle.angle = 0;
         }
-
-        // if (Game.currentScene == 'Planet') {
-        //     // Mise à jour du contenu du Text uiText
-        //     this.uiText.setText(
-        //         //'HEALTH: ' + Game.player.getHealth().toFixed(0) +
-        //         //'\n\nSPEED: ' + Game.ship.body.body.speed.toFixed(0) +
-        //         //'\n\nALT: ' + Game.ship.getAltitude().toFixed(0) +
-        //         //'\n\nGRAVITY: ' + (Game.univers[Game.currentSystem].system[Game.currentPlanet].gravity * 10).toFixed(1) +
-        //         //'\n\nFUEL: ' + Game.player.getFuel().toFixed(0) +
-        //         //'\n\nHSC: ' + Game.player.getHsc() +
-        //         //'\n\nRAW-MAT: ' + Game.player.getRawMat().toFixed(0)
-        //     );
-        // } else {
-        //     // Mise à jour du contenu du Text uiText
-        //     this.uiText.setText(
-        //         //'HEALTH: ' + Game.player.getHealth().toFixed(0) +
-        //         //'\n\nSPEED: ' + Game.ship.body.body.speed.toFixed(0) +
-        //         //'\n\nGRAVITY: 0' +
-        //         //'\n\nFUEL: ' + Game.player.getFuel().toFixed(0) +
-        //         //'\n\nHSC: ' + Game.player.getHsc() +
-        //         //'\n\nRAW-MAT: ' + Game.player.getRawMat().toFixed(0)
-        //     );
-        // }
     }
 }
 
