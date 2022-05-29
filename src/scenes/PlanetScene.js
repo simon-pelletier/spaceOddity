@@ -141,6 +141,7 @@ class PlanetScene extends Phaser.Scene {
             // Fin du premier Spawn
             Game.firstPlanet = false;
         } else {
+            //! adapter le pop
             // Object Ship
             this.ship = new Ship({
                 scene: this,

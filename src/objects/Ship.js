@@ -54,42 +54,42 @@ export default class Ship extends Phaser.GameObjects.GameObject {
         var Bodies = Phaser.Physics.Matter.Matter.Bodies;
 
         // Prépare le body Ship
-        var shipBody = Bodies.rectangle(0, 80, 160, 300, {
+        var shipBody = Bodies.rectangle(150, 280, 160, 300, {
             label: 'shipBody'
         });
-        var circleA = Bodies.circle(-120, 50, 30, {
+        var circleA = Bodies.circle(30, 330, 30, {
             isSensor: true,
             label: 'left'
         });
-        var circleB = Bodies.circle(0, -110, 40, {
+        var circleB = Bodies.circle(150, 170, 40, {
             isSensor: true,
             label: 'top'
         });
-        var circleC = Bodies.circle(120, 50, 30, {
+        var circleC = Bodies.circle(270, 330, 30, {
             isSensor: true,
             label: 'right'
         });
-        var circleD = Bodies.circle(-100, 230, 20, {
+        var circleD = Bodies.circle(30, 510, 20, {
             isSensor: true,
             label: 'bottomL'
         });
-        var circleE = Bodies.circle(100, 230, 20, {
+        var circleE = Bodies.circle(250, 510, 20, {
             isSensor: true,
             label: 'bottomR'
         });
-        var circleF = Bodies.circle(0, 400, 40, {
+        var circleF = Bodies.circle(150, 680, 40, {
             isSensor: true,
             label: 'bottomM'
         });
-        var circleG = Bodies.circle(0, -550, 4, {
+        var circleG = Bodies.circle(150, 10, 4, {
             isSensor: true,
             label: 'sizer'
         });
-        var circleH = Bodies.circle(0, 150, 20, {
+        var circleH = Bodies.circle(150, 330, 20, {
             isSensor: true,
             label: 'thruster'
         });
-        var circleI = Bodies.circle(0, 250, 20, {
+        var circleI = Bodies.circle(150, 530, 20, {
             isSensor: true,
             label: 'speedSensor'
         });
