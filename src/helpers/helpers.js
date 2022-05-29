@@ -4,7 +4,7 @@
  */
 
 /**
- * Retourne un entier aléatoire
+ * Returns a random integer
  * @memberof Randomizers
  * @param {number} min
  * @param {number} max
@@ -14,7 +14,7 @@ export function getRandomNumber(min, max) {
 }
 
 /**
- * Retourne un nombre aléatoire
+ * Returns a random number
  * @memberof Randomizers
  * @param {number} min
  * @param {number} max
@@ -25,7 +25,7 @@ export function getRandomNumberFloat(min, max) {
 }
 
 /**
- * Retourne une direction aléatoire (float - positif et négatif)
+ * Returns a random direction (float - positive and negative)
  * @memberof Randomizers
  * @param {number} min
  * @param {number} max
@@ -50,7 +50,7 @@ export function getRandomVector2(min, max) {
 }
 
 /**
- * Retourne une couleur aléatoire
+ * Returns a random color
  * @memberof Randomizers
  * @returns {number}
  */
@@ -64,7 +64,7 @@ export function getRandomColor() {
 }
 
 /**
- * Retourne une lettre aléatoire
+ * Returns a random letter
  * @memberof Randomizers
  * @returns {number}
  */
@@ -81,7 +81,7 @@ export function getRandomLetter() {
  */
 
 /**
- * Retourne une String avec le premier char en capital
+ * Returns a String with the first char in capital
  * @memberof Converters
  * @param {string} string
  * @returns {number}
@@ -91,7 +91,7 @@ export function capitalizeFirstLetter(string) {
 }
 
 /**
- * Retourne une couleur Hexa (000000) en tableau RGB
+ * Returns a Hex color (000000) in RGB array
  * @memberof Converters
  * @param {hex} hex
  * @returns {hex}
@@ -110,7 +110,7 @@ export function convertHexToRgbArray(hex) {
  */
 
 /**
- * Retourne la distance entre deux points
+ * Returns the distance between two points
  * @memberof Physics
  * @param {number} a
  * @param {number} b
@@ -124,7 +124,7 @@ export function getDistanceBetween(a, b) {
 }
 
 /**
- * Retourne un angle à partir de deux points
+ * Returns an angle from two points
  * @memberof Physics
  * @param {number} cx
  * @param {number} cy
@@ -146,7 +146,7 @@ export function getAngle(cx, cy, ex, ey) {
  */
 
 /**
- * Ouverture d'url
+ * Url opener
  * @memberof Navigation
  * @param {string} url
  */
@@ -156,7 +156,7 @@ export function openInNewTab(url) {
 }
 
 // /**
-//  * Retourne le nom de la planète visitée actuellement
+//  * Returns the name of the planet currently visited
 //  * @param {string} system
 //  * @param {string} planet
 //  * @returns {string}
@@ -170,7 +170,7 @@ export function openInNewTab(url) {
 // }
 
 // /**
-//  * Retourne le nombre de charges qu'il faut pour une distance HS
+//  * Returns the number of charges it takes for an HS distance
 //  * @param {number} distance
 //  * @returns {number}
 //  */
