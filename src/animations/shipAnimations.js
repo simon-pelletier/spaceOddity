@@ -1,12 +1,5 @@
-/* ========================================================================== */
-/*                                                                            */
-/*                              ANIMATIONS - SHIP                             */
-/*                                                                            */
-/* ========================================================================== */
-
 export default function shipAnimations(scene) {
-
-    /* ---------------------------------- IDLE ---------------------------------- */
+    //* IDLE
 
     scene.anims.create({
         key: 'idleShip',
@@ -25,7 +18,7 @@ export default function shipAnimations(scene) {
         frameRate: 12
     });
 
-    /* --------------------- UP DOWN RIGHT LEFT LANDING OFF --------------------- */
+    //* UP DOWN RIGHT LEFT LANDING OFF
 
     scene.anims.create({
         key: 'upAnimShip',
@@ -64,8 +57,7 @@ export default function shipAnimations(scene) {
         repeat: -1
     });
 
-
-    /* ---------------------- UP DOWN RIGHT LEFT LANDING ON --------------------- */
+    //* UP DOWN RIGHT LEFT LANDING ON
 
     scene.anims.create({
         key: 'upAnimShipLanding',
@@ -104,7 +96,6 @@ export default function shipAnimations(scene) {
         repeat: -1
     });
 
-
     /*scene.anims.create({
 		key: 'rightUpAnimShip',
 		frames: scene.anims.generateFrameNumbers('ship', {
@@ -124,7 +115,7 @@ export default function shipAnimations(scene) {
 		repeat: -1
     });*/
 
-    /* ------------------------------- LANDING END ------------------------------ */
+    //* LANDING END
 
     scene.anims.create({
         key: 'landingShip',
@@ -133,11 +124,11 @@ export default function shipAnimations(scene) {
             end: 11
         }),
         frameRate: 12,
-        repeat: 0,
+        repeat: 0
         //delay: 200
     });
 
-    /* ------------------------------ LANDING GEAR ------------------------------ */
+    //* LANDING GEAR
 
     scene.anims.create({
         key: 'landingGearShipOn',

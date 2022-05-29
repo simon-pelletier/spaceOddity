@@ -1,13 +1,4 @@
-/* ========================================================================== */
-/*                                                                            */
-/*                            ANIMATIONS - RAW MATS                           */
-/*                                                                            */
-/* ========================================================================== */
-
 export default function rawMatAnimations(scene) {
-
-/* ---------------------------------- FLOW ---------------------------------- */
-
     scene.anims.create({
         key: 'idle',
         frames: scene.anims.generateFrameNumbers('rawMat', {
@@ -17,5 +8,4 @@ export default function rawMatAnimations(scene) {
         frameRate: 12,
         repeat: -1
     });
-
 }

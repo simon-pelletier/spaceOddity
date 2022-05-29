@@ -1,13 +1,4 @@
-/* ========================================================================== */
-/*                                                                            */
-/*                             ANIMATIONS - GEYSER                            */
-/*                                                                            */
-/* ========================================================================== */
-
 export default function geyserAnimations(scene) {
-
-/* ---------------------------------- FLOW ---------------------------------- */
-
     scene.anims.create({
         key: 'flow',
         frames: scene.anims.generateFrameNumbers('geyser', {
@@ -17,5 +8,4 @@ export default function geyserAnimations(scene) {
         frameRate: 12,
         repeat: -1
     });
-
 }
