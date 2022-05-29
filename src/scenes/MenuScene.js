@@ -1,4 +1,3 @@
-import * as Helpers from '../helpers/helpers';
 import * as Setup from '../setup';
 
 import defaultSceneConfig from '../helpers/sceneConfig';
@@ -16,12 +15,12 @@ class MenuScene extends Phaser.Scene {
         });
     }
 
-    /* ========================================================================== */
-    /*                                   CREATE                                   */
-    /* ========================================================================== */
-
     create() {
-        /* ------------------------------ Scene config ------------------------------ */
+        //! REMOVE ?
+        // function resize() {
+        //     // Game.canvas.clientWidth
+        // }
+        // window.onresize = resize;
 
         // Variables Globales
         var self = this;
@@ -38,12 +37,10 @@ class MenuScene extends Phaser.Scene {
         // Définit les bords de la scene en colliders
         this.matter.world.setBounds();
 
-        /* ----------------------------- MATTER OBJECTS ----------------------------- */
-
         // Ajoute le logo du jeu
         this.logo = this.matter.add.image(
-            Setup.ORIGIN_X,
-            Setup.ORIGIN_Y - 60,
+            Game.canvas.clientWidth / 2,
+            Game.canvas.clientHeight / 2 - 60,
             'logo',
             null,
             {
@@ -54,17 +51,23 @@ class MenuScene extends Phaser.Scene {
 
         // Ajoute le bouton 'Play'
         this.playBtn = this.matter.add
-            .sprite(Setup.ORIGIN_X, Setup.ORIGIN_Y + 130, 'play', null, {
-                ignoreGravity: true
-            })
+            .sprite(
+                Game.canvas.clientWidth / 2,
+                Game.canvas.clientHeight / 2 + 130,
+                'play',
+                null,
+                {
+                    ignoreGravity: true
+                }
+            )
             .setInteractive({
                 cursor: 'url(./assets/cursor/select.cur), pointer'
             });
 
-        // Ajoute le this.shipMenu
+        // Ajoute le ship
         this.shipMenu = this.matter.add.sprite(
-            Setup.WIDTH - 100,
-            Setup.ORIGIN_Y + 150,
+            Game.canvas.clientWidth - Game.canvas.clientWidth / 5,
+            Game.canvas.clientHeight / 2 + 150,
             'ship',
             null,
             {
@@ -82,18 +85,15 @@ class MenuScene extends Phaser.Scene {
         this.shipMenu.setDepth(10);
         this.shipMenu.setAngle(-90);
 
-        /* ------------------------------- ANIMATIONS ------------------------------- */
+        // Ship Idle Animation
         this.shipMenu.anims.play('idleShip');
 
-        /* --------------------------------- GROUPS --------------------------------- */
-
-        // Ajoute le groupe Background
+        // Create the star background
         this.backGround = this.add.group({
             key: 'starOnePx',
             frameQuantity: 150
         });
 
-        console.log('Phaser', Phaser);
         // Créé les étoiles du background
         this.starBackground = new Phaser.Geom.Rectangle(
             0,
@@ -107,17 +107,19 @@ class MenuScene extends Phaser.Scene {
             self.starBackground
         );
 
-        function resize() {
-            self.starBackground.width = window.innerWidth;
-            self.starBackground.height = window.innerHeight;
-            Phaser.Actions.RandomRectangle(
-                self.backGround.getChildren(),
-                self.starBackground
-            );
-        }
-        window.onresize = resize;
+        //! TO ADAPT
+        // function resize() {
+        //     console.log('RESIZE')
+        //     self.starBackground.width = window.innerWidth;
+        //     self.starBackground.height = window.innerHeight;
+        //     Phaser.Actions.RandomRectangle(
+        //         self.backGround.getChildren(),
+        //         self.starBackground
+        //     );
+        // }
+        // window.onresize = resize;
 
-        /* --------------------------------- SOUNDS --------------------------------- */
+        //* SOUNDS
 
         // Ajoute le son de musique d'intro et le joue en boucle
         this.musicIntro = this.sound.add('intro');
@@ -130,7 +132,7 @@ class MenuScene extends Phaser.Scene {
         this.soundThrusterTop.volume = 0.2;
         this.soundThrusterTop.loop = true;
 
-        /* -------------------------------- LISTENERS ------------------------------- */
+        //* LISTENERS
 
         // Anime les états du bouton 'PLAY'
         this.playBtn.on('pointerover', function () {
@@ -139,7 +141,7 @@ class MenuScene extends Phaser.Scene {
 
             self.shipMenu.anims.play('upAnimShip');
             self.soundThrusterTop.play();
-            self.shipMenu.thrustLeft(0.1);
+            self.shipMenu.thrustLeft(0.2);
             // self.shipMenu.setVelocityX(Helpers.getRandomNumber(-5, -10));
             // self.shipMenu.setAngularVelocity(Helpers.getRandomNumberFloat(0.03, 0.1));
         });
@@ -153,25 +155,25 @@ class MenuScene extends Phaser.Scene {
         this.playBtn.on('pointerdown', function () {
             this.setTint(0xcccccc);
         });
-        this.playBtn.on('pointerup', this.doStart.bind(this));
+
+        // Autostart dev scene on devMod
+        if (Setup.DEVMOD) {
+            this.doStart();
+        } else {
+            this.playBtn.on('pointerup', this.doStart.bind(this));
+        }
     }
 
-    /* ========================================================================== */
-    /*                                 MENU START                                 */
-    /* ========================================================================== */
-
     doStart() {
-        // Arrete le son de thruster
+        // Stop the thruster sound
         this.soundThrusterTop.stop();
 
-        // Génère un nouvel Univers
+        // New Univers generation
         this.game.univers = generateUnivers();
         this.game.currentSystem = 0;
         this.game.currentPlanet = 1;
 
-        /* ------------------------------ GAME OBJECTS ------------------------------ */
-
-        // Object Planet
+        // Create a new player
         this.player = new Player({
             scene: this,
             name: 'playerNameTemp',
@@ -181,12 +183,12 @@ class MenuScene extends Phaser.Scene {
         Game.player = this.player;
         Game.firstPlanet = true;
 
-        // Stoppe la musique d'intro
+        // Stop intro music
         this.musicIntro.stop();
 
-        // Démarre la scene Planet (début de partie)
+        // Start the first scene
         this.scene.start(Setup.STARTSCENE + 'Scene');
-
+        // And the player Ui
         this.scene.launch('UiScene');
     }
 }

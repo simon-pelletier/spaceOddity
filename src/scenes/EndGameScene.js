@@ -1,30 +1,14 @@
-/* ========================================================================== */
-/*                                                                            */
-/*                               END GAME SCENE                               */
-/*                                                                            */
-/* ========================================================================== */
-
 import Game from '../game';
 import * as Setup from '../setup';
 
 class EndGameScene extends Phaser.Scene {
-    constructor(test) {
+    constructor() {
         super({
             key: 'EndGameScene'
         });
     }
 
-    /* ========================================================================== */
-    /*                                   PRELOAD                                  */
-    /* ========================================================================== */
-
-    preload() {
-
-    }
-
-    /* ========================================================================== */
-    /*                                   CREATE                                   */
-    /* ========================================================================== */
+    preload() {}
 
     create() {
         /* ------------------------------ CONFIGURATION ----------------------------- */
@@ -55,32 +39,62 @@ class EndGameScene extends Phaser.Scene {
         };
 
         // Ajoute le texte endGameTxt
-        this.endGameTxt = this.add.text(Setup.ORIGIN_X, Setup.ORIGIN_Y, '', styleText).setPadding(20, 20);
+        this.endGameTxt = this.add
+            .text(
+                Game.canvas.clientWidth / 2,
+                Game.canvas.clientHeight / 2,
+                '',
+                styleText
+            )
+            .setPadding(20, 20);
         this.endGameTxt.setDepth(20);
-
 
         // Temps de jeu en minutes (depuis la création de l'ui)
         var time = Game.player.GO_Time / 60000;
 
         // Calcule le score
-        var score = ((time / 10) + 1) * ((Game.player.GO_Distance * (Game.player.GO_HSCJumps + 1)) + Game.player.GO_visitedSystems + Game.player.GO_visitedPlanets + Game.player.GO_pumpedFuel + Game.player.GO_consumedFuel + Game.player.GO_consumedHSC + (Game.player.GO_totalCollisions * (Game.player.GO_totalDamages + 1)));
+        var score =
+            (time / 10 + 1) *
+            (Game.player.GO_Distance * (Game.player.GO_HSCJumps + 1) +
+                Game.player.GO_visitedSystems +
+                Game.player.GO_visitedPlanets +
+                Game.player.GO_pumpedFuel +
+                Game.player.GO_consumedFuel +
+                Game.player.GO_consumedHSC +
+                Game.player.GO_totalCollisions *
+                    (Game.player.GO_totalDamages + 1));
 
         // Définit le contenu de endGameTxt
         this.endGameTxt.setText(
-            'Total time: ' + time.toFixed(2) + ' min' +
-            '\nTotal distance: ' + Game.player.GO_Distance +
-            '\nHigh-Speed Jumps: ' + Game.player.GO_HSCJumps.toFixed(0) +
-            '\nVisited Systems: ' +Game.player.GO_visitedSystems +
-            '\nVisited Planets: ' + Game.player.GO_visitedPlanets +
-            '\n\nPumped fuel: ' + Game.player.GO_pumpedFuel.toFixed(0) +
-            '\nConsumed fuel: ' + Game.player.GO_consumedFuel.toFixed(0) +
-            '\nConsumed HSC: ' + Game.player.GO_consumedHSC.toFixed(0) +
-            '\nTotal collisions: ' + Game.player.GO_totalCollisions.toFixed(0) +
-            '\nTotal damages: ' + Game.player.GO_totalDamages.toFixed(0) +
-            '\n\nSCORE: ' + score.toFixed(0)
+            'Total time: ' +
+                time.toFixed(2) +
+                ' min' +
+                '\nTotal distance: ' +
+                Game.player.GO_Distance +
+                '\nHigh-Speed Jumps: ' +
+                Game.player.GO_HSCJumps.toFixed(0) +
+                '\nVisited Systems: ' +
+                Game.player.GO_visitedSystems +
+                '\nVisited Planets: ' +
+                Game.player.GO_visitedPlanets +
+                '\n\nPumped fuel: ' +
+                Game.player.GO_pumpedFuel.toFixed(0) +
+                '\nConsumed fuel: ' +
+                Game.player.GO_consumedFuel.toFixed(0) +
+                '\nConsumed HSC: ' +
+                Game.player.GO_consumedHSC.toFixed(0) +
+                '\nTotal collisions: ' +
+                Game.player.GO_totalCollisions.toFixed(0) +
+                '\nTotal damages: ' +
+                Game.player.GO_totalDamages.toFixed(0) +
+                '\n\nSCORE: ' +
+                score.toFixed(0)
         );
 
-        this.endGameTxt.setPosition(Setup.ORIGIN_X - this.endGameTxt.width / 2, Setup.ORIGIN_Y - this.endGameTxt.height / 2);
+        this.endGameTxt.setPosition(
+            Game.canvas.clientWidth / 2 - this.endGameTxt.width / 2,
+            Game.canvas.clientHeight / 2 - this.endGameTxt.height / 2
+        );
         this.endGameTxt.setInteractive({
             cursor: 'url(./assets/cursor/select.cur), pointer'
         });
@@ -97,7 +111,12 @@ class EndGameScene extends Phaser.Scene {
         });
 
         // Création des étoiles_mini
-        var rect = new Phaser.Geom.Rectangle(0, 0, Setup.WIDTH, Setup.HEIGHT);
+        var rect = new Phaser.Geom.Rectangle(
+            0,
+            0,
+            Game.canvas.clientWidth,
+            Game.canvas.clientHeight
+        );
         Phaser.Actions.RandomRectangle(bg.getChildren(), rect);
 
         /* --------------------------------- BOUNDS --------------------------------- */
@@ -111,10 +130,7 @@ class EndGameScene extends Phaser.Scene {
         this.input.setDefaultCursor('url(./assets/cursor/normal.cur), pointer');
     }
 
-    /* ========================================================================== */
-    /*                                 MENU START                                 */
-    /* ========================================================================== */
-
+    //* Restart
     doReStart() {
         // Stoppe la musique d'intro
         this.musicIntro.stop();
@@ -122,14 +138,7 @@ class EndGameScene extends Phaser.Scene {
         this.scene.start('MenuScene');
     }
 
-    /* ========================================================================== */
-    /*                                   UPDATE                                   */
-    /* ========================================================================== */
-
-    update() {
-
-    }
-
+    update() {}
 }
 
 export default EndGameScene;

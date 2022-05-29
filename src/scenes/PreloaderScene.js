@@ -174,12 +174,7 @@ class PreloaderScene extends Phaser.Scene {
         // Empty the preload
         this.preloadSprite = null;
         // Start the starting scene or the Dev Scene if DevMod
-        if (Setup.DEVMOD === true) {
-            console.log('Setup.DEVSCENE', Setup.DEVSCENE);
-            this.scene.start(Setup.DEVSCENE);
-        } else {
-            this.scene.start('MenuScene');
-        }
+        this.scene.start('MenuScene');
     }
 }
 

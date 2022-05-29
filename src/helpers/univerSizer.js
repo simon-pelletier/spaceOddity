@@ -1,9 +1,11 @@
 import * as Setup from '../setup';
+import Game from '../game';
 import * as Helpers from '../helpers/helpers';
 
 //* UNIVERS GENERATOR
 
 export default function generateUnivers(scene) {
+    console.log('Game', Game)
     var univers = [];
 
     var marginWorld = 50; // Position Margin of Systems on the Map
@@ -15,8 +17,8 @@ export default function generateUnivers(scene) {
         if (i === 0) {
             system = {
                 name: systemName,
-                systemX: Setup.WIDTH / 2,
-                systemY: Setup.HEIGHT / 2,
+                systemX: Game.canvas.clientWidth / 2,
+                systemY: Game.canvas.clientHeight / 2,
                 system: systemGenerator(systemName, '0xffffff'),
                 color: '0xffffff',
                 asteroidsFactor: Helpers.getRandomNumber(
@@ -30,11 +32,11 @@ export default function generateUnivers(scene) {
                 name: systemName,
                 systemX: Helpers.getRandomNumber(
                     marginWorld,
-                    Setup.WIDTH - marginWorld
+                    Game.canvas.clientWidth - marginWorld
                 ),
                 systemY: Helpers.getRandomNumber(
                     marginWorld,
-                    Setup.HEIGHT - marginWorld
+                    Game.canvas.clientHeight - marginWorld
                 ),
                 system: systemGenerator(systemName, systemColor),
                 color: systemColor,
@@ -120,7 +122,7 @@ function planetGenerator(i) {
     var planet = {
         name: nameGenerator(1),
         size: Helpers.getRandomNumber(10, 20),
-        distance: Helpers.getRandomNumber(50, Setup.HEIGHT / 2),
+        distance: Helpers.getRandomNumber(50, Game.canvas.clientHeight / 2),
         mass: Helpers.getRandomNumber(200, 2000),
         speed: Helpers.getRandomNumber(10000, 30000),
         offset: Helpers.getRandomNumberFloat(0, 360),
@@ -208,21 +210,21 @@ function randomAsteroidSpawn() {
 
     if (side === 0) {
         asteroidX = Helpers.getRandomNumber(-lowZone, -highZone);
-        asteroidY = Helpers.getRandomNumber(-lowZone, Setup.HEIGHT + lowZone);
+        asteroidY = Helpers.getRandomNumber(-lowZone, Game.canvas.clientHeight + lowZone);
     } else if (side === 1) {
-        asteroidX = Helpers.getRandomNumber(-lowZone, Setup.WIDTH + lowZone);
+        asteroidX = Helpers.getRandomNumber(-lowZone, Game.canvas.clientWidth + lowZone);
         asteroidY = Helpers.getRandomNumber(-lowZone, -highZone);
     } else if (side === 2) {
         asteroidX = Helpers.getRandomNumber(
-            Setup.WIDTH + highZone,
-            Setup.WIDTH + lowZone
+            Game.canvas.clientWidth + highZone,
+            Game.canvas.clientWidth + lowZone
         );
-        asteroidY = Helpers.getRandomNumber(-lowZone, Setup.HEIGHT + lowZone);
+        asteroidY = Helpers.getRandomNumber(-lowZone, Game.canvas.clientHeight + lowZone);
     } else if (side === 3) {
-        asteroidX = Helpers.getRandomNumber(-lowZone, Setup.WIDTH + lowZone);
+        asteroidX = Helpers.getRandomNumber(-lowZone, Game.canvas.clientWidth + lowZone);
         asteroidY = Helpers.getRandomNumber(
-            Setup.HEIGHT + highZone,
-            Setup.HEIGHT + lowZone
+            Game.canvas.clientHeight + highZone,
+            Game.canvas.clientHeight + lowZone
         );
     }
 

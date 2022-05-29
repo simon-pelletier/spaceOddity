@@ -1,9 +1,3 @@
-/* ========================================================================== */
-/*                                                                            */
-/*                                PLANET - SCENE                              */
-/*                                                                            */
-/* ========================================================================== */
-
 import Game from '../game';
 
 import * as Setup from '../setup';
@@ -17,7 +11,7 @@ import Geyser from '../objects/Geyser';
 import RawMat from '../objects/RawMat';
 
 class PlanetScene extends Phaser.Scene {
-    constructor(test) {
+    constructor() {
         super({
             key: 'PlanetScene',
             physics: {
@@ -37,12 +31,7 @@ class PlanetScene extends Phaser.Scene {
         });
     }
 
-    /* ========================================================================== */
-    /*                                   CREATE                                   */
-    /* ========================================================================== */
-
     create() {
-
         /* ------------------------------ SCENE CONFIG ------------------------------ */
 
         // Variables Globales
@@ -52,7 +41,8 @@ class PlanetScene extends Phaser.Scene {
         this.currentMaterialObj = null;
 
         var seedSystem = Game.univers[Game.currentSystem];
-        var seedPlanet = Game.univers[Game.currentSystem].system[Game.currentPlanet];
+        var seedPlanet =
+            Game.univers[Game.currentSystem].system[Game.currentPlanet];
 
         // Configure la scene par défaut
         defaultSceneConfig(this);
@@ -73,12 +63,24 @@ class PlanetScene extends Phaser.Scene {
         var colorRgb = seedPlanet.bgColor.substring(2, seedPlanet.length);
         var colorTab = Helpers.convertHexToRgbArray(colorRgb);
         // Couleur du ciel - #bleu
-        this.skyColor = new Phaser.Display.Color(colorTab[0], colorTab[1], colorTab[2]);
+        this.skyColor = new Phaser.Display.Color(
+            colorTab[0],
+            colorTab[1],
+            colorTab[2]
+        );
         // Couleur de l'espace - #noir
         this.spaceColor = new Phaser.Display.Color(0, 0, 0);
         // Création des étoiles_mini
-        var starBackGround = new Phaser.Geom.Rectangle(-Setup.WIDTH * 2.5 - 2000, -Setup.HEIGHT * 5 - 2000, Setup.WIDTH * 5 + 4000, Setup.HEIGHT * 10 + 4000);
-        Phaser.Actions.RandomRectangle(this.backGround.getChildren(), starBackGround);
+        var starBackGround = new Phaser.Geom.Rectangle(
+            -Game.canvas.clientWidth * 2.5 - 2000,
+            -Game.canvas.clientHeight * 5 - 2000,
+            Game.canvas.clientWidth * 5 + 4000,
+            Game.canvas.clientHeight * 10 + 4000
+        );
+        Phaser.Actions.RandomRectangle(
+            this.backGround.getChildren(),
+            starBackGround
+        );
 
         /* --------------------------------- BOUNDS --------------------------------- */
 
@@ -91,11 +93,17 @@ class PlanetScene extends Phaser.Scene {
         var marginBounds = 0;
         for (var b = 0; b < points.length; b++) {
             // Ajoute et configure un nouvel élément de bors de scene
-            var boundBlock = this.matter.add.rectangle(points[b].x, points[b].y, 2000, 100, {
-                isStatic: true,
-                angle: 1.56 + ((b + marginBounds) / points.length),
-                label: 'bounds'
-            });
+            var boundBlock = this.matter.add.rectangle(
+                points[b].x,
+                points[b].y,
+                2000,
+                100,
+                {
+                    isStatic: true,
+                    angle: 1.56 + (b + marginBounds) / points.length,
+                    label: 'bounds'
+                }
+            );
             marginBounds += marginAngleBounds;
         }
 
@@ -136,8 +144,11 @@ class PlanetScene extends Phaser.Scene {
             // Object Ship
             this.ship = new Ship({
                 scene: this,
-                x: Helpers.getRandomNumber(-Setup.WIDTH / 4, Setup.WIDTH / 4),
-                y: -Setup.HEIGHT * 4.8,
+                x: Helpers.getRandomNumber(
+                    -Game.canvas.clientWidth / 4,
+                    Game.canvas.clientWidth / 4
+                ),
+                y: -Game.canvas.clientHeight * 4.8,
                 key: 'ship',
                 size: 0.2,
                 env: 'planet'
@@ -152,12 +163,20 @@ class PlanetScene extends Phaser.Scene {
         this.materials = [];
 
         // Dessine un cercle
-        this.circleMaterial = new Phaser.Geom.Circle(0, 0, (this.planet.size * 375) + 20);
+        this.circleMaterial = new Phaser.Geom.Circle(
+            0,
+            0,
+            this.planet.size * 375 + 20
+        );
         // Récupère 12 points le long du cercle
         this.pointsMaterial = this.circleMaterial.getPoints(12);
 
         // Dessine un cercle
-        this.circleMaterialInfo = new Phaser.Geom.Circle(0, 0, (this.planet.size * 375) + 150);
+        this.circleMaterialInfo = new Phaser.Geom.Circle(
+            0,
+            0,
+            this.planet.size * 375 + 150
+        );
         // Récupère 12 points le long du cercle
         this.pointsMaterialInfo = this.circleMaterialInfo.getPoints(12);
 
@@ -209,26 +228,34 @@ class PlanetScene extends Phaser.Scene {
         this.matter.world.on('collisionstart', function (event) {
             var pairs = event.pairs;
             for (var i = 0; i < pairs.length; i++) {
-
                 var bodyA = pairs[i].bodyA;
                 var bodyB = pairs[i].bodyB;
 
                 // SENSORS (SHIP)
                 if (bodyA.isSensor || bodyB.isSensor) {
-
                     // SHIP - GEYSER
-                    if (bodyA.label === 'bottomM' || bodyB.label === 'bottomM') {
-                        if (bodyA.label === 'geyserBody' || bodyB.label === 'geyserBody' || bodyA.label === 'rawMatBody' || bodyB.label === 'rawMatBody') {
-
+                    if (
+                        bodyA.label === 'bottomM' ||
+                        bodyB.label === 'bottomM'
+                    ) {
+                        if (
+                            bodyA.label === 'geyserBody' ||
+                            bodyB.label === 'geyserBody' ||
+                            bodyA.label === 'rawMatBody' ||
+                            bodyB.label === 'rawMatBody'
+                        ) {
                             if (bodyB.label === 'geyserBody') {
                                 self.currentMaterial = bodyB.data.id;
-                                self.currentMaterialObj = bodyB.parent.gameObject;
+                                self.currentMaterialObj =
+                                    bodyB.parent.gameObject;
                             } else if (bodyB.label === 'rawMatBody') {
                                 self.currentMaterial = bodyB.data.id;
-                                self.currentMaterialObj = bodyB.parent.gameObject;
+                                self.currentMaterialObj =
+                                    bodyB.parent.gameObject;
                             } else {
                                 self.currentMaterial = bodyA.data.id;
-                                self.currentMaterialObj = bodyA.parent.gameObject;
+                                self.currentMaterialObj =
+                                    bodyA.parent.gameObject;
                             }
                             console.log('DIG IT !');
                         }
@@ -241,28 +268,33 @@ class PlanetScene extends Phaser.Scene {
             var pairs = event.pairs;
 
             for (var i = 0; i < pairs.length; i++) {
-
                 var bodyA = pairs[i].bodyA;
                 var bodyB = pairs[i].bodyB;
 
                 // SENSORS (SHIP)
                 if (bodyA.isSensor || bodyB.isSensor) {
-
                     // SHIP - GEYSER
-                    if (bodyA.label === 'bottomM' || bodyB.label === 'bottomM') {
-                        if (bodyA.label === 'geyserBody' || bodyB.label === 'geyserBody') {
+                    if (
+                        bodyA.label === 'bottomM' ||
+                        bodyB.label === 'bottomM'
+                    ) {
+                        if (
+                            bodyA.label === 'geyserBody' ||
+                            bodyB.label === 'geyserBody'
+                        ) {
                             self.currentMaterial = null;
                             self.currentMaterialObj = null;
                             console.log('NO MORE ON GEYSER !');
-                        } else if (bodyA.label === 'rawMatBody' || bodyB.label === 'rawMatBody') {
+                        } else if (
+                            bodyA.label === 'rawMatBody' ||
+                            bodyB.label === 'rawMatBody'
+                        ) {
                             self.currentMaterial = null;
                             self.currentMaterialObj = null;
                             console.log('NO MORE ON RAW MATS !');
                         }
                     }
-
                 }
-
             }
         });
 
@@ -290,22 +322,29 @@ class PlanetScene extends Phaser.Scene {
         /* -------------------------------- LISTENERS ------------------------------- */
 
         this.input.keyboard.on('keydown', function (event) {
-
             if (self.currentMaterial) {
-                if (event.key == 'e' && self.materials[self.currentMaterial].sort == 'geyser') {
+                if (
+                    event.key == 'e' &&
+                    self.materials[self.currentMaterial].sort == 'geyser'
+                ) {
                     self.soundPump.play();
-                } else if (event.key == 'e' && self.materials[self.currentMaterial].sort == 'rawMat') {
+                } else if (
+                    event.key == 'e' &&
+                    self.materials[self.currentMaterial].sort == 'rawMat'
+                ) {
                     self.soundDrill.play();
                 }
             }
-            if (event.key == 'r' && Game.player.rawMat > 0 && Game.player.health < Game.player.maxHealth) {
+            if (
+                event.key == 'r' &&
+                Game.player.rawMat > 0 &&
+                Game.player.health < Game.player.maxHealth
+            ) {
                 self.soundWelding.play();
             }
-
         });
 
         this.input.keyboard.on('keyup', function (event) {
-
             if (event.key == 'e') {
                 self.soundPump.stop();
                 self.soundDrill.stop();
@@ -313,19 +352,12 @@ class PlanetScene extends Phaser.Scene {
             if (event.key == 'r') {
                 self.soundWelding.stop();
             }
-
         });
 
         //this.cameras.main.zoom = 0.5;
-
     }
 
-    /* ========================================================================== */
-    /*                                   UPDATE                                   */
-    /* ========================================================================== */
-
     update() {
-
         var self = this;
 
         /* -------------------------------- Variables ------------------------------- */
@@ -351,7 +383,9 @@ class PlanetScene extends Phaser.Scene {
 
             if (this.materials[this.currentMaterial].quantity < 0) {
                 this.currentMaterialObj.destroy();
-                Game.univers[Game.currentSystem].system[Game.currentPlanet].materials[this.currentMaterial].sort = 'empty';
+                Game.univers[Game.currentSystem].system[
+                    Game.currentPlanet
+                ].materials[this.currentMaterial].sort = 'empty';
             }
         }
 
@@ -363,22 +397,48 @@ class PlanetScene extends Phaser.Scene {
 
         if (Math.abs(shipPosition.y) > Math.abs(shipPosition.x)) {
             if (shipPosition.y < 0) {
-                var hexColor = Phaser.Display.Color.Interpolate.ColorWithColor(this.skyColor, this.spaceColor, -Setup.HEIGHT * 5, shipPosition.y);
+                var hexColor = Phaser.Display.Color.Interpolate.ColorWithColor(
+                    this.skyColor,
+                    this.spaceColor,
+                    -Game.canvas.clientHeight * 5,
+                    shipPosition.y
+                );
             } else if (shipPosition.y > 0) {
-                var hexColor = Phaser.Display.Color.Interpolate.ColorWithColor(this.skyColor, this.spaceColor, Setup.HEIGHT * 5, shipPosition.y);
+                var hexColor = Phaser.Display.Color.Interpolate.ColorWithColor(
+                    this.skyColor,
+                    this.spaceColor,
+                    Game.canvas.clientHeight * 5,
+                    shipPosition.y
+                );
             }
         } else if (Math.abs(shipPosition.y) < Math.abs(shipPosition.x)) {
             if (shipPosition.x < 0) {
-                var hexColor = Phaser.Display.Color.Interpolate.ColorWithColor(this.skyColor, this.spaceColor, -Setup.WIDTH * 2.5, shipPosition.x);
+                var hexColor = Phaser.Display.Color.Interpolate.ColorWithColor(
+                    this.skyColor,
+                    this.spaceColor,
+                    -Game.canvas.clientWidth * 2.5,
+                    shipPosition.x
+                );
             } else if (shipPosition.x > 0) {
-                var hexColor = Phaser.Display.Color.Interpolate.ColorWithColor(this.skyColor, this.spaceColor, Setup.WIDTH * 2.5, shipPosition.x);
+                var hexColor = Phaser.Display.Color.Interpolate.ColorWithColor(
+                    this.skyColor,
+                    this.spaceColor,
+                    Game.canvas.clientWidth * 2.5,
+                    shipPosition.x
+                );
             }
         }
         this.cameras.main.setBackgroundColor(hexColor);
 
         /* ---------------------------- Calcul d'altitude --------------------------- */
-//console.log(this.ship.body.body.parts[10].position);
-        this.ship.setAltitude(Helpers.getDistanceBetween({x:0,y:0}, this.ship.body.body.parts[10].position)-(this.planet.size * 375));
+        // console.log(this.ship.body.body.parts[10].position);
+        this.ship.setAltitude(
+            Helpers.getDistanceBetween(
+                { x: 0, y: 0 },
+                this.ship.body.body.parts[10].position
+            ) -
+                this.planet.size * 375
+        );
 
         if (Game.player.isOver()) {
             if (Game.player.isDead == false) {
@@ -392,13 +452,9 @@ class PlanetScene extends Phaser.Scene {
                     self.scene.start('EndGameScene');
                 }, 2000);
             } else {
-
             }
-
         }
-
     }
-
 }
 
 export default PlanetScene;

@@ -1,13 +1,7 @@
-/* ========================================================================== */
-/*                                                                            */
-/*                                GAME - PHASER                               */
-/*                                                                            */
-/* ========================================================================== */
-
 import 'phaser';
 import * as Setup from './setup';
 
-/* --------------------------------- Scenes --------------------------------- */
+//* ALL SCENES
 
 import PreloaderScene from './scenes/PreloaderScene';
 import MenuScene from './scenes/MenuScene';
@@ -19,16 +13,13 @@ import HighSpeedScene from './scenes/HighSpeedScene';
 import EndGameScene from './scenes/EndGameScene';
 import FightScene from './scenes/FightScene';
 
-/* ------------------------------ Configuration ----------------------------- */
+//* GLOBAL GAME CONFIGURATION
 
 const config = {
     type: Phaser.AUTO,
     scale: {
         mode: Phaser.Scale.RESIZE,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        // width: Setup.WIDTH,
-        // height: Setup.HEIGHT,
-        // scale: 'SHOW_ALL',
         orientation: 'LANDSCAPE'
     },
     physics: {

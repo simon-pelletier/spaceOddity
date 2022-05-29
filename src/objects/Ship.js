@@ -8,14 +8,20 @@ import Game from '../game';
 import * as Setup from '../setup';
 
 export default class Ship extends Phaser.GameObjects.GameObject {
-
     /* ========================================================================== */
     /*                                 CONSTRUCTOR                                */
     /* ========================================================================== */
 
     constructor(config) {
-
-        super(config.scene, config.x, config.y, config.key, config.seed, config.size, config.env);
+        super(
+            config.scene,
+            config.x,
+            config.y,
+            config.key,
+            config.seed,
+            config.size,
+            config.env
+        );
         var scene = config.scene;
         var self = this;
 
@@ -49,15 +55,15 @@ export default class Ship extends Phaser.GameObjects.GameObject {
 
         // Prépare le body Ship
         var shipBody = Bodies.rectangle(0, 80, 160, 300, {
-            label: "shipBody"
+            label: 'shipBody'
         });
         var circleA = Bodies.circle(-120, 50, 30, {
             isSensor: true,
-            label: "left"
+            label: 'left'
         });
         var circleB = Bodies.circle(0, -110, 40, {
             isSensor: true,
-            label: "top"
+            label: 'top'
         });
         var circleC = Bodies.circle(120, 50, 30, {
             isSensor: true,
@@ -88,7 +94,18 @@ export default class Ship extends Phaser.GameObjects.GameObject {
             label: 'speedSensor'
         });
         var compoundBodyShip = Phaser.Physics.Matter.Matter.Body.create({
-            parts: [shipBody, circleA, circleB, circleC, circleD, circleE, circleF, circleG, circleH, circleI],
+            parts: [
+                shipBody,
+                circleA,
+                circleB,
+                circleC,
+                circleD,
+                circleE,
+                circleF,
+                circleG,
+                circleH,
+                circleI
+            ],
             label: 'shipBodyCompound',
             ignoreGravity: true
         });
@@ -237,7 +254,6 @@ export default class Ship extends Phaser.GameObjects.GameObject {
     /* ========================================================================== */
 
     updatePlanet(keys, time, delta) {
-
         /* -------------------------------- CONTROLS -------------------------------- */
 
         // Déplacements avec les touches directionnelles
@@ -293,7 +309,6 @@ export default class Ship extends Phaser.GameObjects.GameObject {
             this.darkSmoke.lifespan.propertyValue = 600;
             this.whiteSmoke.on = true;
             this.darkSmoke.on = true;
-
         } else {
             this.fireEmitter.lifespan.propertyValue = 0;
             this.whiteSmoke.lifespan.propertyValue = 0;
@@ -302,10 +317,15 @@ export default class Ship extends Phaser.GameObjects.GameObject {
             this.darkSmoke.on = false;
         }
 
-        this.containerSmokeParticles.setPosition(this.body.body.parts[7].position.x, this.body.body.parts[7].position.y);
-        this.containerFireParticles.setPosition(this.body.body.parts[9].position.x, this.body.body.parts[9].position.y);
+        this.containerSmokeParticles.setPosition(
+            this.body.body.parts[7].position.x,
+            this.body.body.parts[7].position.y
+        );
+        this.containerFireParticles.setPosition(
+            this.body.body.parts[9].position.x,
+            this.body.body.parts[9].position.y
+        );
         this.containerFireParticles.setAngle(this.body.angle);
-
     }
 
     /* ========================================================================== */
@@ -313,7 +333,6 @@ export default class Ship extends Phaser.GameObjects.GameObject {
     /* ========================================================================== */
 
     updateSystem(keys, time, delta) {
-
         /* -------------------------------- CONTROLS -------------------------------- */
 
         // Déplacements avec les touches directionnelles
@@ -337,15 +356,15 @@ export default class Ship extends Phaser.GameObjects.GameObject {
 
         var zoneLimit = 500;
         if (this.body.x < -zoneLimit) {
-            this.body.x = Setup.WIDTH + zoneLimit;
+            this.body.x = Game.canvas.clientWidth + zoneLimit;
         }
-        if (this.body.x > (Setup.WIDTH + zoneLimit)) {
+        if (this.body.x > Game.canvas.clientWidth + zoneLimit) {
             this.body.x = -zoneLimit;
         }
         if (this.body.y < -zoneLimit) {
-            this.body.y = Setup.HEIGHT + zoneLimit;
+            this.body.y = Game.canvas.clientHeight + zoneLimit;
         }
-        if (this.body.y > (Setup.HEIGHT + zoneLimit)) {
+        if (this.body.y > Game.canvas.clientHeight + zoneLimit) {
             this.body.y = -zoneLimit;
         }
 
@@ -357,19 +376,22 @@ export default class Ship extends Phaser.GameObjects.GameObject {
             this.darkSmoke.lifespan.propertyValue = 600;
             this.whiteSmoke.on = true;
             this.darkSmoke.on = true;
-
         } else {
             this.fireEmitter.lifespan.propertyValue = 0;
             this.whiteSmoke.lifespan.propertyValue = 0;
             this.darkSmoke.lifespan.propertyValue = 0;
             this.whiteSmoke.on = false;
             this.darkSmoke.on = false;
-
         }
-        this.containerSmokeParticles.setPosition(this.body.body.parts[7].position.x, this.body.body.parts[7].position.y);
-        this.containerFireParticles.setPosition(this.body.body.parts[9].position.x, this.body.body.parts[9].position.y);
+        this.containerSmokeParticles.setPosition(
+            this.body.body.parts[7].position.x,
+            this.body.body.parts[7].position.y
+        );
+        this.containerFireParticles.setPosition(
+            this.body.body.parts[9].position.x,
+            this.body.body.parts[9].position.y
+        );
         this.containerFireParticles.setAngle(this.body.angle);
-
     }
 
     /* ========================================================================== */
@@ -380,10 +402,18 @@ export default class Ship extends Phaser.GameObjects.GameObject {
         /* -------------------------------- CONTROLS -------------------------------- */
 
         // Input Keys
-        this.keyLeft = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
-        this.keyRight = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        this.keyUp = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
-        this.keyDown = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.keyLeft = scene.input.keyboard.addKey(
+            Phaser.Input.Keyboard.KeyCodes.Q
+        );
+        this.keyRight = scene.input.keyboard.addKey(
+            Phaser.Input.Keyboard.KeyCodes.D
+        );
+        this.keyUp = scene.input.keyboard.addKey(
+            Phaser.Input.Keyboard.KeyCodes.Z
+        );
+        this.keyDown = scene.input.keyboard.addKey(
+            Phaser.Input.Keyboard.KeyCodes.S
+        );
         //keyExtract = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
         //keyCraftHsc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
         //keyCraftFuel = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -392,9 +422,13 @@ export default class Ship extends Phaser.GameObjects.GameObject {
 
         // On KeyDown Global
         scene.input.keyboard.on('keydown', function (event) {
-
             // "Q" ou "D" ou "Z" ou "S" a été pressé
-            if ((event.key == 'z' && !self.keyRight.isDown) && (event.key == 'z' && !self.keyLeft.isDown)) {
+            if (
+                event.key == 'z' &&
+                !self.keyRight.isDown &&
+                event.key == 'z' &&
+                !self.keyLeft.isDown
+            ) {
                 // Joue le son du thruster
                 self.soundThrusterBottom.play();
                 if (self.isLanding) {
@@ -430,23 +464,31 @@ export default class Ship extends Phaser.GameObjects.GameObject {
                     self.body.anims.play('rightAnimShip', true);
                 }
             }
-
         });
 
         scene.input.keyboard.on('keyup', function (event) {
-
             /*if (event.key == 'e') {
                 self.soundPump.stop();
             }*/
 
-            if (!self.keyUp.isDown && !self.keyDown.isDown && !self.keyLeft.isDown && !self.keyRight.isDown) {
+            if (
+                !self.keyUp.isDown &&
+                !self.keyDown.isDown &&
+                !self.keyLeft.isDown &&
+                !self.keyRight.isDown
+            ) {
                 self.soundThrusterBottom.stop();
                 self.soundThrusterTop.stop();
                 self.soundThrusterLeft.stop();
                 self.soundThrusterRight.stop();
             }
             // "Q" ou "D" ou "Z" ou "S" a été relaché
-            if (event.key == 'q' || event.key == 'd' || event.key == 'z' || event.key == 's') {
+            if (
+                event.key == 'q' ||
+                event.key == 'd' ||
+                event.key == 'z' ||
+                event.key == 's'
+            ) {
                 if (event.key == 'z') {
                     // Stop le son du thruster
                     self.soundThrusterBottom.stop();
@@ -466,9 +508,7 @@ export default class Ship extends Phaser.GameObjects.GameObject {
                 } else {
                     self.body.anims.play('idleShip', true);
                 }
-
             }
-
         });
     }
 
@@ -482,25 +522,33 @@ export default class Ship extends Phaser.GameObjects.GameObject {
         scene.matter.world.on('collisionstart', function (event) {
             var pairs = event.pairs;
             for (var i = 0; i < pairs.length; i++) {
-
                 var bodyA = pairs[i].bodyA;
                 var bodyB = pairs[i].bodyB;
 
                 // SENSORS (SHIP)
                 if (bodyA.isSensor || bodyB.isSensor) {
-
                     // SHIP - PLANET
-                    if (bodyA.label === 'planetBody' || bodyB.label === 'planetBody') {
+                    if (
+                        bodyA.label === 'planetBody' ||
+                        bodyB.label === 'planetBody'
+                    ) {
                         // Si le Ship arrive trop vite (speed > 1)
                         if (bodyB.label === 'speedSensor') {
                             if (bodyB.parent.gameObject.body.speed > 2) {
-                                Game.player.takeDamages(bodyB.parent.gameObject.body.speed * 5);
+                                Game.player.takeDamages(
+                                    bodyB.parent.gameObject.body.speed * 5
+                                );
                                 self.soundDamages.play();
                                 scene.cameras.main.shake(200, 0.005);
                             }
                         }
                         // Si la collision concerne le ship de coté
-                        if (bodyA.label === 'left' || bodyA.label === 'right' || bodyB.label === 'left' || bodyB.label === 'right') {
+                        if (
+                            bodyA.label === 'left' ||
+                            bodyA.label === 'right' ||
+                            bodyB.label === 'left' ||
+                            bodyB.label === 'right'
+                        ) {
                             scene.cameras.main.shake(200, 0.002);
                             //eGtotalDamages += 30;
                             self.soundDamages.play();
@@ -516,15 +564,20 @@ export default class Ship extends Phaser.GameObjects.GameObject {
                             //shipHealth = shipHealth - 50;
                         }
                         // Si la collision concerne le ship sur le train d'atterissage
-                        if (bodyA.label === 'bottomR' || bodyB.label === 'bottomR') {
+                        if (
+                            bodyA.label === 'bottomR' ||
+                            bodyB.label === 'bottomR'
+                        ) {
                             //self.body.anims.play('landingShip', true);
                             self.isLandedRight = true;
                         }
-                        if (bodyA.label === 'bottomL' || bodyB.label === 'bottomL') {
+                        if (
+                            bodyA.label === 'bottomL' ||
+                            bodyB.label === 'bottomL'
+                        ) {
                             //self.body.anims.play('landingShip', true);
                             self.isLandedLeft = true;
                         }
-
                     }
 
                     // SHIP - BOUNDS
@@ -541,32 +594,37 @@ export default class Ship extends Phaser.GameObjects.GameObject {
 
                         scene.scene.start('SystemScene');
                     }
-
                 }
-
             }
         });
 
         scene.matter.world.on('collisionend', function (event) {
             var pairs = event.pairs;
             for (var i = 0; i < pairs.length; i++) {
-
                 var bodyA = pairs[i].bodyA;
                 var bodyB = pairs[i].bodyB;
 
                 // SENSORS (SHIP)
                 if (bodyA.isSensor || bodyB.isSensor) {
-
                     // SHIP - PLANET
-                    if (bodyA.label === 'planetBody' || bodyB.label === 'planetBody') {
+                    if (
+                        bodyA.label === 'planetBody' ||
+                        bodyB.label === 'planetBody'
+                    ) {
                         // Si la collision concerne le ship sur le train d'atterissage
-                        if (bodyA.label === 'bottomR' || bodyB.label === 'bottomR') {
+                        if (
+                            bodyA.label === 'bottomR' ||
+                            bodyB.label === 'bottomR'
+                        ) {
                             self.body.setFrictionAir(0.01);
                             self.isLandedRight = false;
                             self.isLanded = false;
                             //console.log('LIFT-OFF !');
                         }
-                        if (bodyA.label === 'bottomL' || bodyB.label === 'bottomL') {
+                        if (
+                            bodyA.label === 'bottomL' ||
+                            bodyB.label === 'bottomL'
+                        ) {
                             self.body.setFrictionAir(0.01);
                             self.isLandedLeft = false;
                             self.isLanded = false;
@@ -583,9 +641,7 @@ export default class Ship extends Phaser.GameObjects.GameObject {
                         console.log('NO MORE ON GEYSER !');
                       }
                     }*/
-
                 }
-
             }
         });
     }
@@ -595,16 +651,18 @@ export default class Ship extends Phaser.GameObjects.GameObject {
     /* ========================================================================== */
 
     collisionsSystem(scene, self) {
-        
         scene.matter.world.on('collisionstart', function (event) {
             var pairs = event.pairs;
             for (var i = 0; i < pairs.length; i++) {
-
                 var bodyA = pairs[i].bodyA;
                 var bodyB = pairs[i].bodyB;
 
                 // Ship - Planet
-                if (bodyA.label === 'shipBody' && bodyB.label === 'planetBody' && Game.systemStartTime > 500) {
+                if (
+                    bodyA.label === 'shipBody' &&
+                    bodyB.label === 'planetBody' &&
+                    Game.systemStartTime > 500
+                ) {
                     self.soundThrusterTop.stop();
                     self.soundThrusterBottom.stop();
                     self.soundThrusterLeft.stop();
@@ -612,15 +670,18 @@ export default class Ship extends Phaser.GameObjects.GameObject {
 
                     Game.currentPlanet = bodyB.parent.gameObject.data.list.id;
                     Game.lastSystemPosition = {
-                      x: bodyB.parent.gameObject.x,
-                      y: bodyB.parent.gameObject.y
+                        x: bodyB.parent.gameObject.x,
+                        y: bodyB.parent.gameObject.y
                     };
 
                     // Désactive de témoin du loader de systemScene
                     scene.scene.start('PlanetScene');
-
                 }
-                if (bodyB.label === 'shipBody' && bodyA.label === 'planetBody' && Game.systemStartTime > 500) {
+                if (
+                    bodyB.label === 'shipBody' &&
+                    bodyA.label === 'planetBody' &&
+                    Game.systemStartTime > 500
+                ) {
                     self.soundThrusterTop.stop();
                     self.soundThrusterBottom.stop();
                     self.soundThrusterLeft.stop();
@@ -628,27 +689,29 @@ export default class Ship extends Phaser.GameObjects.GameObject {
 
                     Game.currentPlanet = bodyA.parent.gameObject.data.list.id;
                     Game.lastSystemPosition = {
-                      x: bodyA.parent.gameObject.x,
-                      y: bodyA.parent.gameObject.y
+                        x: bodyA.parent.gameObject.x,
+                        y: bodyA.parent.gameObject.y
                     };
 
                     // Désactive de témoin du loader de systemScene
                     scene.scene.start('PlanetScene');
-
                 }
 
                 // Ship - Star
                 if (bodyA.label === 'shipBody' && bodyB.label === 'starBody') {
-                    console.log('PERDU : Ton vaisseau a cramé sur une étoile...');
+                    console.log(
+                        'PERDU : Ton vaisseau a cramé sur une étoile...'
+                    );
                     scene.scene.stop('UiScene');
                     scene.scene.start('EndGameScene');
                 }
                 if (bodyB.label === 'shipBody' && bodyA.label === 'starBody') {
-                    console.log('PERDU : Ton vaisseau a cramé sur une étoile...');
+                    console.log(
+                        'PERDU : Ton vaisseau a cramé sur une étoile...'
+                    );
                     scene.scene.stop('UiScene');
                     scene.scene.start('EndGameScene');
                 }
-
             }
         });
     }

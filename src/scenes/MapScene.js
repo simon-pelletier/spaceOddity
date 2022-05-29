@@ -12,18 +12,13 @@ import * as Helpers from '../helpers/helpers';
 import defaultSceneConfig from '../helpers/sceneConfig';
 
 class MapScene extends Phaser.Scene {
-    constructor(test) {
+    constructor() {
         super({
             key: 'MapScene'
         });
     }
 
-    /* ========================================================================== */
-    /*                                   CREATE                                   */
-    /* ========================================================================== */
-
     create() {
-
         // Variables globales
         var self = this;
 
@@ -39,14 +34,21 @@ class MapScene extends Phaser.Scene {
         };
 
         // Ajoute le texte infoSystemTxt
-        this.infoSystemTxt = this.add.text(100, 50, '', styleText).setPadding(10, 10);
+        this.infoSystemTxt = this.add
+            .text(100, 50, '', styleText)
+            .setPadding(10, 10);
 
         /* ------------------------------- ANIMATIONS ------------------------------- */
 
         this.graphics = this.add.graphics();
         this.graphics.fillStyle(0x000000, 1);
         //this.blackBg = new Phaser.Geom.Rectangle(0,0,500,500);
-        this.graphics.fillRect(0, 0, Setup.WIDTH, Setup.HEIGHT);
+        this.graphics.fillRect(
+            0,
+            0,
+            Game.canvas.clientWidth,
+            Game.canvas.clientHeight
+        );
         this.graphics.fillStyle(0xffffff, 1);
 
         // Créé la ligne visuelle d'HS
@@ -54,14 +56,25 @@ class MapScene extends Phaser.Scene {
         this.currentMapGraphics = this.add.graphics();
         this.currentMapGraphics.lineStyle(1, 0xffffff, 0.5);
 
-        this.lineHS = new Phaser.Geom.Line(Game.univers[Game.currentSystem].systemX, Game.univers[Game.currentSystem].systemY, Game.univers[Game.currentSystem].systemX, Game.univers[Game.currentSystem].systemY);
+        this.lineHS = new Phaser.Geom.Line(
+            Game.univers[Game.currentSystem].systemX,
+            Game.univers[Game.currentSystem].systemY,
+            Game.univers[Game.currentSystem].systemX,
+            Game.univers[Game.currentSystem].systemY
+        );
 
         // Ajoute et configure le point (Ship) qui parcours la lineHS
-        this.pointHS = this.matter.add.sprite(Game.univers[Game.currentSystem].systemX, Game.univers[Game.currentSystem].systemY + 20, 'ship', null, {
-            isStatic: false,
-            ignorePointer: true,
-            ignoreGravity: true
-        });
+        this.pointHS = this.matter.add.sprite(
+            Game.univers[Game.currentSystem].systemX,
+            Game.univers[Game.currentSystem].systemY + 20,
+            'ship',
+            null,
+            {
+                isStatic: false,
+                ignorePointer: true,
+                ignoreGravity: true
+            }
+        );
         this.pointHS.setScale(0.15);
         this.pointHS.setDepth(10);
         this.pointHS.setFixedRotation();
@@ -74,7 +87,12 @@ class MapScene extends Phaser.Scene {
         });
 
         // Création des étoiles_mini
-        var rect = new Phaser.Geom.Rectangle(0, 0, Setup.WIDTH, Setup.HEIGHT);
+        var rect = new Phaser.Geom.Rectangle(
+            0,
+            0,
+            Game.canvas.clientWidth,
+            Game.canvas.clientHeight
+        );
         Phaser.Actions.RandomRectangle(this.bg.getChildren(), rect);
 
         /* -------------------------------- LISTENERS ------------------------------- */
@@ -82,42 +100,65 @@ class MapScene extends Phaser.Scene {
         // On Over Game Objects (System)
         this.input.on('gameobjectover', function (pointer, gameObject, event) {
             // Calcul la distance System - System
-            var distance = Helpers.getDistanceBetween({
-                x: Game.univers[Game.currentSystem].systemX,
-                y: Game.univers[Game.currentSystem].systemY
-            }, gameObject);
+            var distance = Helpers.getDistanceBetween(
+                {
+                    x: Game.univers[Game.currentSystem].systemX,
+                    y: Game.univers[Game.currentSystem].systemY
+                },
+                gameObject
+            );
             // Calcul le nombre de HSC pour voyager
             var chargesToGo = Math.round(distance / 100);
             // Définit la direction System - System
-            var direction = Helpers.getAngle(Game.univers[Game.currentSystem].systemX, Game.univers[Game.currentSystem].systemY, gameObject.x, gameObject.y);
+            var direction = Helpers.getAngle(
+                Game.univers[Game.currentSystem].systemX,
+                Game.univers[Game.currentSystem].systemY,
+                gameObject.x,
+                gameObject.y
+            );
             // Configure le point (Ship) en fonction de la direction
             self.pointHS.setScale(0.1);
             self.pointHS.setFixedRotation();
             self.pointHS.setAngle(direction + 90);
 
             // Créé une nouvelle ligne
-            self.line = new Phaser.Geom.Line(Game.univers[Game.currentSystem].systemX, Game.univers[Game.currentSystem].systemY, gameObject.x, gameObject.y);
+            self.line = new Phaser.Geom.Line(
+                Game.univers[Game.currentSystem].systemX,
+                Game.univers[Game.currentSystem].systemY,
+                gameObject.x,
+                gameObject.y
+            );
             self.lineHS = self.line;
             // Définit le contenu de la zone de texte InfoSystem
             self.infoSystemTxt.setText(
-                'System: ' + gameObject.data.list.name +
-                '\nDistance: ' + distance + ' AL' +
-                '\nHSC: ' + chargesToGo +
-                '\nVisited: ' + gameObject.data.list.visited
+                'System: ' +
+                    gameObject.data.list.name +
+                    '\nDistance: ' +
+                    distance +
+                    ' AL' +
+                    '\nHSC: ' +
+                    chargesToGo +
+                    '\nVisited: ' +
+                    gameObject.data.list.visited
             );
             // Positionne la zone de texte sur le System
-            self.infoSystemTxt.setPosition(gameObject.x + 20, gameObject.y - 20);
+            self.infoSystemTxt.setPosition(
+                gameObject.x + 20,
+                gameObject.y - 20
+            );
             self.infoSystemTxt.setDepth(50);
-
         });
 
         // On Clic Game Objects (System)
         this.input.on('gameobjectdown', function (pointer, gameObject, event) {
             // Calcul la distance System - System
-            var distance = Helpers.getDistanceBetween({
-                x: Game.univers[Game.currentSystem].systemX,
-                y: Game.univers[Game.currentSystem].systemY
-            }, gameObject);
+            var distance = Helpers.getDistanceBetween(
+                {
+                    x: Game.univers[Game.currentSystem].systemX,
+                    y: Game.univers[Game.currentSystem].systemY
+                },
+                gameObject
+            );
             // Calcul le nombre de HSC pour voyager
             var chargesToGo = Math.round(distance / 100);
 
@@ -140,11 +181,19 @@ class MapScene extends Phaser.Scene {
         // Pour chaque System
         for (var i = 0; i < Game.univers.length; i++) {
             // Ajoute et configure l'étoile
-            this.star = this.matter.add.image(Game.univers[i].systemX, Game.univers[i].systemY, 'star', null, {
-                isStatic: true
-            }).setInteractive({
-                cursor: 'url(./assets/cursor/select.cur), pointer'
-            });
+            this.star = this.matter.add
+                .image(
+                    Game.univers[i].systemX,
+                    Game.univers[i].systemY,
+                    'star',
+                    null,
+                    {
+                        isStatic: true
+                    }
+                )
+                .setInteractive({
+                    cursor: 'url(./assets/cursor/select.cur), pointer'
+                });
             this.star.setTintFill(Game.univers[i].color);
             this.star.setScale(Game.univers[i].system.length / 100);
             this.star.setData({
@@ -158,24 +207,16 @@ class MapScene extends Phaser.Scene {
 
         // On KeyDown Global
         this.input.keyboard.on('keydown', function (event) {
-
             // "M" a été pressé
             if (event.key == 'm') {
                 // Stoppe la scene Map
                 self.scene.stop();
                 // Lance la scene System
                 self.scene.resume('SystemScene');
-                
             }
-
         });
         this.progressPointHS = 0;
-
     }
-
-    /* ========================================================================== */
-    /*                                   UPDATE                                   */
-    /* ========================================================================== */
 
     update() {
         // Efface les graphics de la scene
@@ -191,9 +232,7 @@ class MapScene extends Phaser.Scene {
         this.currentMapGraphics.lineStyle(1, 0xffffff, 0.3);
         this.currentMapGraphics.fillStyle(0xffffff);
         this.currentMapGraphics.strokeLineShape(this.lineHS);
-
     }
-
 }
 
 export default MapScene;

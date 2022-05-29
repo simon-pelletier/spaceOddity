@@ -1,30 +1,14 @@
-/* ========================================================================== */
-/*                                                                            */
-/*                                 FIGHT SCENE                                */
-/*                                                                            */
-/* ========================================================================== */
-
 import Game from '../game';
 import * as Setup from '../setup';
 
 class FightScene extends Phaser.Scene {
-    constructor(test) {
+    constructor() {
         super({
             key: 'FightScene'
         });
     }
 
-    /* ========================================================================== */
-    /*                                   PRELOAD                                  */
-    /* ========================================================================== */
-
-    preload() {
-
-    }
-
-    /* ========================================================================== */
-    /*                                   CREATE                                   */
-    /* ========================================================================== */
+    preload() {}
 
     create() {
         /* ------------------------------ CONFIGURATION ----------------------------- */
@@ -35,10 +19,10 @@ class FightScene extends Phaser.Scene {
         /* --------------------------------- SOUNDS --------------------------------- */
 
         // Lance la musique de fin
-        /*this.musicIntro = this.sound.add('intro');
-        this.musicIntro.volume = 0.5;
-        this.musicIntro.loop = true;
-        this.musicIntro.play();*/
+        // this.musicIntro = this.sound.add('intro');
+        // this.musicIntro.volume = 0.5;
+        // this.musicIntro.loop = true;
+        // this.musicIntro.play();
 
         /* ------------------------------- BACKGROUND ------------------------------- */
 
@@ -49,7 +33,12 @@ class FightScene extends Phaser.Scene {
         });
 
         // Création des étoiles_mini
-        var rect = new Phaser.Geom.Rectangle(0, 0, Setup.WIDTH, Setup.HEIGHT);
+        var rect = new Phaser.Geom.Rectangle(
+            0,
+            0,
+            Game.canvas.clientWidth,
+            Game.canvas.clientHeight
+        );
         Phaser.Actions.RandomRectangle(bg.getChildren(), rect);
 
         /* --------------------------------- BOUNDS --------------------------------- */
@@ -63,14 +52,7 @@ class FightScene extends Phaser.Scene {
         this.input.setDefaultCursor('url(./assets/cursor/normal.cur), pointer');
     }
 
-    /* ========================================================================== */
-    /*                                   UPDATE                                   */
-    /* ========================================================================== */
-
-    update() {
-
-    }
-
+    update() {}
 }
 
 export default FightScene;

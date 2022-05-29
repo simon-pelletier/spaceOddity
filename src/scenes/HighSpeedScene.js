@@ -1,21 +1,12 @@
-/* ========================================================================== */
-/*                                                                            */
-/*                              HIGH SPEED SCENE                              */
-/*                                                                            */
-/* ========================================================================== */
-
+import Game from '../game';
 import * as Setup from '../setup';
 
 class HighSpeedScene extends Phaser.Scene {
-    constructor(test) {
+    constructor() {
         super({
             key: 'HighSpeedScene'
         });
     }
-
-    /* ========================================================================== */
-    /*                                   CREATE                                   */
-    /* ========================================================================== */
 
     create() {
         var self = this;
@@ -39,7 +30,7 @@ class HighSpeedScene extends Phaser.Scene {
 
         // Prépare le body Ship
         var shipBody = Bodies.rectangle(0, 80, 160, 300, {
-            label: "shipBody"
+            label: 'shipBody'
         });
 
         var compoundBodyShip = Phaser.Physics.Matter.Matter.Body.create({
@@ -48,17 +39,26 @@ class HighSpeedScene extends Phaser.Scene {
         });
 
         // Ajoute et configure le point (Ship) qui parcours la lineHS
-        this.shipHighSpeed = this.matter.add.sprite(Setup.ORIGIN_X - 200, Setup.ORIGIN_Y, 'ship', null, {
-            isStatic: false,
-            ignorePointer: true,
-            ignoreGravity: true
-        });
+        this.shipHighSpeed = this.matter.add.sprite(
+            Game.canvas.clientWidth / 2 - 200,
+            Game.canvas.clientHeight / 2,
+            'ship',
+            null,
+            {
+                isStatic: false,
+                ignorePointer: true,
+                ignoreGravity: true
+            }
+        );
         this.shipHighSpeed.setExistingBody(compoundBodyShip);
         this.shipHighSpeed.setIgnoreGravity(true);
         this.shipHighSpeed.setScale(0.8);
         this.shipHighSpeed.setDepth(10);
         this.shipHighSpeed.setAngle(90 + 180);
-        this.shipHighSpeed.setPosition(Setup.ORIGIN_X - 200, Setup.ORIGIN_Y);
+        this.shipHighSpeed.setPosition(
+            Game.canvas.clientWidth / 2 - 200,
+            Game.canvas.clientHeight / 2
+        );
         this.shipHighSpeed.anims.play('upAnimShip');
         this.shipHighSpeed.setFlipY(true);
 
@@ -67,7 +67,8 @@ class HighSpeedScene extends Phaser.Scene {
         var offscreen = new Phaser.Geom.Rectangle(0, 0, 1600, 600);
         var screen = new Phaser.Geom.Rectangle(0, 0, 1600, 600);
 
-        var parallax = this.add.particles('starTwoPx', [{
+        var parallax = this.add.particles('starTwoPx', [
+            {
                 emitZone: {
                     source: offscreen
                 },
@@ -81,8 +82,7 @@ class HighSpeedScene extends Phaser.Scene {
                     max: -120
                 },
                 lifespan: 30000,
-                scale: 0.5,
-
+                scale: 0.5
             },
             {
                 emitZone: {
@@ -98,8 +98,7 @@ class HighSpeedScene extends Phaser.Scene {
                     max: -220
                 },
                 lifespan: 30000,
-                scale: 0.8,
-
+                scale: 0.8
             },
             {
                 emitZone: {
@@ -115,15 +114,13 @@ class HighSpeedScene extends Phaser.Scene {
                     min: -280,
                     max: -320
                 },
-                lifespan: 30000,
-
-            },
+                lifespan: 30000
+            }
         ]);
 
         /* ------------------------------- ANIMATIONS ------------------------------- */
 
         setTimeout(function () {
-
             parallax.emitters.list.forEach((e, index) => {
                 e.speedX.start = -15000;
                 e.alive.forEach((e, index) => {
@@ -165,14 +162,12 @@ class HighSpeedScene extends Phaser.Scene {
                 scaleX: 0.3,
                 scaleY: 0.3,
                 ease: 'Linear',
-                duration: 1000,
+                duration: 1000
             });
             // Lance la scene System
             self.scene.start('SystemScene');
         }, 8000);
-
     }
-
 }
 
 export default HighSpeedScene;
