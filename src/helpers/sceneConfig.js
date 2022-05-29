@@ -1,6 +1,4 @@
 export default function defaultSceneConfig(scene) {
-
-    // Définit le pointer par défault
+    // Set the default pointer
     scene.input.setDefaultCursor('url(./assets/cursor/normal.cur), pointer');
-
 }

@@ -1,10 +1,12 @@
 import * as Setup from '../setup';
 import * as Helpers from '../helpers/helpers';
 
+//* UNIVERS GENERATOR
+
 export default function generateUnivers(scene) {
     var univers = [];
 
-    var marginWorld = 50; // Marge de position des Systems sur la Map
+    var marginWorld = 50; // Position Margin of Systems on the Map
 
     for (var i = 0; i < Setup.NUMBER_MAX_OF_SYSTEMS; i++) {
         var systemColor = '0x' + Helpers.getRandomColor();
@@ -49,19 +51,18 @@ export default function generateUnivers(scene) {
 
     return univers;
 }
-/* ========================================================================== */
-/*                              SYSTEM GENERATOR                              */
-/* ========================================================================== */
+
+//* SYSTEM GENERATOR
 
 function systemGenerator(systemName, systemColor) {
     var systemGenerated = [];
 
-    // Définit le nombre de planetes dans le systeme
+    // Defines the number of planets in the system
     var planetNumber = Helpers.getRandomNumber(3, Setup.NUMBER_MAX_OF_PLANETS);
 
     var satellites = [];
     satellites.push('none');
-    // Création de l'étoile
+    // Star creation
     var star = {
         name: systemName,
         size: Helpers.getRandomNumber(20, 30),
@@ -73,10 +74,10 @@ function systemGenerator(systemName, systemColor) {
         satellites: satellites
     };
 
-    // Ajoute le soleil au tableau du systeme
+    // Add the sun to the system array
     systemGenerated.push(star);
 
-    // Ajout des planetes dans le tableau du system
+    // Addition of planets in the system table
     for (var i = 0; i < planetNumber; i++) {
         systemGenerated.push(planetGenerator(i));
     }
@@ -84,7 +85,7 @@ function systemGenerator(systemName, systemColor) {
     return systemGenerated;
 }
 
-/* -------------------------- System Name Generator ------------------------- */
+//* System Name Generator
 
 function nameNumberGenerator() {
     var number = Helpers.getRandomNumber(0, 3);
@@ -98,18 +99,16 @@ function nameNumberGenerator() {
     return nameNumber;
 }
 
-/* ========================================================================== */
-/*                              PLANET GENERATOR                              */
-/* ========================================================================== */
+//* PLANET GENERATOR
 
 function planetGenerator(i) {
-    // Chance d'avoir un satellite
+    // Chance of having a satellite
     var satelliteChances = Helpers.getRandomNumber(
         1,
         Setup.ONE_PER_THIS_CHANCE_TO_HAVE_A_SAT
     );
 
-    // Tableau temporaire de satellites à envoyer sur la planète
+    // Temporary array of satellites to be sent to the planet
     var satellites = [];
     if (satelliteChances === 1) {
         satellites.push(satelliteGenerator());
@@ -117,7 +116,7 @@ function planetGenerator(i) {
         satellites.push('none');
     }
 
-    // Création d'une planete
+    // Planet creation
     var planet = {
         name: nameGenerator(1),
         size: Helpers.getRandomNumber(10, 20),
@@ -137,7 +136,7 @@ function planetGenerator(i) {
     return planet;
 }
 
-/* --------------------------- Materials Generator -------------------------- */
+//* Materials Generator
 
 function materialsGenerator() {
     var materials = [];
@@ -145,22 +144,24 @@ function materialsGenerator() {
 
     for (var i = 0; i < 12; i++) {
         var sortOfMaterial = Helpers.getRandomNumber(0, 10);
-        if (sortOfMaterial == 0) {
-            var material = {
+        var material = {};
+
+        if (sortOfMaterial === 0) {
+            material = {
                 id: i,
                 sort: 'geyser',
                 point: i,
                 quantity: Helpers.getRandomNumber(500, 2000)
             };
-        } else if (sortOfMaterial == 1) {
-            var material = {
+        } else if (sortOfMaterial === 1) {
+            material = {
                 id: i,
                 sort: 'rawMat',
                 point: i,
                 quantity: Helpers.getRandomNumber(500, 2000)
             };
         } else {
-            var material = {
+            material = {
                 id: i,
                 sort: 'empty',
                 point: i,
@@ -174,12 +175,10 @@ function materialsGenerator() {
     return materials;
 }
 
-/* ========================================================================== */
-/*                             SATELLITE GENERATOR                            */
-/* ========================================================================== */
+//* SATELLITE GENERATOR
 
 function satelliteGenerator() {
-    // Création d'un satellite
+    // Satellite Creation
     var satellite = {
         name: nameGenerator(1),
         size: Helpers.getRandomNumber(5, 8),
@@ -193,20 +192,18 @@ function satelliteGenerator() {
     return satellite;
 }
 
-/* ========================================================================== */
-/*                          ASTEROIDS SPAWN GENERATOR                         */
-/* ========================================================================== */
+//* ASTEROIDS SPAWN GENERATOR
 
 function randomAsteroidSpawn() {
     // Asteroid Position
     var asteroidX = '';
     var asteroidY = '';
 
-    // Asteroid marge haute et basse pour le Spawn
+    // Asteroid high and low margin for Spawn
     var lowZone = 200;
     var highZone = 20;
 
-    // Côté sur lequel l'astéroide est positionné
+    // Side on which the asteroid is positioned
     var side = Helpers.getRandomNumber(0, 3);
 
     if (side === 0) {
@@ -229,7 +226,7 @@ function randomAsteroidSpawn() {
         );
     }
 
-    // Position de départ de l'astéroide
+    // Starting position of the asteroid
     var asteroidStartPoint = {
         x: asteroidX,
         y: asteroidY
@@ -238,9 +235,7 @@ function randomAsteroidSpawn() {
     return asteroidStartPoint;
 }
 
-/* ========================================================================== */
-/*                          REALISTIC NAME GENERATOR                          */
-/* ========================================================================== */
+//* REALISTIC NAME GENERATOR
 
 function nameGenerator(count) {
     var vowels = {
