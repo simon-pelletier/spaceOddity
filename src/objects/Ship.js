@@ -69,11 +69,11 @@ export default class Ship extends Phaser.GameObjects.GameObject {
             isSensor: true,
             label: 'right'
         });
-        var circleD = Bodies.circle(30, 510, 20, {
+        var circleD = Bodies.circle(30, 430, 20, {
             isSensor: true,
             label: 'bottomL'
         });
-        var circleE = Bodies.circle(250, 510, 20, {
+        var circleE = Bodies.circle(250, 430, 20, {
             isSensor: true,
             label: 'bottomR'
         });
