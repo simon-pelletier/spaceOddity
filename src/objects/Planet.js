@@ -57,10 +57,10 @@ export default class Planet extends Phaser.GameObjects.GameObject {
         });
         // Configure le body de planet
         this.bodyPlanet.setTint(this.color);
-        this.bodyPlanet.setScale(this.size);
+        // this.bodyPlanet.setScale(this.size);
         this.bodyPlanet.setStatic(true);
         this.bodyPlanet.setTintFill(this.color);
-        this.bodyPlanet.setScale(this.size / 20);
+        this.bodyPlanet.setScale(this.size / 300);
         this.bodyPlanet.setPosition(Game.canvas.clientWidth / 2 + this.distance, Game.canvas.clientHeight / 2);
 
         
@@ -82,7 +82,6 @@ export default class Planet extends Phaser.GameObjects.GameObject {
 
         // On Over Game Objects (Planet)
         /*config.scene.input.on('gameobjectover', function (pointer, gameObject, event) {
-            console.log('HAHA');
             // Calcul de la distance Ship - Planet
             //var distanceX = Math.abs(currentShip.x - gameObject.x);
             //var distanceY = Math.abs(currentShip.y - gameObject.y);

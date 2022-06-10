@@ -85,14 +85,18 @@ class PlanetScene extends Phaser.Scene {
         /* --------------------------------- BOUNDS --------------------------------- */
 
         // Dessine un cercle de BOUNDS
-        var circle = new Phaser.Geom.Circle(0, 0, 3000);
+        var circle = new Phaser.Geom.Circle(
+            0,
+            0,
+            Setup.MAX_RADIUS_PLANET_BOUNDS
+        );
         // Récupère 12 points le long du cercle
         var points = circle.getPoints(12);
-        // Définit les marges de rotation entre les elements de bors
+        // Définit les marges de rotation entre les elements de bords
         var marginAngleBounds = 5.3;
         var marginBounds = 0;
         for (var b = 0; b < points.length; b++) {
-            // Ajoute et configure un nouvel élément de bors de scene
+            // Ajoute et configure un nouvel élément de bords de scene
             var boundBlock = this.matter.add.rectangle(
                 points[b].x,
                 points[b].y,
@@ -127,12 +131,12 @@ class PlanetScene extends Phaser.Scene {
         this.planet.setVisited();
 
         // Si c'est un début de partie, le ship est posé, sinon il arrive du ciel
-        if (Game.firstPlanet == true) {
+        if (Game.firstPlanet === true) {
             // Object Ship
             this.ship = new Ship({
                 scene: this,
                 x: 0,
-                y: -375 * this.planet.size,
+                y: -this.planet.size,
                 key: 'ship',
                 size: 0.2,
                 env: 'planet'
@@ -141,7 +145,6 @@ class PlanetScene extends Phaser.Scene {
             // Fin du premier Spawn
             Game.firstPlanet = false;
         } else {
-            //! adapter le pop
             // Object Ship
             this.ship = new Ship({
                 scene: this,
@@ -149,7 +152,7 @@ class PlanetScene extends Phaser.Scene {
                     -Game.canvas.clientWidth / 4,
                     Game.canvas.clientWidth / 4
                 ),
-                y: -Game.canvas.clientHeight * 4.8,
+                y: -(Setup.MAX_RADIUS_PLANET_BOUNDS - 300),
                 key: 'ship',
                 size: 0.2,
                 env: 'planet'
@@ -167,7 +170,7 @@ class PlanetScene extends Phaser.Scene {
         this.circleMaterial = new Phaser.Geom.Circle(
             0,
             0,
-            this.planet.size * 375 + 20
+            this.planet.size + 20
         );
         // Récupère 12 points le long du cercle
         this.pointsMaterial = this.circleMaterial.getPoints(12);
@@ -176,7 +179,7 @@ class PlanetScene extends Phaser.Scene {
         this.circleMaterialInfo = new Phaser.Geom.Circle(
             0,
             0,
-            this.planet.size * 375 + 150
+            this.planet.size + 150
         );
         // Récupère 12 points le long du cercle
         this.pointsMaterialInfo = this.circleMaterialInfo.getPoints(12);
@@ -188,7 +191,7 @@ class PlanetScene extends Phaser.Scene {
         // Création et configuration de chaque Material
         for (var e = 0; e < seedPlanet.materials.length; e++) {
             // Si c'est un Geyser
-            if (seedPlanet.materials[e].sort == 'geyser') {
+            if (seedPlanet.materials[e].sort === 'geyser') {
                 this.Geyser = new Geyser({
                     scene: this,
                     id: seedPlanet.materials[e].id,
@@ -200,7 +203,7 @@ class PlanetScene extends Phaser.Scene {
                 });
                 this.materials.push(this.Geyser);
                 // Si c'est VIDE
-            } else if (seedPlanet.materials[e].sort == 'rawMat') {
+            } else if (seedPlanet.materials[e].sort === 'rawMat') {
                 this.RawMat = new RawMat({
                     scene: this,
                     id: seedPlanet.materials[e].id,
@@ -325,19 +328,19 @@ class PlanetScene extends Phaser.Scene {
         this.input.keyboard.on('keydown', function (event) {
             if (self.currentMaterial) {
                 if (
-                    event.key == 'e' &&
+                    event.key === 'e' &&
                     self.materials[self.currentMaterial].sort == 'geyser'
                 ) {
                     self.soundPump.play();
                 } else if (
-                    event.key == 'e' &&
+                    event.key === 'e' &&
                     self.materials[self.currentMaterial].sort == 'rawMat'
                 ) {
                     self.soundDrill.play();
                 }
             }
             if (
-                event.key == 'r' &&
+                event.key === 'r' &&
                 Game.player.rawMat > 0 &&
                 Game.player.health < Game.player.maxHealth
             ) {
@@ -346,11 +349,11 @@ class PlanetScene extends Phaser.Scene {
         });
 
         this.input.keyboard.on('keyup', function (event) {
-            if (event.key == 'e') {
+            if (event.key === 'e') {
                 self.soundPump.stop();
                 self.soundDrill.stop();
             }
-            if (event.key == 'r') {
+            if (event.key === 'r') {
                 self.soundWelding.stop();
             }
         });
@@ -375,7 +378,7 @@ class PlanetScene extends Phaser.Scene {
 
         /* ------------------------- Update GameObject Ship ------------------------- */
 
-        this.ship.updatePlanet();
+        this.ship.updatePlanet(self);
 
         /* ----------------------- Update GameObject Material ----------------------- */
 
@@ -432,7 +435,6 @@ class PlanetScene extends Phaser.Scene {
         this.cameras.main.setBackgroundColor(hexColor);
 
         /* ---------------------------- Calcul d'altitude --------------------------- */
-        // console.log(this.ship.body.body.parts[10].position);
         this.ship.setAltitude(
             Helpers.getDistanceBetween(
                 { x: 0, y: 0 },
@@ -442,7 +444,7 @@ class PlanetScene extends Phaser.Scene {
         );
 
         if (Game.player.isOver()) {
-            if (Game.player.isDead == false) {
+            if (Game.player.isDead === false) {
                 Game.player.isDead = true;
                 setTimeout(function () {
                     // Lance la scene End Game

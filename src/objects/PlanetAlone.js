@@ -6,21 +6,20 @@
 
 import Game from '../game';
 import * as Setup from '../setup';
+import * as Helpers from '../helpers/helpers';
 
 export default class PlanetAlone extends Phaser.GameObjects.GameObject {
-
     /* ========================================================================== */
     /*                                 CONSTRUCTOR                                */
     /* ========================================================================== */
 
     constructor(config) {
-
         super(config.scene, config.x, config.y, config.key, config.seed);
 
         this.seed = config.seed;
-
+        this.scene = config.scene;
         this.name = this.seed.name;
-        this.size = this.seed.size / Setup.PLANET_SIZE_FACTOR;
+        this.size = this.seed.size;
         this.distance = this.seed.distanceToStar;
         this.mass = this.seed.mass;
         this.speed = this.seed.speed;
@@ -29,41 +28,100 @@ export default class PlanetAlone extends Phaser.GameObjects.GameObject {
         this.satellites = this.seed.satellites;
         this.materials = this.seed.materials;
         this.visited = this.seed.visited;
-        this.gravity = this.seed.gravity;
+        // this.gravity = this.seed.gravity;
         this.bgColor = this.seed.bgColor;
 
         var self = this;
 
-        // Construit le body de Planet
-        var bodyPlanet = config.scene.matter.add.image(config.x, config.y, config.key)
-        bodyPlanet.setBody({
-            type: 'polygon',
-            radius: 375,
-            sides: 64
-        }, {
-            label: 'planetBody',
-            plugin: {
-                // Ajout des paramètres Attractor à la Planet
-                attractors: [
-                    function (bodyA, bodyB) {
-                        return {
-                            x: (bodyA.position.x - bodyB.position.x) * (0.000001 * self.gravity),
-                            y: (bodyA.position.y - bodyB.position.y) * (0.000001 * self.gravity)
-                            //x: (bodyA.position.x - bodyB.position.x) * 1e-6,
-                            //y: (bodyA.position.y - bodyB.position.y) * 1e-6
-                        };
-                    }
-                ]
-            }
-        });
+        let circle = config.scene.add.circle(
+            config.x,
+            config.y,
+            this.size,
+            this.color
+        );
 
-        // Configure le body de planet
-        bodyPlanet.setTint(this.color);
-        bodyPlanet.setScale(this.size);
-        bodyPlanet.setStatic(true);
+        //* WIP custom planet
+        // polygon: ƒ (x, y, sides, radius, options)
+        var bodyPlanet = config.scene.matter.add.polygon(
+            config.x,
+            config.y,
+            64,
+            this.size,
+            {
+                label: 'planetBody',
+                isStatic: true,
+                // friction: 0.5, // 0-1
+                // mass: self.mass,
+                mass: 500,
+                // render: https://newdocs.phaser.io/docs/3.55.2/Phaser.Types.Physics.Matter.MatterBodyRenderConfig ,
+                plugin: {
+                    // Ajout des paramètres Attractor à la Planet
+                    attractors: [
+                        function (bodyA, bodyB) {
+                            if (
+                                bodyA.label === 'planetBody' &&
+                                bodyB.label === 'shipBodyCompound'
+                            ) {
+                                // console.log(5.972 * Math.pow(10, 24))
+                                // console.log('bodyA', bodyA);
+                                // console.log('bodyB', bodyB);
+                                let G = 0.0000000667;
+                                let m1 = self.mass;
+                                // let m1 = 5.972 * Math.pow(10, 24);
+                                // let m1 = 5000000;
+                                // let m1 = 17000000;
+                                let m2 = bodyB.mass;
+                                // console.log(
+                                //     'bodyA.position.x',
+                                //     bodyA.position.x
+                                // );
+                                // console.log(
+                                //     'bodyA.position.y',
+                                //     bodyA.position.y
+                                // );
+
+                                let distance = Helpers.getDistanceBetween(
+                                    {
+                                        x: 0,
+                                        y: 0
+                                    },
+                                    {
+                                        x: bodyB.position.x,
+                                        y: bodyB.position.y
+                                    }
+                                );
+                                // console.log('distance', distance)
+                                //! thrust en fonction de la size ?
+                                distance = distance - self.size + 500;
+                                // console.log('self.size', self.size)
+                                // console.log('distance2', distance);
+                                let FG = (G * m1 * m2) / Math.pow(distance, 2);
+                                // console.log('FG', FG * 0.1);
+                                return {
+                                    x: (0 - bodyB.position.x) * FG,
+                                    y: (0 - bodyB.position.y) * FG
+                                    // x:
+                                    //     (0 - bodyB.position.x) *
+                                    //     (FG * 0.1),
+                                    // y:
+                                    //     (0 - bodyB.position.y) *
+                                    //     (FG * 0.1)
+                                    // x: (bodyA.position.x - bodyB.position.x) * (0.000001 * self.gravity),
+                                    // y: (bodyA.position.y - bodyB.position.y) * (0.000001 * self.gravity)
+                                    //x: (bodyA.position.x - bodyB.position.x) * 1e-6,
+                                    //y: (bodyA.position.y - bodyB.position.y) * 1e-6
+                                };
+                            }
+                        }
+                    ]
+                }
+            }
+        );
+
+        config.scene.matter.add.gameObject(circle, bodyPlanet);
 
         // Ajoute le body au gameObject Planet
-        this.body = bodyPlanet.body;
+        this.planet = bodyPlanet;
 
         // Définit le Style du text infoPlanetTxt
         var styleText = {
@@ -74,13 +132,13 @@ export default class PlanetAlone extends Phaser.GameObjects.GameObject {
         };
 
         // Ajoute le texte uiText
-        this.planetText = config.scene.add.text(0, 0, '', styleText).setPadding(10, 10);
+        this.planetText = config.scene.add
+            .text(0, 0, '', styleText)
+            .setPadding(10, 10);
         this.planetText.setDepth(0);
-        this.planetText.setPosition(this.size * 340, -this.size * 340);
+        this.planetText.setPosition(this.size, -this.size);
         this.planetText.rotation = -0.8;
-        this.planetText.setText(
-            this.name
-        );
+        this.planetText.setText(this.name);
 
         return this;
     }
@@ -90,7 +148,14 @@ export default class PlanetAlone extends Phaser.GameObjects.GameObject {
     /* ========================================================================== */
 
     update() {
-        
+        // this.graphics = this.scene.add.graphics();
+        // this.graphics.lineStyle(10, 0x00ff00, 1);
+        // this.graphics.lineBetween(
+        //     this.planet.position.x,
+        //     this.planet.position.y,
+        //     this.scene.ship.body.body.position.x,
+        //     this.scene.ship.body.body.position.y
+        // );
     }
 
     /* ========================================================================== */
@@ -99,8 +164,8 @@ export default class PlanetAlone extends Phaser.GameObjects.GameObject {
 
     setVisited() {
         this.visited = true;
-        Game.univers[Game.currentSystem].system[Game.currentPlanet].visited = true;
+        Game.univers[Game.currentSystem].system[
+            Game.currentPlanet
+        ].visited = true;
     }
-
-
 }

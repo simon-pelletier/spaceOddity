@@ -120,9 +120,9 @@ function planetGenerator(i) {
     // Planet creation
     var planet = {
         name: nameGenerator(1),
-        size: Helpers.getRandomNumber(10, 20),
+        size: Helpers.getRandomNumber(150, 500),
         distance: Helpers.getRandomNumber(50, Game.canvas.clientHeight / 2),
-        mass: Helpers.getRandomNumber(200, 2000),
+        mass: Helpers.getRandomNumber(Setup.MASS_MIN_OF_PLANET, Setup.MASS_MAX_OF_PLANET),
         speed: Helpers.getRandomNumber(10000, 30000),
         offset: Helpers.getRandomNumberFloat(0, 360),
         color: '0x' + Helpers.getRandomColor(),
@@ -130,7 +130,6 @@ function planetGenerator(i) {
         satellites: satellites,
         materials: materialsGenerator(),
         visited: false,
-        gravity: Helpers.getRandomNumberFloat(0, 1),
         hostility: Helpers.getRandomNumber(0, 100)
     };
 
@@ -209,18 +208,30 @@ function randomAsteroidSpawn() {
 
     if (side === 0) {
         asteroidX = Helpers.getRandomNumber(-lowZone, -highZone);
-        asteroidY = Helpers.getRandomNumber(-lowZone, Game.canvas.clientHeight + lowZone);
+        asteroidY = Helpers.getRandomNumber(
+            -lowZone,
+            Game.canvas.clientHeight + lowZone
+        );
     } else if (side === 1) {
-        asteroidX = Helpers.getRandomNumber(-lowZone, Game.canvas.clientWidth + lowZone);
+        asteroidX = Helpers.getRandomNumber(
+            -lowZone,
+            Game.canvas.clientWidth + lowZone
+        );
         asteroidY = Helpers.getRandomNumber(-lowZone, -highZone);
     } else if (side === 2) {
         asteroidX = Helpers.getRandomNumber(
             Game.canvas.clientWidth + highZone,
             Game.canvas.clientWidth + lowZone
         );
-        asteroidY = Helpers.getRandomNumber(-lowZone, Game.canvas.clientHeight + lowZone);
+        asteroidY = Helpers.getRandomNumber(
+            -lowZone,
+            Game.canvas.clientHeight + lowZone
+        );
     } else if (side === 3) {
-        asteroidX = Helpers.getRandomNumber(-lowZone, Game.canvas.clientWidth + lowZone);
+        asteroidX = Helpers.getRandomNumber(
+            -lowZone,
+            Game.canvas.clientWidth + lowZone
+        );
         asteroidY = Helpers.getRandomNumber(
             Game.canvas.clientHeight + highZone,
             Game.canvas.clientHeight + lowZone

@@ -109,10 +109,15 @@ class UiScene extends Phaser.Scene {
         ).toFixed(0);
 
         if (Game.currentScene === 'Planet') {
-            this.gravity_needle.angle = (
-                Game.univers[Game.currentSystem].system[Game.currentPlanet]
-                    .gravity * 100
-            ).toFixed(1);
+            //! A CORRIGER !!!
+            let maxPlanetMass = Setup.MASS_MAX_OF_PLANET;
+            let onePercentMass = maxPlanetMass / 280;
+            let angleNeedle =
+                (Game.univers[Game.currentSystem].system[Game.currentPlanet]
+                    .mass -
+                    maxPlanetMass) /
+                onePercentMass;
+            this.gravity_needle.angle = angleNeedle.toFixed(1); // is the max - 0/280
         } else {
             this.gravity_needle.angle = 0;
         }

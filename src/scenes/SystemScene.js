@@ -390,7 +390,6 @@ class SystemScene extends Phaser.Scene {
                 );
                 // Définit le texte à afficher dans infoPlanet
                 // if (sat !== 'Aucun') {
-                // console.log(Game.selectedPlanetOnOver);
                 this.infoPlanetTxt.setText(
                     'Planet: ' +
                         Game.selectedPlanetOnOver.data.list.name +

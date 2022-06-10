@@ -117,10 +117,10 @@ export function convertHexToRgbArray(hex) {
  * @returns {number}
  */
 export function getDistanceBetween(a, b) {
-    var distanceX = Math.abs(a.x - b.x);
-    var distanceY = Math.abs(a.y - b.y);
-    var distance = distanceX + distanceY;
-    return distance;
+    let y = b.x - a.x;
+    let x = b.y - a.y;
+
+    return Math.sqrt(x * x + y * y);
 }
 
 /**

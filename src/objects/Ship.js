@@ -29,24 +29,13 @@ export default class Ship extends Phaser.GameObjects.GameObject {
         this.landingGear = false;
         this.isLanded = false;
         this.altitude = 0;
+        this.mass = 5;
 
         this.isLandedRight = false;
         this.isLandedLeft = false;
 
         this.size = config.size;
         this.env = config.env;
-
-        /*this.seed = config.seed;
-        this.name = this.seed.name;
-        this.size = this.seed.size / 20;
-        this.distance = this.seed.distanceToStar;
-        this.mass = this.seed.mass;
-        this.speed = this.seed.speed;
-        this.offset = this.seed.offset;
-        this.color = this.seed.color;
-        this.satellites = this.seed.satellites;
-        this.materials = this.seed.materials;
-        this.visited = this.seed.visited;*/
 
         /* ---------------------------------- BODY ---------------------------------- */
 
@@ -119,6 +108,7 @@ export default class Ship extends Phaser.GameObjects.GameObject {
         // Configure le Ship Body
         this.body.setScale(this.size);
         this.body.setStatic(false);
+        this.body.setMass(this.mass);
 
         // Position du Ship
         this.body.x = config.x;
@@ -253,12 +243,14 @@ export default class Ship extends Phaser.GameObjects.GameObject {
     /*                                UPDATE PLANET                               */
     /* ========================================================================== */
 
-    updatePlanet(keys, time, delta) {
+    updatePlanet(scene, keys, time, delta) {
         /* -------------------------------- CONTROLS -------------------------------- */
 
         // Déplacements avec les touches directionnelles
         if (this.keyUp.isDown) {
-            this.body.thrustLeft(0.003);
+            let speedByAltitude = 0;
+            speedByAltitude = 0.003;
+            this.body.thrustLeft(speedByAltitude);
             Game.player.consumeFuel(0.2);
         } else if (this.keyDown.isDown) {
             this.body.thrustRight(0.001);
@@ -318,8 +310,8 @@ export default class Ship extends Phaser.GameObjects.GameObject {
         }
 
         this.containerSmokeParticles.setPosition(
-            this.body.body.parts[7].position.x,
-            this.body.body.parts[7].position.y
+            this.body.body.parts[10].position.x,
+            this.body.body.parts[10].position.y
         );
         this.containerFireParticles.setPosition(
             this.body.body.parts[9].position.x,
@@ -337,7 +329,7 @@ export default class Ship extends Phaser.GameObjects.GameObject {
 
         // Déplacements avec les touches directionnelles
         if (this.keyUp.isDown) {
-            this.body.thrustLeft(0.0001);
+            this.body.thrustLeft(0.0002);
             Game.player.consumeFuel(0.2);
         } else if (this.keyDown.isDown) {
             this.body.thrustRight(0.0001);
@@ -619,7 +611,6 @@ export default class Ship extends Phaser.GameObjects.GameObject {
                             self.body.setFrictionAir(0.01);
                             self.isLandedRight = false;
                             self.isLanded = false;
-                            //console.log('LIFT-OFF !');
                         }
                         if (
                             bodyA.label === 'bottomL' ||
@@ -628,7 +619,6 @@ export default class Ship extends Phaser.GameObjects.GameObject {
                             self.body.setFrictionAir(0.01);
                             self.isLandedLeft = false;
                             self.isLanded = false;
-                            //console.log('LIFT-OFF !');
                         }
                     }
 
