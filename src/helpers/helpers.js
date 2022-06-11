@@ -13,6 +13,74 @@ export function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+//* PLANET SHAPE GENERATOR
+export function planetShapeGenerator(size, pointsNumber) {
+    let shape = '';
+//! SHAPE GEN
+    // shape += '-200 0 0 200 200 0 0 -200';
+    // shape += '0 0 200 200 400 0 200 -200';
+
+    // 0 271
+    // 67.75 338.75
+    // 135.5 406.5
+    // 271 542
+    // 338.75 406.5
+    // 406.5 338.75
+    // 542 271
+    // 406.5 135.5
+    // 338.75 67.75
+    // 271 0
+    // 135.5 67.75
+    // 67.75 135.5
+
+
+    // POINT 1
+    shape += `0 ${size} `;
+
+    shape += `${size / 4} ${size + size / 4} `;
+    shape += `${size / 2} ${size + size / 2} `;
+
+    // POINT 2
+    shape += `${size} ${size + size} `;
+
+    // shape += `${size + size / 4} ${size + size / 2} `;
+    // shape += `${size + size / 2} ${size + size / 4} `;
+
+    // // POINT 3
+    // shape += `${size + size} ${size} `;
+
+    // shape += `${size + size / 2} ${size / 2} `;
+    // shape += `${size + size / 4} ${size / 4} `;
+
+    // // POINT 4
+    shape += `${size} 0 `;
+
+    // shape += `${size / 2} ${size / 4} `;
+    // shape += `${size / 4} ${size / 2}`;
+
+    // shape += '
+    // 110 104 
+    // 110 104 132 77 
+    // 110 104 132 77 162 59 
+    // 110 104 132 77 162 59 195 64 
+    // 110 104 132 77 162 59 195 64 221 82 
+    // 110 104 132 77 162 59 195 64 221 82 229 107 
+    // 110 104 132 77 162 59 195 64 221 82 229 107 222 136 110 104 132 77 162 59 195 64 221 82 229 107 222 136 201 152 110 104 132 77 162 59 195 64 221 82 229 107 222 136 201 152 178 159 110 104 132 77 162 59 195 64 221 82 229 107 222 136 201 152 178 159 152 148 110 104 132 77 162 59 195 64 221 82 229 107 222 136 201 152 178 159 152 148 126 126'
+
+    //! BUILD A CIRCLE WITH VERTS
+    // for (let point = 0; point < pointsNumber; point++) {
+    //     let x = size;
+    //     let y = size / 2;
+    //     shape += `${x} ${y}`;
+    //     if (point < 64 - 1) {
+    //         shape += ' ';
+    //     }
+    // }
+
+    console.log('shape', shape);
+    return shape;
+}
+
 /**
  * Returns a random number
  * @memberof Randomizers
